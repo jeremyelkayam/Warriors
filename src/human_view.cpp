@@ -31,14 +31,18 @@ void HumanView::handle_size(){
   std::cout<<"current aspect:"<<current_aspect<<std::endl;
   std::cout<<"target aspect:"<<target_aspect<<std::endl;
 
-  
-
   if(current_aspect > target_aspect){
     //it's too wide. let's set the viewport to match the height
-    view.setViewport(sf::FloatRect(0.f, 0.f, target_aspect / current_aspect, 1.f));
+    view.setViewport(sf::FloatRect((1 - target_aspect / current_aspect)/2,
+                                   0.f,
+                                   target_aspect / current_aspect,
+                                   1.f));
   }else{
     //either it's too tall or it's perfect. let's set the viewport to match width
-    view.setViewport(sf::FloatRect(0.0, 0.0, 1.0, current_aspect / target_aspect));
+    view.setViewport(sf::FloatRect(0.f,
+                                   (1 - current_aspect / target_aspect)/2,
+                                   1.f,
+                                   current_aspect / target_aspect));
   }
   window->setView(view);
 }
