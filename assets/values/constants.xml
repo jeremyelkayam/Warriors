@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<constants>
+  <ints>
+  <!--Window-->
+  <constant value="1280" id="IDS_W_X"/>
+  <constant value="720" id="IDS_W_Y"/>
+  <constant value="
+  </ints>
+</constants>
