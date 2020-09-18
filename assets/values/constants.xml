@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <constants>
   <ints>
-  <!--Window dimensions and pixel depth-->
-  <constant value="256" id="IDS_W_X"/>
-  <constant value="192" id="IDS_W_Y"/>
-  <constant value="24" id="IDS_W_PDEPTH" />
+    <!--Window dimensions and pixel depth-->
+    <constant value="1280" id="IDS_WINDOW_X"/>
+    <constant value="720" id="IDS_WINDOW_Y"/>
+    <constant value="24" id="IDS_WINDOW_PDEPTH" />
   </ints>
   <doubles>
+    <!--view size constants-->
+    <constant value="256" id="IDS_VIEW_X"/>
+    <constant value="192" id="IDS_VIEW_Y"/>
 
   </doubles>
 </constants>

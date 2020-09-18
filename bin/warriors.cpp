@@ -25,9 +25,10 @@ int main(int argc, char** argv)
   shared_ptr<TextLoader>text_loader = make_shared<TextLoader>();
   
   // create main window
-  shared_ptr<sf::RenderWindow>App = make_shared<sf::RenderWindow>(sf::VideoMode(text_loader->get_integer("IDS_W_X"),
-                                                                                text_loader->get_integer("IDS_W_Y"),
-                                                                                text_loader->get_integer("IDS_W_PDEPTH")),
+  shared_ptr<sf::RenderWindow>App = make_shared<sf::RenderWindow>(
+          sf::VideoMode((unsigned int)text_loader->get_integer("IDS_WINDOW_X"),
+                        (unsigned int)text_loader->get_integer("IDS_WINDOW_Y"),
+                        (unsigned int)text_loader->get_integer("IDS_WINDOW_PDEPTH")),
 		       text_loader->get_string("IDS_W_NAME"),
 		       sf::Style::Resize | sf::Style::Close);
 

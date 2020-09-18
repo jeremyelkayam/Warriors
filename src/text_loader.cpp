@@ -66,25 +66,18 @@ void TextLoader::load_doubles(){
 }
 
 std::string TextLoader::get_string(const std::string id){
-  if(strings.find(id) != strings.end()){
-    return strings.at(id);
-  }
-
-  return "String not found";
+  assert(strings.find(id) != strings.end());
+  return strings.at(id);
 }
 
 int TextLoader::get_integer(const std::string id){
-  if(ints.find(id) != ints.end()){
-    return ints.at(id);
-  }
-  return -1;
+  assert(ints.find(id) != ints.end());
+  return ints.at(id);
 }
 
 
 double TextLoader::get_double(const std::string id){
-  if(doubles.find(id) != doubles.end()){
-    return doubles.at(id);
-  }
-  return -1.0;
+  assert(doubles.find(id) != doubles.end());
+  return doubles.at(id);
 }
 

@@ -16,7 +16,7 @@ HumanView::HumanView(std::shared_ptr<Logic>logic,std::shared_ptr<sf::RenderWindo
 
 void HumanView::draw_warrior(std::shared_ptr<Warrior>warrior){
   sf::RectangleShape warriorRect = sf::RectangleShape(sf::Vector2f(16.f,16.f));
-  warriorRect.setPosition((float)warrior->get_xcor(),(float)warrior->get_ycor());
+  warriorRect.setPosition((float)warrior->get_xcor()-8,(float)warrior->get_ycor()-8);
   warriorRect.setFillColor(sf::Color::Blue);
   window->draw(warriorRect);
 }
