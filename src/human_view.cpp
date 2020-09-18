@@ -7,29 +7,29 @@
 #include "human_view.hpp"
 #include <iostream>
 
-HumanView::HumanView(std::shared_ptr<Logic>logic,sf::RenderWindow *window)
+HumanView::HumanView(std::shared_ptr<Logic>logic,std::shared_ptr<sf::RenderWindow>window)
 {
   this->logic=logic;
   this->window=window;
-  this->view=sf::View(sf::FloatRect(0.f,0.f,800.f,600.f));
+  this->view=sf::View(sf::FloatRect(0.f,0.f,256.f,192.f));
 }
 
 void HumanView::draw_warrior(std::shared_ptr<Warrior>warrior){
-  sf::RectangleShape warriorRect = sf::RectangleShape(sf::Vector2f(30,30));
-  warriorRect.setPosition(warrior->get_xcor(),warrior->get_ycor());
+  sf::RectangleShape warriorRect = sf::RectangleShape(sf::Vector2f(16.f,16.f));
+  warriorRect.setPosition((float)warrior->get_xcor(),(float)warrior->get_ycor());
   warriorRect.setFillColor(sf::Color::Blue);
   window->draw(warriorRect);
 }
 
 void HumanView::handle_size(){
-  std::cout<<"x="<<window->getSize().x<<std::endl<<"y="<<window->getSize().y<<std::endl;
+  //std::cout<<"x="<<window->getSize().x<<std::endl<<"y="<<window->getSize().y<<std::endl;
   //x is width, y is height. their ratio should be 4:3.
   //if not, SCALE THE VIEWPORT
   float current_aspect = (float)window->getSize().x / (float)window->getSize().y;
-  float target_aspect = 4.0/3.0;
+  float target_aspect = 4.0f/3.0f;
   
-  std::cout<<"current aspect:"<<current_aspect<<std::endl;
-  std::cout<<"target aspect:"<<target_aspect<<std::endl;
+  //std::cout<<"current aspect:"<<current_aspect<<std::endl;
+  //std::cout<<"target aspect:"<<target_aspect<<std::endl;
 
   if(current_aspect > target_aspect){
     //it's too wide. let's set the viewport to match the height
@@ -48,8 +48,8 @@ void HumanView::handle_size(){
 }
 
 void HumanView::draw_background(sf::Color bgcolor){
-  sf::RectangleShape bgRect = sf::RectangleShape(sf::Vector2f(800,600));
-  bgRect.setPosition(0,0);
+  sf::RectangleShape bgRect = sf::RectangleShape(sf::Vector2f(800.f,600.f));
+  bgRect.setPosition(0.f,0.f);
   bgRect.setFillColor(bgcolor);
   window->draw(bgRect);
 }

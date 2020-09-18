@@ -16,7 +16,7 @@ class HumanView
 private:
   //A reference to the class that handles game logic.
   std::shared_ptr<Logic>logic;
-  sf::RenderWindow *window;
+  std::shared_ptr<sf::RenderWindow> window;
   sf::View view;
 
   void draw_warrior(std::shared_ptr<Warrior>warrior);
@@ -31,7 +31,7 @@ public:
     @param logic A reference to the class handling game logic.
     @param window
    */
-  HumanView(std::shared_ptr<Logic>logic,sf::RenderWindow *window);
+  HumanView(std::shared_ptr<Logic>logic,std::shared_ptr<sf::RenderWindow>window);
 
   /*
     Should be called once every loop. Observes the properties of the game,
