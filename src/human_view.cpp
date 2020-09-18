@@ -7,26 +7,33 @@
 #include "human_view.hpp"
 #include <iostream>
 
-HumanView::HumanView(std::shared_ptr<Logic>logic,std::shared_ptr<sf::RenderWindow>window)
+HumanView::HumanView(shared_ptr<Logic>logic,
+        shared_ptr<sf::RenderWindow>window,
+        shared_ptr<TextLoader>text_loader)
 {
   this->logic=logic;
   this->window=window;
-  this->view=sf::View(sf::FloatRect(0.f,0.f,256.f,192.f));
+  this->text_loader=text_loader;
+  this->view=sf::View(sf::FloatRect(0.f,0.f,
+          (float)text_loader->get_double("IDS_VIEW_X"),
+          (float)text_loader->get_double("IDS_VIEW_Y")));
 }
 
 void HumanView::draw_warrior(std::shared_ptr<Warrior>warrior){
-  sf::RectangleShape warriorRect = sf::RectangleShape(sf::Vector2f(16.f,16.f));
-  warriorRect.setPosition((float)warrior->get_xcor()-8,(float)warrior->get_ycor()-8);
-  warriorRect.setFillColor(sf::Color::Blue);
+  const float height = (float)text_loader->get_double("IDS_WARRIOR_H");
+  const float width = (float)text_loader->get_double("IDS_WARRIOR_W");
+
+  sf::RectangleShape warriorRect = sf::RectangleShape(sf::Vector2f(height,width));
+  warriorRect.setPosition((float)warrior->get_xcor()-height/2,(float)warrior->get_ycor()-width/2);
+  warriorRect.setFillColor(sf::Color::Cyan);
   window->draw(warriorRect);
 }
 
 void HumanView::handle_size(){
-  //std::cout<<"x="<<window->getSize().x<<std::endl<<"y="<<window->getSize().y<<std::endl;
   //x is width, y is height. their ratio should be 4:3.
   //if not, SCALE THE VIEWPORT
   float current_aspect = (float)window->getSize().x / (float)window->getSize().y;
-  float target_aspect = 4.0f/3.0f;
+  float target_aspect = text_loader->get_double("IDS_VIEW_X")/text_loader->get_double("IDS_VIEW_Y");
   
   //std::cout<<"current aspect:"<<current_aspect<<std::endl;
   //std::cout<<"target aspect:"<<target_aspect<<std::endl;
@@ -48,7 +55,9 @@ void HumanView::handle_size(){
 }
 
 void HumanView::draw_background(sf::Color bgcolor){
-  sf::RectangleShape bgRect = sf::RectangleShape(sf::Vector2f(800.f,600.f));
+  sf::RectangleShape bgRect = sf::RectangleShape(sf::Vector2f(
+          (float)text_loader->get_double("IDS_VIEW_X"),
+          (float)text_loader->get_double("IDS_VIEW_Y")));
   bgRect.setPosition(0.f,0.f);
   bgRect.setFillColor(bgcolor);
   window->draw(bgRect);

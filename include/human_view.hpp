@@ -10,15 +10,21 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "logic.hpp"
+#include "text_loader.hpp"
+
+using std::shared_ptr;
 
 class HumanView
 {
 private:
   //A reference to the class that handles game logic.
-  std::shared_ptr<Logic>logic;
+  shared_ptr<Logic>logic;
   
   //A reference to the window that we're rendering to.
-  std::shared_ptr<sf::RenderWindow> window;
+  shared_ptr<sf::RenderWindow> window;
+
+  //A reference to the text loader.
+  shared_ptr<TextLoader>text_loader;
 
   //The view containing the main gameplay.
   sf::View view;
@@ -32,7 +38,7 @@ private:
   //Are sfml's default colors the same as these?
 
   
-  void draw_warrior(std::shared_ptr<Warrior>warrior);
+  void draw_warrior(shared_ptr<Warrior>warrior);
 
   void draw_background(sf::Color bgcolor);
 
@@ -44,7 +50,9 @@ public:
     @param logic A reference to the class handling game logic.
     @param window
    */
-  HumanView(std::shared_ptr<Logic>logic,std::shared_ptr<sf::RenderWindow>window);
+  HumanView(shared_ptr<Logic>logic,
+          shared_ptr<sf::RenderWindow>window,
+          shared_ptr<TextLoader>text_loader);
 
   /*
     Should be called once every loop. Observes the properties of the game,

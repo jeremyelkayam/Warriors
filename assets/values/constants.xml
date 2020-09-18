@@ -11,5 +11,9 @@
     <constant value="256" id="IDS_VIEW_X"/>
     <constant value="192" id="IDS_VIEW_Y"/>
 
+    <!--warrior size constants-->
+    <constant value="16" id="IDS_WARRIOR_H"/>
+    <constant value="16" id="IDS_WARRIOR_W"/>
+
   </doubles>
 </constants>
