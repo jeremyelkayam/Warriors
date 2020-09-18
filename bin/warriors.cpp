@@ -11,26 +11,32 @@
 #include <memory>
 #include "human_view.hpp"
 #include "logic.hpp"
+#include "text_loader.hpp"
 
-using namespace std;
-
+using std::shared_ptr;
+using std::make_shared;
 
 int main(int argc, char** argv)
 {
-  // create main window
-  std::shared_ptr<sf::RenderWindow>App = std::make_shared<sf::RenderWindow>(sf::VideoMode(256,
-				     192,
-				     24),
-		       "Warriors",
-		       sf::Style::Resize | sf::Style::Close);
-  //enable titlebar & close options
-  sf::Clock clock;
+  
 
   //set up game components
-  std::shared_ptr<Logic>logic = std::make_shared<Logic>();
-  std::shared_ptr<HumanView>human_view = std::make_shared<HumanView>(logic, App);
+  shared_ptr<Logic>logic = make_shared<Logic>();
+  shared_ptr<TextLoader>text_loader = make_shared<TextLoader>();
+  
+  // create main window
+  shared_ptr<sf::RenderWindow>App = make_shared<sf::RenderWindow>(sf::VideoMode(text_loader->get_integer("IDS_W_X"),
+                                                                                text_loader->get_integer("IDS_W_Y"),
+                                                                                text_loader->get_integer("IDS_W_PDEPTH")),
+		       text_loader->get_string("IDS_W_NAME"),
+		       sf::Style::Resize | sf::Style::Close);
 
-  //cout<<"hey i did it"<<endl;
+  //set up rendering
+  shared_ptr<HumanView>human_view = make_shared<HumanView>(logic, App);
+
+  
+  //enable titlebar & close options
+  sf::Clock clock;
 
   
   // start main loop
