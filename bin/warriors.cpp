@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 		       sf::Style::Resize | sf::Style::Close);
 
   //set up rendering
-  shared_ptr<HumanView>human_view = make_shared<HumanView>(logic, App);
+  shared_ptr<HumanView>human_view = make_shared<HumanView>(logic, App,text_loader);
 
   
   //enable titlebar & close options
