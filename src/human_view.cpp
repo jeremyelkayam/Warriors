@@ -9,14 +9,16 @@
 
 HumanView::HumanView(shared_ptr<Logic>logic,
         shared_ptr<sf::RenderWindow>window,
-        shared_ptr<TextLoader>text_loader)
-{
+        shared_ptr<TextLoader>text_loader) :
+        color_grid(text_loader,(float)text_loader->get_double("IDS_VIEW_X"),(float)text_loader->get_double("IDS_VIEW_Y")){
   this->logic=logic;
   this->window=window;
   this->text_loader=text_loader;
   this->view=sf::View(sf::FloatRect(0.f,0.f,
           (float)text_loader->get_double("IDS_VIEW_X"),
           (float)text_loader->get_double("IDS_VIEW_Y")));
+
+
 
   //Initialize our colors.
   d_blue=sf::Color(0,0,215);
@@ -28,14 +30,6 @@ HumanView::HumanView(shared_ptr<Logic>logic,
   d_white=sf::Color(215,215,215);
 
 
-  //Populate the color grid. This is a grid of 8x8 squares with one color each.
-  //The height of the array, the number of rows, should be
-  for(int z=0;
-  z<(int)text_loader->get_double("IDS_VIEW_Y")/text_loader->get_integer("IDS_COLORGRID_SIZE");
-  z++){
-    color_grid.emplace_back(
-            vector<sf::Color>((unsigned long)text_loader->get_double("IDS_VIEW_Y")/text_loader->get_integer("IDS_COLORGRID_SIZE")));
-  }
 
   warrior_tex.loadFromFile(text_loader->get_string("IDS_PATH_WARRIOR_TEX"));
 }
@@ -44,8 +38,8 @@ void HumanView::draw_warrior(std::shared_ptr<Warrior>warrior){
   const float height = (float)text_loader->get_double("IDS_WARRIOR_H");
   const float width = (float)text_loader->get_double("IDS_WARRIOR_W");
 
-  //initializing the sprite every time we draw it is kinda gross. Probably eventually
-  //want to give each warrior its own sprite.
+  //initializing a new sprite on the stack every time we draw it is kinda gross. Probably eventually
+  //want to give each warrior its own sprite on the heap.
   sf::Sprite warriorSprite(warrior_tex);
   warriorSprite.setPosition((float)warrior->get_xcor()-height/2,(float)warrior->get_ycor()-width/2);
 
@@ -88,26 +82,15 @@ void HumanView::draw_background(sf::Color bgcolor){
   window->draw(bgRect);
 }
 
-void HumanView::reset_color_grid() {
-  for(int row=0;row<color_grid.size();row++){
-    for(int col=0;col<color_grid[row].size();col++){
-      color_grid[row][col]=sf::Color::White;
-    }
-  }
-}
-
-void HumanView::draw_colors() {
-
-}
 
 void HumanView::update(){
   //std::cout<<"drawing"<<std::endl;
   handle_size();
-  reset_color_grid();
+  color_grid.reset();
   window->clear(d_white);
   draw_background(sf::Color::Black);
   draw_warrior(logic->getPlayer());
-  draw_colors();
+  color_grid.draw(window);
   window->setView(window->getDefaultView());
   window->display();
 }

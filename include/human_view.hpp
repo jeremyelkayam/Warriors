@@ -12,6 +12,7 @@
 #include <vector>
 #include "logic.hpp"
 #include "text_loader.hpp"
+#include "color_grid.hpp"
 
 using std::shared_ptr;
 using std::vector;
@@ -28,10 +29,11 @@ private:
   //A reference to the text loader.
   shared_ptr<TextLoader>text_loader;
 
-  vector<vector<sf::Color>>color_grid;
-
   //The view containing the main gameplay.
   sf::View view;
+
+  //The color grid for our image.
+  ColorGrid color_grid;
 
  /* Conveniently, all 8 "bright mode" Speccy colors are included by default in
   * SFML. However, the 7 other "nonbright" (or dim) colors are not included by 
@@ -50,11 +52,6 @@ private:
 
   void handle_size();
 
-  void reset_color_grid();
-
-  void update_color_grid(float x, float y, int width, int height);
-
-  void draw_colors();
 
 public:
   /*
