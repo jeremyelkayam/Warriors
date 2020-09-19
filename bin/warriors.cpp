@@ -35,7 +35,6 @@ int main(int argc, char** argv)
   //set up rendering
   shared_ptr<HumanView>human_view = make_shared<HumanView>(logic, App,text_loader);
 
-  
   //enable titlebar & close options
   sf::Clock clock;
 

@@ -5,6 +5,9 @@
     <constant value="1280" id="IDS_WINDOW_X"/>
     <constant value="720" id="IDS_WINDOW_Y"/>
     <constant value="24" id="IDS_WINDOW_PDEPTH" />
+
+    <!--size of one space on the color grid-->
+    <constant value="8" id="IDS_COLORGRID_SIZE"/>
   </ints>
   <doubles>
     <!--view size constants-->
@@ -14,6 +17,7 @@
     <!--warrior size constants-->
     <constant value="16" id="IDS_WARRIOR_H"/>
     <constant value="16" id="IDS_WARRIOR_W"/>
+
 
   </doubles>
 </constants>

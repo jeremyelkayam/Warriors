@@ -9,10 +9,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <vector>
 #include "logic.hpp"
 #include "text_loader.hpp"
 
 using std::shared_ptr;
+using std::vector;
 
 class HumanView
 {
@@ -26,6 +28,8 @@ private:
   //A reference to the text loader.
   shared_ptr<TextLoader>text_loader;
 
+  vector<vector<sf::Color>>color_grid;
+
   //The view containing the main gameplay.
   sf::View view;
 
@@ -33,7 +37,7 @@ private:
   * SFML. However, the 7 other "nonbright" (or dim) colors are not included by 
   * default, so I'm going to declare them here.
   */
-  sf::Color d_blue, d_red, d_magenta, d_green, d_cyan, d_yellow, d_gray, d_white;
+  sf::Color d_blue, d_red, d_magenta, d_green, d_cyan, d_yellow, d_white;
 
   //Are sfml's default colors the same as these?
 
@@ -43,6 +47,12 @@ private:
   void draw_background(sf::Color bgcolor);
 
   void handle_size();
+
+  void reset_color_grid();
+
+  void update_color_grid(float x, float y, int width, int height);
+
+  void draw_colors();
 
 public:
   /*

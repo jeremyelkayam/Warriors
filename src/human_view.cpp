@@ -17,11 +17,30 @@ HumanView::HumanView(shared_ptr<Logic>logic,
   this->view=sf::View(sf::FloatRect(0.f,0.f,
           (float)text_loader->get_double("IDS_VIEW_X"),
           (float)text_loader->get_double("IDS_VIEW_Y")));
+
+  d_blue=sf::Color(0,0,215);
+  d_red=sf::Color(215,0,0);
+  d_magenta=sf::Color(215,0,215);
+  d_green=sf::Color(0,215,0);
+  d_cyan=sf::Color(0,215,215);
+  d_yellow=sf::Color(215,215,0);
+  d_white=sf::Color(215,215,215);
+
+
+  //Populate the color grid. This is a grid of 8x8 squares with one color each.
+  //The height of the array, the number of rows, should be
+  for(int z=0;
+  z<(int)text_loader->get_double("IDS_VIEW_Y")/text_loader->get_integer("IDS_COLORGRID_SIZE");
+  z++){
+    color_grid.emplace_back(
+            vector<sf::Color>((unsigned long)text_loader->get_double("IDS_VIEW_Y")/text_loader->get_integer("IDS_COLORGRID_SIZE")));
+  }
 }
 
 void HumanView::draw_warrior(std::shared_ptr<Warrior>warrior){
   const float height = (float)text_loader->get_double("IDS_WARRIOR_H");
   const float width = (float)text_loader->get_double("IDS_WARRIOR_W");
+
 
   sf::RectangleShape warriorRect = sf::RectangleShape(sf::Vector2f(height,width));
   warriorRect.setPosition((float)warrior->get_xcor()-height/2,(float)warrior->get_ycor()-width/2);
@@ -63,12 +82,26 @@ void HumanView::draw_background(sf::Color bgcolor){
   window->draw(bgRect);
 }
 
+void HumanView::reset_color_grid() {
+  for(int row=0;row<color_grid.size();row++){
+    for(int col=0;col<color_grid[row].size();col++){
+      color_grid[row][col]=sf::Color::White;
+    }
+  }
+}
+
+void HumanView::draw_colors() {
+
+}
+
 void HumanView::update(){
   //std::cout<<"drawing"<<std::endl;
   handle_size();
-  window->clear(sf::Color::White);
+  reset_color_grid();
+  window->clear(d_white);
   draw_background(sf::Color::Black);
   draw_warrior(logic->getPlayer());
+  draw_colors();
   window->setView(window->getDefaultView());
   window->display();
 }
