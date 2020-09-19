@@ -64,8 +64,7 @@ void ColorGrid::update(sf::FloatRect object_bounds, sf::Color color) {
 void ColorGrid::draw(shared_ptr<sf::RenderWindow>window) {
   for(int row=0;row<grid.size();row++){
     for(int col=0;col<grid[row].size();col++){
-      window->draw(grid[row][col]),sf::BlendMultiply);
+      window->draw(grid[row][col],sf::BlendMultiply);
     }
   }
-
 }
