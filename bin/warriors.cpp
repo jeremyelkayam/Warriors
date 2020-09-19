@@ -45,19 +45,17 @@ int main(int argc, char** argv)
       //Reset clock and track elapsed time since last loop.
       int micros_elapsed=clock.restart().asMicroseconds();
       if(App->hasFocus())
-	{
-           
-	  // process events
-	  sf::Event Event;
-	  while(App->pollEvent(Event))
-	    {
-	      //logic->handle_event(Event,&App);
-	    }
-	  //update renderer and logic
-          //cout<<"loop"<<endl;
-	  logic->update(micros_elapsed);
-	  human_view->update();
-  	}
+	      {
+          sf::Event Event;
+          while(App->pollEvent(Event))
+            {
+              human_view->handle_event(Event);
+            }
+          //update renderer and logic
+                //cout<<"loop"<<endl;
+          logic->update(micros_elapsed);
+          human_view->update();
+          }
     }
 
   return 0;

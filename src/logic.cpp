@@ -12,5 +12,5 @@ Logic::Logic(){
 }
 
 void Logic::update(int micros_elapsed){
-  return;
+  player->move(micros_elapsed);
 }

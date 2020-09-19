@@ -51,6 +51,8 @@ private:
 
   void handle_size();
 
+  void keyboard_move_player();
+
 
 public:
   /*
@@ -67,4 +69,6 @@ public:
     and renders objects accordingly.
    */
   void update();
+
+  void handle_event(sf::Event evt);
 };

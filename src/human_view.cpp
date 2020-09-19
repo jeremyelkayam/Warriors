@@ -99,3 +99,10 @@ void HumanView::update(){
   window->setView(window->getDefaultView());
   window->display();
 }
+
+void HumanView::handle_event(sf::Event evt){
+  if(evt.type == sf::Event::Closed)
+  {
+    window->close();
+  }
+}
