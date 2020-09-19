@@ -2,5 +2,8 @@
 <strings>
   <!-- Window Title-->
   <string value="Warriors" id="IDS_W_NAME"/>
+
+  <!--Texture Paths-->
+  <string value="../assets/sprites/dummy.png" id="IDS_PATH_WARRIOR_TEX"/>
 </strings>
 

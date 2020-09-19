@@ -39,7 +39,9 @@ private:
   */
   sf::Color d_blue, d_red, d_magenta, d_green, d_cyan, d_yellow, d_white;
 
-  //Are sfml's default colors the same as these?
+  //The texture containing our placeholder warrior texture. This will likely be changed eventually
+  //to support animations.
+  sf::Texture warrior_tex;
 
   
   void draw_warrior(shared_ptr<Warrior>warrior);

@@ -18,6 +18,7 @@ HumanView::HumanView(shared_ptr<Logic>logic,
           (float)text_loader->get_double("IDS_VIEW_X"),
           (float)text_loader->get_double("IDS_VIEW_Y")));
 
+  //Initialize our colors.
   d_blue=sf::Color(0,0,215);
   d_red=sf::Color(215,0,0);
   d_magenta=sf::Color(215,0,215);
@@ -35,17 +36,22 @@ HumanView::HumanView(shared_ptr<Logic>logic,
     color_grid.emplace_back(
             vector<sf::Color>((unsigned long)text_loader->get_double("IDS_VIEW_Y")/text_loader->get_integer("IDS_COLORGRID_SIZE")));
   }
+
+  warrior_tex.loadFromFile(text_loader->get_string("IDS_PATH_WARRIOR_TEX"));
 }
 
 void HumanView::draw_warrior(std::shared_ptr<Warrior>warrior){
   const float height = (float)text_loader->get_double("IDS_WARRIOR_H");
   const float width = (float)text_loader->get_double("IDS_WARRIOR_W");
 
+  //initializing the sprite every time we draw it is kinda gross. Probably eventually
+  //want to give each warrior its own sprite.
+  sf::Sprite warriorSprite(warrior_tex);
+  warriorSprite.setPosition((float)warrior->get_xcor()-height/2,(float)warrior->get_ycor()-width/2);
 
-  sf::RectangleShape warriorRect = sf::RectangleShape(sf::Vector2f(height,width));
-  warriorRect.setPosition((float)warrior->get_xcor()-height/2,(float)warrior->get_ycor()-width/2);
-  warriorRect.setFillColor(sf::Color::Cyan);
-  window->draw(warriorRect);
+
+
+  window->draw(warriorSprite);
 }
 
 void HumanView::handle_size(){
