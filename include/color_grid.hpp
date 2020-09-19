@@ -13,6 +13,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <vector>
+#include <cmath>
 #include "text_loader.hpp"
 
 using std::shared_ptr;
@@ -22,14 +23,17 @@ class ColorGrid {
 
 private:
 
-  shared_ptr<TextLoader>text_loader;
-
   //The color grid itself.
   vector<vector<sf::RectangleShape>>grid;
 
+
+  //The size of each grid square in pixel units.
+  int square_size;
+
+
 public:
 
-  ColorGrid(shared_ptr<TextLoader> text_loader, float view_width, float view_height);
+  ColorGrid(int square_size, float view_width, float view_height);
 
   /*
    * Reset the grid to all white. Should be called once every render loop.
@@ -39,7 +43,7 @@ public:
   /*
    * Paint in the grid squares of the given rectangle with the given color.
    */
-  void update(float x, float y, int width, int height, sf::Color color);
+  void update(sf::FloatRect object_bounds, sf::Color color);
 
   /*
    * Draw the colors. Should be called at the end of every render loop.

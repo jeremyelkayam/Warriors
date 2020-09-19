@@ -9,7 +9,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include <vector>
 #include "logic.hpp"
 #include "text_loader.hpp"
 #include "color_grid.hpp"

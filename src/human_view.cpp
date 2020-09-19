@@ -10,7 +10,9 @@
 HumanView::HumanView(shared_ptr<Logic>logic,
         shared_ptr<sf::RenderWindow>window,
         shared_ptr<TextLoader>text_loader) :
-        color_grid(text_loader,(float)text_loader->get_double("IDS_VIEW_X"),(float)text_loader->get_double("IDS_VIEW_Y")){
+        color_grid(text_loader->get_integer("IDS_COLORGRID_SIZE"),
+                (float)text_loader->get_double("IDS_VIEW_X"),
+                (float)text_loader->get_double("IDS_VIEW_Y")){
   this->logic=logic;
   this->window=window;
   this->text_loader=text_loader;
@@ -35,17 +37,20 @@ HumanView::HumanView(shared_ptr<Logic>logic,
 }
 
 void HumanView::draw_warrior(std::shared_ptr<Warrior>warrior){
-  const float height = (float)text_loader->get_double("IDS_WARRIOR_H");
-  const float width = (float)text_loader->get_double("IDS_WARRIOR_W");
 
   //initializing a new sprite on the stack every time we draw it is kinda gross. Probably eventually
   //want to give each warrior its own sprite on the heap.
   sf::Sprite warriorSprite(warrior_tex);
-  warriorSprite.setPosition((float)warrior->get_xcor()-height/2,(float)warrior->get_ycor()-width/2);
 
+  const float x = (float)warrior->get_xcor()-warriorSprite.getLocalBounds().width/2;
+  const float y  = (float)warrior->get_ycor()-warriorSprite.getLocalBounds().height/2;
 
+  warriorSprite.setPosition(x,y);
 
   window->draw(warriorSprite);
+
+  color_grid.update(warriorSprite.getGlobalBounds(),sf::Color::Cyan);
+
 }
 
 void HumanView::handle_size(){
