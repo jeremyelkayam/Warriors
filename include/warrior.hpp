@@ -15,9 +15,11 @@ protected:
    * xcor: x-coordinate of the warrior
    * ycor: y-coordinate of the warrior
    * angle: angle of the warrior's velocity in radians
-   * speed: magnitude of the warrior's velocity in pixels per microsecond
+   * current_speed: magnitude of the warrior's velocity in pixels per microsecond
    */
-  float xcor,ycor,angle,speed;
+  float xcor,ycor,angle,current_speed;
+
+  const float max_speed = 0.0001;
 
 
   /*
@@ -27,7 +29,7 @@ protected:
     @param ycor initial y-coordinate of the warrior.
    */
   Warrior(float xcor,float ycor)
-  {this->xcor=xcor;this->ycor=ycor;this->angle=M_PI/4;this->speed=0.0001;}
+  {this->xcor=xcor;this->ycor=ycor;this->angle=M_PI/4;this->current_speed=0;}
 public:
   
   /*
@@ -45,6 +47,10 @@ public:
   */
   float get_ycor(){return ycor;}
 
+  float get_angle(){return angle;}
+
+  float get_current_speed(){return current_speed;}
+
   /*
      Sets the coordinates of the warrior to what they would be after the
           specified time had elapsed, based on the velocity of the warrior.
@@ -52,5 +58,7 @@ public:
   */
   void move(int micros_elapsed);
 
+
+  void set_angle(float angle){this->angle = angle;}
 
 };

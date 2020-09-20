@@ -89,6 +89,10 @@ void HumanView::draw_background(sf::Color bgcolor){
 
 
 void HumanView::update(){
+
+  //handle inputs
+  keyboard_move_player();
+
   //std::cout<<"drawing"<<std::endl;
   handle_size();
   color_grid.reset();
@@ -103,8 +107,29 @@ void HumanView::update(){
 }
 
 void HumanView::handle_event(sf::Event evt){
-  if(evt.type == sf::Event::Closed)
-  {
-    window->close();
+  switch(evt.type){
+    case sf::Event::Closed :
+      window->close();
   }
+}
+
+void HumanView::keyboard_move_player(){
+  bool noInput=true;
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+    logic->take_input(M_PI*3.f/2.f);
+    noInput = false;
+  }
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+    logic->take_input(M_PI/2.f);
+    noInput = false;
+  }
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+    logic->take_input(M_PI);
+    noInput = false;
+  }
+  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+    logic->take_input(0.f);
+    noInput = false;
+  }
+  if(noInput) logic->stop_moving();
 }

@@ -12,4 +12,7 @@ private:
 public:
   Player(float xcor,float ycor)
     : Warrior(xcor,ycor){};
+
+
+  void set_moving(bool moving);
 };

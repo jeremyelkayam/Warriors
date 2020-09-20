@@ -7,7 +7,11 @@
 
 #pragma once
 #include <memory>
+#include <iostream>
 #include "player.hpp"
+
+using std::cout;
+using std::endl;
 
 class Logic
 {
@@ -25,5 +29,9 @@ public:
   float get_player_x(){return player.get_xcor();}
 
   float get_player_y(){return player.get_ycor();}
+
+  void take_input(float angle);
+
+  void stop_moving(){player.set_moving(false);}
 
 };

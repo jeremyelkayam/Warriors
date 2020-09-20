@@ -7,7 +7,7 @@
 #include "warrior.hpp"
 
 void Warrior::move(int micros_elapsed){
-  this->xcor+=(speed*cos(angle)*micros_elapsed);
-  this->ycor+=(speed*sin(angle)*micros_elapsed);
+  this->xcor+=(current_speed*cos(angle)*micros_elapsed);
+  this->ycor+=(current_speed*sin(angle)*micros_elapsed);
 
 }
