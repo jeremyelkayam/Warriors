@@ -7,10 +7,10 @@
 
 #include "logic.hpp"
 
-Logic::Logic(){
-  player = std::make_shared<Player>(0,0);
+Logic::Logic() : player(0,0){
+
 }
 
 void Logic::update(int micros_elapsed){
-  player->move(micros_elapsed);
+  player.move(micros_elapsed);
 }

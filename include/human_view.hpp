@@ -45,7 +45,7 @@ private:
   sf::Texture warrior_tex;
 
   
-  void draw_warrior(shared_ptr<Warrior>warrior);
+  void draw_warrior(float x, float y, sf::Color color);
 
   void draw_background(sf::Color bgcolor);
 

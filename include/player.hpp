@@ -10,6 +10,6 @@ class Player : public Warrior {
 private:
   
 public:
-  Player(double xcor,double ycor)
+  Player(float xcor,float ycor)
     : Warrior(xcor,ycor){};
 };

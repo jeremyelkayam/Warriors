@@ -12,7 +12,7 @@
 class Logic
 {
 private:
-  std::shared_ptr<Player>player;
+  Player player;
 public:
   /*
     Constructor for the Logic class.
@@ -20,8 +20,10 @@ public:
    */
   Logic();
 
-  std::shared_ptr<Player> getPlayer(){return player;}
-
   void update(int micros_elapsed);
+
+  float get_player_x(){return player.get_xcor();}
+
+  float get_player_y(){return player.get_ycor();}
 
 };

@@ -36,20 +36,20 @@ HumanView::HumanView(shared_ptr<Logic>logic,
   warrior_tex.loadFromFile(text_loader->get_string("IDS_PATH_WARRIOR_TEX"));
 }
 
-void HumanView::draw_warrior(std::shared_ptr<Warrior>warrior){
+void HumanView::draw_warrior(float x, float y,sf::Color color){
 
   //initializing a new sprite on the stack every time we draw it is kinda gross. Probably eventually
-  //want to give each warrior its own sprite on the heap.
+  //want to give each warrior its own sprite on the heap. Maybe later.
   sf::Sprite warriorSprite(warrior_tex);
 
-  const float x = (float)warrior->get_xcor()-warriorSprite.getLocalBounds().width/2;
-  const float y  = (float)warrior->get_ycor()-warriorSprite.getLocalBounds().height/2;
+  x -= warriorSprite.getLocalBounds().width/2;
+  y -= warriorSprite.getLocalBounds().height/2;
 
   warriorSprite.setPosition(x,y);
 
   window->draw(warriorSprite);
 
-  color_grid.update(warriorSprite.getGlobalBounds(),sf::Color::Cyan);
+  color_grid.update(warriorSprite.getGlobalBounds(),color);
 
 }
 
@@ -94,7 +94,9 @@ void HumanView::update(){
   color_grid.reset();
   window->clear(d_white);
   draw_background(sf::Color::Black);
-  draw_warrior(logic->getPlayer());
+
+  //draw the player
+  draw_warrior(logic->get_player_x(),logic->get_player_y(),sf::Color::Cyan);
   color_grid.draw(window);
   window->setView(window->getDefaultView());
   window->display();
