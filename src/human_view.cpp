@@ -91,7 +91,6 @@ void HumanView::draw_background(sf::Color bgcolor){
 void HumanView::update(){
 
   //handle inputs
-  keyboard_move_player();
 
   //std::cout<<"drawing"<<std::endl;
   handle_size();
@@ -110,26 +109,37 @@ void HumanView::handle_event(sf::Event evt){
   switch(evt.type){
     case sf::Event::Closed :
       window->close();
+      break;
+    case sf::Event::KeyPressed :
+      switch(evt.key.code){
+        case sf::Keyboard::Up :
+          logic->set_player_moving(Player::Direction::Up, true);
+          break;
+        case sf::Keyboard::Down :
+          logic->set_player_moving(Player::Direction::Down, true);
+          break;
+        case sf::Keyboard::Left :
+          logic->set_player_moving(Player::Direction::Left, true);
+          break;
+        case sf::Keyboard::Right :
+          logic->set_player_moving(Player::Direction::Right, true);
+          break;
+      }
+      break;
+    case sf::Event::KeyReleased :
+      switch(evt.key.code){
+        case sf::Keyboard::Up :
+          logic->set_player_moving(Player::Direction::Up, false);
+          break;
+        case sf::Keyboard::Down :
+          logic->set_player_moving(Player::Direction::Down, false);
+          break;
+        case sf::Keyboard::Left :
+          logic->set_player_moving(Player::Direction::Left, false);
+          break;
+        case sf::Keyboard::Right :
+          logic->set_player_moving(Player::Direction::Right, false);
+          break;
+      }
   }
-}
-
-void HumanView::keyboard_move_player(){
-  bool noInput=true;
-  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-    logic->take_input(M_PI*3.f/2.f);
-    noInput = false;
-  }
-  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-    logic->take_input(M_PI/2.f);
-    noInput = false;
-  }
-  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-    logic->take_input(M_PI);
-    noInput = false;
-  }
-  if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-    logic->take_input(0.f);
-    noInput = false;
-  }
-  if(noInput) logic->stop_moving();
 }

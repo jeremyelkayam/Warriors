@@ -17,6 +17,9 @@ class Logic
 {
 private:
   Player player;
+
+
+
 public:
   /*
     Constructor for the Logic class.
@@ -30,8 +33,6 @@ public:
 
   float get_player_y(){return player.get_ycor();}
 
-  void take_input(float angle);
-
-  void stop_moving(){player.set_moving(false);}
+  void set_player_moving(Player::Direction direction, bool moving){player.set_moving(direction,moving);}
 
 };

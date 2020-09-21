@@ -51,9 +51,6 @@ private:
 
   void handle_size();
 
-  void keyboard_move_player();
-
-
 public:
   /*
     Constructor for the HumanView class. Initializes the class's objects.

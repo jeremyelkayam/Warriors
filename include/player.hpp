@@ -6,13 +6,23 @@
 
 #pragma once
 #include "warrior.hpp"
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
 class Player : public Warrior {
 private:
-  
+  bool moving_left,moving_right,moving_up,moving_down=false;
+
 public:
   Player(float xcor,float ycor)
     : Warrior(xcor,ycor){};
 
+  enum class Direction { Left, Right, Up, Down};
 
-  void set_moving(bool moving);
+  void set_moving(Direction direction, bool moving);
+
+  void move(int micros_elapsed);
+
 };
