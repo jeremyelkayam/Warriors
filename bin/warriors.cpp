@@ -18,14 +18,20 @@ using std::make_shared;
 
 int main(int argc, char** argv)
 {
-  
+
+  shared_ptr<TextLoader>text_loader = make_shared<TextLoader>();
+
+  //The texture containing our placeholder warrior texture. This will likely be changed eventually
+  //to support animations.
+  sf::Texture warrior_tex;
+  warrior_tex.loadFromFile(text_loader->get_string("IDS_PATH_WARRIOR_TEX"));
+
 
   //set up game components
-  shared_ptr<Logic>logic = make_shared<Logic>();
-  shared_ptr<TextLoader>text_loader = make_shared<TextLoader>();
-  
+  shared_ptr<Logic>logic = make_shared<Logic>(warrior_tex);
+
   // create main window
-  shared_ptr<sf::RenderWindow>App = make_shared<sf::RenderWindow>(
+  sf::RenderWindow window(
           sf::VideoMode((unsigned int)text_loader->get_integer("IDS_WINDOW_X"),
                         (unsigned int)text_loader->get_integer("IDS_WINDOW_Y"),
                         (unsigned int)text_loader->get_integer("IDS_WINDOW_PDEPTH")),
@@ -33,28 +39,28 @@ int main(int argc, char** argv)
 		       sf::Style::Resize | sf::Style::Close);
 
   //set up rendering
-  shared_ptr<HumanView>human_view = make_shared<HumanView>(logic, App,text_loader);
+  shared_ptr<HumanView>human_view = make_shared<HumanView>(logic, text_loader);
 
   //enable titlebar & close options
   sf::Clock clock;
 
   
   // start main loop
-  while(App->isOpen())
+  while(window.isOpen())
     {
       //Reset clock and track elapsed time since last loop.
       int micros_elapsed=clock.restart().asMicroseconds();
-      if(App->hasFocus())
+      if(window.hasFocus())
 	      {
-          sf::Event Event;
-          while(App->pollEvent(Event))
+          sf::Event event;
+          while(window.pollEvent(event))
             {
-              human_view->handle_event(Event);
+              human_view->handle_event(window, event);
             }
           //update renderer and logic
                 //cout<<"loop"<<endl;
           logic->update(micros_elapsed);
-          human_view->update();
+          human_view->update(window);
           }
     }
 

@@ -7,6 +7,8 @@
 #pragma once
 
 #include <cmath>
+#include <SFML/Graphics.hpp>
+#include "color_grid.hpp"
 
 class Warrior
 {
@@ -17,7 +19,11 @@ protected:
    * angle: angle of the warrior's velocity in radians
    * current_speed: magnitude of the warrior's velocity in pixels per microsecond
    */
-  float xcor,ycor,angle,speed;
+  float angle,speed;
+
+  sf::Sprite sprite;
+
+  sf::Color color;
 
   /*
     Constructor for the Warrior class. Sets initial values.
@@ -25,8 +31,7 @@ protected:
     @param xcor initial x-coordinate of the warrior.
     @param ycor initial y-coordinate of the warrior.
    */
-  Warrior(float xcor,float ycor)
-  {this->xcor=xcor;this->ycor=ycor;this->angle=M_PI/4;this->speed=0.0001;}
+  Warrior(float xcor, float ycor, float speed, sf::Texture &texture);
 public:
   
   /*
@@ -34,7 +39,7 @@ public:
 
     @return the warrior's x-coordinate
   */
-  float get_xcor(){return xcor;}
+  float get_xcor(){return sprite.getPosition().x;}
 
   
   /*
@@ -42,7 +47,7 @@ public:
 
     @return the warrior's y-coordinate
   */
-  float get_ycor(){return ycor;}
+  float get_ycor(){return sprite.getPosition().y;}
 
   float get_angle(){return angle;}
 
@@ -57,5 +62,7 @@ public:
 
 
   void set_angle(float angle){this->angle = angle;}
+
+  void draw(sf::RenderWindow &window, ColorGrid &color_grid);
 
 };

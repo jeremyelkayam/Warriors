@@ -11,12 +11,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <memory>
 #include <vector>
 #include <cmath>
 #include "text_loader.hpp"
 
-using std::shared_ptr;
 using std::vector;
 
 class ColorGrid {
@@ -48,7 +46,7 @@ public:
   /*
    * Draw the colors. Should be called at the end of every render loop.
    */
-  void draw(shared_ptr<sf::RenderWindow>window);
+  void draw(sf::RenderWindow &window);
 
 };
 

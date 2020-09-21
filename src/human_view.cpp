@@ -8,13 +8,11 @@
 #include <iostream>
 
 HumanView::HumanView(shared_ptr<Logic>logic,
-        shared_ptr<sf::RenderWindow>window,
         shared_ptr<TextLoader>text_loader) :
         color_grid(text_loader->get_integer("IDS_COLORGRID_SIZE"),
                 (float)text_loader->get_double("IDS_VIEW_X"),
                 (float)text_loader->get_double("IDS_VIEW_Y")){
   this->logic=logic;
-  this->window=window;
   this->text_loader=text_loader;
   this->view=sf::View(sf::FloatRect(0.f,0.f,
           (float)text_loader->get_double("IDS_VIEW_X"),
@@ -33,30 +31,13 @@ HumanView::HumanView(shared_ptr<Logic>logic,
 
 
 
-  warrior_tex.loadFromFile(text_loader->get_string("IDS_PATH_WARRIOR_TEX"));
 }
 
-void HumanView::draw_warrior(float x, float y,sf::Color color){
 
-  //initializing a new sprite on the stack every time we draw it is kinda gross. Probably eventually
-  //want to give each warrior its own sprite on the heap. Maybe later.
-  sf::Sprite warriorSprite(warrior_tex);
-
-  x -= warriorSprite.getLocalBounds().width/2;
-  y -= warriorSprite.getLocalBounds().height/2;
-
-  warriorSprite.setPosition(x,y);
-
-  window->draw(warriorSprite);
-
-  color_grid.update(warriorSprite.getGlobalBounds(),color);
-
-}
-
-void HumanView::handle_size(){
+void HumanView::handle_size(sf::RenderWindow &window){
   //x is width, y is height. their ratio should be 4:3.
   //if not, SCALE THE VIEWPORT
-  float current_aspect = (float)window->getSize().x / (float)window->getSize().y;
+  float current_aspect = (float)window.getSize().x / (float)window.getSize().y;
   float target_aspect = text_loader->get_double("IDS_VIEW_X")/text_loader->get_double("IDS_VIEW_Y");
   
   //std::cout<<"current aspect:"<<current_aspect<<std::endl;
@@ -75,40 +56,41 @@ void HumanView::handle_size(){
                                    1.f,
                                    current_aspect / target_aspect));
   }
-  window->setView(view);
+  window.setView(view);
 }
 
-void HumanView::draw_background(sf::Color bgcolor){
+void HumanView::draw_background(sf::RenderWindow &window, sf::Color bgcolor){
   sf::RectangleShape bgRect = sf::RectangleShape(sf::Vector2f(
           (float)text_loader->get_double("IDS_VIEW_X"),
           (float)text_loader->get_double("IDS_VIEW_Y")));
   bgRect.setPosition(0.f,0.f);
   bgRect.setFillColor(bgcolor);
-  window->draw(bgRect);
+  window.draw(bgRect);
 }
 
 
-void HumanView::update(){
+void HumanView::update(sf::RenderWindow &window){
 
   //handle inputs
 
   //std::cout<<"drawing"<<std::endl;
-  handle_size();
+  handle_size(window);
   color_grid.reset();
-  window->clear(d_white);
-  draw_background(sf::Color::Black);
+  window.clear(d_white);
+  draw_background(window, sf::Color::Black);
 
-  //draw the player
-  draw_warrior(logic->get_player_x(),logic->get_player_y(),sf::Color::Cyan);
+  logic->draw_components(window,color_grid);
+
+
   color_grid.draw(window);
-  window->setView(window->getDefaultView());
-  window->display();
+  window.setView(window.getDefaultView());
+  window.display();
 }
 
-void HumanView::handle_event(sf::Event evt){
+void HumanView::handle_event(sf::RenderWindow &window, sf::Event &evt){
   switch(evt.type){
     case sf::Event::Closed :
-      window->close();
+      window.close();
       break;
     case sf::Event::KeyPressed :
       switch(evt.key.code){

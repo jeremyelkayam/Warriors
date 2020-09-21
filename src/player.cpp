@@ -30,10 +30,10 @@ void Player::move(int micros_elapsed){
   }
 
 
+  float new_xcor = get_xcor() + speed*xvelocity*micros_elapsed;
+  float new_ycor = get_ycor() + speed*yvelocity*micros_elapsed;
 
-
-  xcor+=speed*xvelocity*micros_elapsed;
-  ycor+=speed*yvelocity*micros_elapsed;
+  sprite.setPosition(new_xcor,new_ycor);
 
 }
 

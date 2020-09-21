@@ -7,7 +7,7 @@
 
 #include "logic.hpp"
 
-Logic::Logic() : player(0,0){
+Logic::Logic(sf::Texture &warriorTex) : player(0,0,0.0001,warriorTex){
 
 }
 
@@ -15,3 +15,7 @@ void Logic::update(int micros_elapsed){
   player.move(micros_elapsed);
 }
 
+void Logic::draw_components(sf::RenderWindow &window,ColorGrid &color_grid){
+
+  player.draw(window,color_grid);
+}

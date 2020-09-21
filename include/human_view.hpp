@@ -1,7 +1,7 @@
 /*
   human_view.hpp
-  Purpose: Consolidate all rendering operations into a single class, with one
-           function that executes with each iteration of the main loop.
+  Purpose: Consolidate rendering operations and
+
   @author Jeremy Elkayam
  */
 
@@ -21,9 +21,7 @@ class HumanView
 private:
   //A reference to the class that handles game logic.
   shared_ptr<Logic>logic;
-  
-  //A reference to the window that we're rendering to.
-  shared_ptr<sf::RenderWindow> window;
+
 
   //A reference to the text loader.
   shared_ptr<TextLoader>text_loader;
@@ -40,16 +38,11 @@ private:
   */
   sf::Color d_blue, d_red, d_magenta, d_green, d_cyan, d_yellow, d_white;
 
-  //The texture containing our placeholder warrior texture. This will likely be changed eventually
-  //to support animations.
-  sf::Texture warrior_tex;
 
-  
-  void draw_warrior(float x, float y, sf::Color color);
 
-  void draw_background(sf::Color bgcolor);
+  void draw_background(sf::RenderWindow &window, sf::Color bgcolor);
 
-  void handle_size();
+  void handle_size(sf::RenderWindow &window);
 
 public:
   /*
@@ -58,14 +51,13 @@ public:
     @param window
    */
   HumanView(shared_ptr<Logic>logic,
-          shared_ptr<sf::RenderWindow>window,
           shared_ptr<TextLoader>text_loader);
 
   /*
     Should be called once every loop. Observes the properties of the game,
     and renders objects accordingly.
    */
-  void update();
+  void update(sf::RenderWindow& window);
 
-  void handle_event(sf::Event evt);
+  void handle_event(sf::RenderWindow& window, sf::Event& evt);
 };
