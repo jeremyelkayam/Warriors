@@ -73,6 +73,8 @@ void HumanView::update(sf::RenderWindow &window){
 
   //handle inputs
 
+  keyboard_movement();
+
   //std::cout<<"drawing"<<std::endl;
   handle_size(window);
   color_grid.reset();
@@ -80,7 +82,6 @@ void HumanView::update(sf::RenderWindow &window){
   draw_background(window, sf::Color::Black);
 
   logic->draw_components(window,color_grid);
-
 
   color_grid.draw(window);
   window.setView(window.getDefaultView());
@@ -92,36 +93,14 @@ void HumanView::handle_event(sf::RenderWindow &window, sf::Event &evt){
     case sf::Event::Closed :
       window.close();
       break;
-    case sf::Event::KeyPressed :
-      switch(evt.key.code){
-        case sf::Keyboard::Up :
-          logic->set_player_moving(Player::Direction::Up, true);
-          break;
-        case sf::Keyboard::Down :
-          logic->set_player_moving(Player::Direction::Down, true);
-          break;
-        case sf::Keyboard::Left :
-          logic->set_player_moving(Player::Direction::Left, true);
-          break;
-        case sf::Keyboard::Right :
-          logic->set_player_moving(Player::Direction::Right, true);
-          break;
-      }
-      break;
-    case sf::Event::KeyReleased :
-      switch(evt.key.code){
-        case sf::Keyboard::Up :
-          logic->set_player_moving(Player::Direction::Up, false);
-          break;
-        case sf::Keyboard::Down :
-          logic->set_player_moving(Player::Direction::Down, false);
-          break;
-        case sf::Keyboard::Left :
-          logic->set_player_moving(Player::Direction::Left, false);
-          break;
-        case sf::Keyboard::Right :
-          logic->set_player_moving(Player::Direction::Right, false);
-          break;
-      }
   }
+}
+
+void HumanView::keyboard_movement(){
+  logic->set_player_movement(
+
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Up),
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Down),
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Left),
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
 }

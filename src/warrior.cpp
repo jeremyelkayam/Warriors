@@ -12,8 +12,8 @@ void Warrior::move(int micros_elapsed){
   float new_ycor = get_ycor() + (speed*sin(angle)*micros_elapsed);
 
   sprite.setPosition(new_xcor,new_ycor);
-
 }
+
 Warrior::Warrior(float xcor, float ycor, float speed, sf::Texture &texture) {
   this->sprite.setPosition(xcor,ycor);
   this->angle=0;

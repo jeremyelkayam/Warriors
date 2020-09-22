@@ -44,6 +44,8 @@ private:
 
   void handle_size(sf::RenderWindow &window);
 
+  void keyboard_movement();
+
 public:
   /*
     Constructor for the HumanView class. Initializes the class's objects.
@@ -60,4 +62,5 @@ public:
   void update(sf::RenderWindow& window);
 
   void handle_event(sf::RenderWindow& window, sf::Event& evt);
+
 };

@@ -42,7 +42,8 @@ public:
 
   void update(int micros_elapsed);
 
-  void set_player_moving(Player::Direction direction, bool moving){player.set_moving(direction,moving);}
+  void set_player_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
+    player.set_movement(moving_up,moving_down,moving_left,moving_right);}
 
   void draw_components(sf::RenderWindow &window,ColorGrid &color_grid);
 

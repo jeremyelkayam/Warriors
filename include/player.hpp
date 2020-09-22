@@ -13,7 +13,7 @@ using std::endl;
 
 class Player : public Warrior {
 private:
-  bool moving_left,moving_right,moving_up,moving_down=false;
+  float speed_scale_x,speed_scale_y;
 
 public:
   Player(float xcor,float ycor,float speed, sf::Texture &texture)
@@ -21,8 +21,8 @@ public:
 
   enum class Direction { Left, Right, Up, Down};
 
-  void set_moving(Direction direction, bool moving);
-
   void move(int micros_elapsed);
+
+  void set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right);
 
 };
