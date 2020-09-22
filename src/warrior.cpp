@@ -9,7 +9,7 @@
 
 void Warrior::move(int micros_elapsed){
   float new_xcor = get_xcor() + (speed*cos(angle)*micros_elapsed);
-  float new_ycor = get_xcor() + (speed*sin(angle)*micros_elapsed);
+  float new_ycor = get_ycor() + (speed*sin(angle)*micros_elapsed);
 
   sprite.setPosition(new_xcor,new_ycor);
 

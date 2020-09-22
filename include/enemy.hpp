@@ -10,7 +10,6 @@
 class Enemy : public Warrior {
 private:
 
-
 public:
   Enemy(float xcor,float ycor,float speed, sf::Texture &texture)
           : Warrior(xcor,ycor,speed,texture){color = sf::Color::Red;}
