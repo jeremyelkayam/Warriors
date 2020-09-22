@@ -19,12 +19,15 @@ Enemy::Enemy(float xcor,float ycor, sf::Texture &texture) : Warrior(xcor,ycor,te
   color = sf::Color::Red;
   Enemy::speed *= 0.75;
 
-  cout << "enemy speed" << Enemy::speed << endl;
-  cout << "this speed" << this->speed << endl;
 }
 void Enemy::move(int micros_elapsed){
   float new_xcor = get_xcor() + (speed*cos(angle)*micros_elapsed);
   float new_ycor = get_ycor() + (speed*sin(angle)*micros_elapsed);
 
   sprite.setPosition(new_xcor,new_ycor);
+}
+
+Enemy::~Enemy(){
+  Enemy::speed /= 0.75;
+
 }

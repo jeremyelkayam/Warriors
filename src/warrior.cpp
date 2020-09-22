@@ -22,3 +22,4 @@ void Warrior::draw(sf::RenderWindow &window, ColorGrid &color_grid){
   window.draw(sprite);
   color_grid.update(sprite.getGlobalBounds(),color);
 }
+

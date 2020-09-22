@@ -15,6 +15,7 @@ private:
 
 public:
   Enemy(float xcor,float ycor, sf::Texture &texture);
+  ~Enemy();
 
   void point_at_player(float player_x,float player_y);
 
