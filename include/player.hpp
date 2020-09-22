@@ -13,11 +13,11 @@ using std::endl;
 
 class Player : public Warrior {
 private:
-  float speed_scale_x,speed_scale_y;
+  float speed,speed_scale_x,speed_scale_y;
 
 public:
   Player(float xcor,float ycor,float speed, sf::Texture &texture)
-    : Warrior(xcor,ycor,speed,texture){color = sf::Color::Cyan;}
+    : Warrior(xcor,ycor,texture){color = sf::Color::Cyan; this->speed = speed;}
 
   enum class Direction { Left, Right, Up, Down};
 

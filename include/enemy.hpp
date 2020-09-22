@@ -9,10 +9,15 @@
 
 class Enemy : public Warrior {
 private:
-  
+
+  //this is kinda dumb and bad but fuck it
+  static float speed;
 
 public:
-  Enemy(float xcor,float ycor,float speed, sf::Texture &texture);
+  Enemy(float xcor,float ycor, sf::Texture &texture);
 
   void point_at_player(float player_x,float player_y);
+
+  void move(int micros_elapsed);
+
 };

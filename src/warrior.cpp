@@ -7,17 +7,9 @@
 
 #include "warrior.hpp"
 
-void Warrior::move(int micros_elapsed){
-  float new_xcor = get_xcor() + (speed*cos(angle)*micros_elapsed);
-  float new_ycor = get_ycor() + (speed*sin(angle)*micros_elapsed);
-
-  sprite.setPosition(new_xcor,new_ycor);
-}
-
-Warrior::Warrior(float xcor, float ycor, float speed, sf::Texture &texture) {
+Warrior::Warrior(float xcor, float ycor, sf::Texture &texture) {
   this->sprite.setPosition(xcor,ycor);
   this->angle=0;
-  this->speed=speed;
   this->sprite.setTexture(texture);
 
   //Set our sprite's coordinates to the center of the sprite. It'll Just Make Things A Bit Easier

@@ -13,8 +13,18 @@ void Enemy::point_at_player(float player_x, float player_y){
   angle = atan2(delta_y,delta_x);
 }
 
-Enemy::Enemy(float xcor,float ycor,float speed, sf::Texture &texture) : Warrior(xcor,ycor,speed,texture){
+float Enemy::speed = 0.0001;
+
+Enemy::Enemy(float xcor,float ycor, sf::Texture &texture) : Warrior(xcor,ycor,texture){
   color = sf::Color::Red;
   Enemy::speed *= 0.75;
 
+  cout << "enemy speed" << Enemy::speed << endl;
+  cout << "this speed" << this->speed << endl;
+}
+void Enemy::move(int micros_elapsed){
+  float new_xcor = get_xcor() + (speed*cos(angle)*micros_elapsed);
+  float new_ycor = get_ycor() + (speed*sin(angle)*micros_elapsed);
+
+  sprite.setPosition(new_xcor,new_ycor);
 }

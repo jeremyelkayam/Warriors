@@ -31,7 +31,7 @@ void Logic::draw_components(sf::RenderWindow &window,ColorGrid &color_grid){
 }
 
 void Logic::spawn_enemy(){
-  enemies.push_back(Enemy(100,100,0.0001, m_warrior_tex));
+  enemies.push_back(Enemy(100,100, m_warrior_tex));
 }
 
 void Logic::update_enemies(int micros_elapsed){
@@ -39,7 +39,7 @@ void Logic::update_enemies(int micros_elapsed){
     it->point_at_player(player.get_xcor(),player.get_ycor());
     it->move(micros_elapsed);
 
-    cout<<"angle: " << it->get_angle() << endl;
+    //cout<<"angle: " << it->get_angle() << endl;
   }
 
 }

@@ -8,18 +8,18 @@
 
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "color_grid.hpp"
+using std::cout;
+using std::endl;
 
 class Warrior
 {
 protected:
   /*
-   * xcor: x-coordinate of the warrior
-   * ycor: y-coordinate of the warrior
    * angle: angle of the warrior's velocity in radians
-   * current_speed: magnitude of the warrior's velocity in pixels per microsecond
    */
-  float angle,speed;
+  float angle;
 
   sf::Sprite sprite;
 
@@ -31,7 +31,7 @@ protected:
     @param xcor initial x-coordinate of the warrior.
     @param ycor initial y-coordinate of the warrior.
    */
-  Warrior(float xcor, float ycor, float speed, sf::Texture &texture);
+  Warrior(float xcor, float ycor, sf::Texture &texture);
 public:
   
   /*
@@ -51,14 +51,12 @@ public:
 
   float get_angle(){return angle;}
 
-  float get_speed(){return speed;}
-
   /*
      Sets the coordinates of the warrior to what they would be after the
           specified time had elapsed, based on the velocity of the warrior.
           @param micros_elapsed The time elapsed in microseconds.
   */
-  void move(int micros_elapsed);
+  virtual void move(int micros_elapsed) = 0;
 
 
   void set_angle(float angle){this->angle = angle;}
