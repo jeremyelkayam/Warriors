@@ -7,7 +7,7 @@
 
 #include "logic.hpp"
 
-Logic::Logic(sf::Texture &warrior_tex) : player(0,0,0.0001,warrior_tex), m_warrior_tex(warrior_tex) {
+Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand) : player(1,1,0.0001,warrior_tex), m_warrior_tex(warrior_tex), randy(rand) {
   time_since_last_spawn = 0;
   spawn_interval = 5000000;
 }

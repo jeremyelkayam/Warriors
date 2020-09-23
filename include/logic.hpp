@@ -9,6 +9,7 @@
 #include <memory>
 #include <iostream>
 #include <list>
+#include <random>
 #include "player.hpp"
 #include "enemy.hpp"
 
@@ -16,6 +17,7 @@ using std::cout;
 using std::endl;
 using std::list;
 using std::shared_ptr;
+using std::mt19937;
 
 class Logic
 {
@@ -33,12 +35,16 @@ private:
 
   void update_enemies(int micros_elapsed);
 
+  mt19937 &randy;
+
+
+
 public:
   /*
     Constructor for the Logic class.
     Sets up the initial values for Logic.
    */
-  Logic(sf::Texture &warrior_tex);
+  Logic(sf::Texture &warrior_tex, mt19937 &rand);
 
   void update(int micros_elapsed);
 

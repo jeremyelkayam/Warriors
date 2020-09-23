@@ -6,11 +6,14 @@
 
 #include "player.hpp"
 
+//TODO: Sometimes player's location starts out fucked up. Might be due to memory issues.
 void Player::move(int micros_elapsed){
   float new_xcor = get_xcor() + speed*speed_scale_x*micros_elapsed;
   float new_ycor = get_ycor() + speed*speed_scale_y*micros_elapsed;
 
   sprite.setPosition(new_xcor,new_ycor);
+
+  //cout << "position: " << new_xcor << "," << new_ycor << endl;
 
 }
 

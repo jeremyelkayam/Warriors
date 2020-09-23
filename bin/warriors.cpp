@@ -9,17 +9,26 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <memory>
+#include <random>
+#include <chrono>
 #include "human_view.hpp"
 #include "logic.hpp"
 #include "text_loader.hpp"
 
 using std::shared_ptr;
 using std::make_shared;
+using std::mt19937;
+using std::chrono::high_resolution_clock;
 
 int main(int argc, char** argv)
 {
 
   shared_ptr<TextLoader>text_loader = make_shared<TextLoader>();
+
+  mt19937 randy;
+  unsigned long my_seed = high_resolution_clock::now().time_since_epoch().count();
+  cout << "my seed: " << my_seed << endl;
+  randy.seed(my_seed);
 
   //The texture containing our placeholder warrior texture. This will likely be changed eventually
   //to support animations.
@@ -28,7 +37,7 @@ int main(int argc, char** argv)
 
 
   //set up game components
-  shared_ptr<Logic>logic = make_shared<Logic>(warrior_tex);
+  shared_ptr<Logic>logic = make_shared<Logic>(warrior_tex,randy);
 
   // create main window
   sf::RenderWindow window(

@@ -28,6 +28,7 @@ void Enemy::move(int micros_elapsed){
 }
 
 Enemy::~Enemy(){
-  Enemy::speed /= 0.75;
-
+  //WHERE IS THE DESTRUCTOR BEING CALLED FROM? SOMEHOW IT IS CALLED ONCE PER SPAWN
+  cout << "DELETING ME" << endl;
+  //Enemy::speed /= 0.75;
 }
