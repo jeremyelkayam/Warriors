@@ -29,24 +29,19 @@ int main(int argc, char** argv)
   unsigned long my_seed = high_resolution_clock::now().time_since_epoch().count();
   cout << "my seed: " << my_seed << endl;
   randy.seed(my_seed);
-
   //The texture containing our placeholder warrior texture. This will likely be changed eventually
   //to support animations.
   sf::Texture warrior_tex;
   warrior_tex.loadFromFile(text_loader->get_string("IDS_PATH_WARRIOR_TEX"));
-
 
   //set up game components
   shared_ptr<Logic>logic = make_shared<Logic>(warrior_tex,randy);
 
   // create main window
   sf::RenderWindow window(
-          sf::VideoMode((unsigned int)text_loader->get_integer("IDS_WINDOW_X"),
-                        (unsigned int)text_loader->get_integer("IDS_WINDOW_Y"),
-                        (unsigned int)text_loader->get_integer("IDS_WINDOW_PDEPTH")),
-		       text_loader->get_string("IDS_W_NAME"),
-		       sf::Style::Resize | sf::Style::Close);
-
+          sf::VideoMode((unsigned int)800,(unsigned int)600),
+          "warriors",
+          sf::Style::Resize | sf::Style::Close);
   //set up rendering
   shared_ptr<HumanView>human_view = make_shared<HumanView>(logic, text_loader);
 
@@ -58,7 +53,8 @@ int main(int argc, char** argv)
   while(window.isOpen())
     {
       //Reset clock and track elapsed time since last loop.
-      int micros_elapsed=clock.restart().asMicroseconds();
+      float s_elapsed=clock.restart().asSeconds();
+      //cout << s_elapsed << endl;
       if(window.hasFocus())
 	      {
           sf::Event event;
@@ -68,7 +64,7 @@ int main(int argc, char** argv)
             }
           //update renderer and logic
                 //cout<<"loop"<<endl;
-          logic->update(micros_elapsed);
+          logic->update(s_elapsed);
           human_view->update(window);
           }
     }

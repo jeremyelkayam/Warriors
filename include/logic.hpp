@@ -25,15 +25,15 @@ private:
   Player player;
   list<Enemy> enemies;
 
-  int time_since_last_spawn;
+  float time_since_last_spawn;
 
-  int spawn_interval;
+  float spawn_interval;
 
   sf::Texture &m_warrior_tex;
 
   void spawn_enemy();
 
-  void update_enemies(int micros_elapsed);
+  void update_enemies(float s_elapsed);
 
   mt19937 &randy;
 
@@ -46,7 +46,7 @@ public:
    */
   Logic(sf::Texture &warrior_tex, mt19937 &rand);
 
-  void update(int micros_elapsed);
+  void update(float s_elapsed);
 
   void set_player_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
     player.set_movement(moving_up,moving_down,moving_left,moving_right);}

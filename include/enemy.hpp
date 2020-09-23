@@ -19,5 +19,5 @@ public:
 
   void point_at_player(float player_x,float player_y);
 
-  void move(int micros_elapsed);
+  void move(float s_elapsed);
 };
