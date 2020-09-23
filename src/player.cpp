@@ -42,3 +42,7 @@ void Player::set_movement(bool moving_up, bool moving_down, bool moving_left, bo
 
 
 }
+
+void Player::update(float s_elapsed){
+  move(s_elapsed);
+}

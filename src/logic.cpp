@@ -13,13 +13,15 @@ Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand) : player(1,1,100,warrior_t
 }
 
 void Logic::update(float s_elapsed){
-  player.move(s_elapsed);
+  player.update(s_elapsed);
   time_since_last_spawn += s_elapsed;
 
   if(time_since_last_spawn > spawn_interval) {
+    cout << "spawn a guy" << endl;
     time_since_last_spawn = 0;
     spawn_enemy();
   }
+
   update_enemies(s_elapsed);
 }
 
@@ -31,15 +33,16 @@ void Logic::draw_components(sf::RenderWindow &window,ColorGrid &color_grid){
 }
 
 void Logic::spawn_enemy(){
-  enemies.emplace_back(Enemy(100,100, m_warrior_tex));
+  enemies.emplace_back(Enemy(100,100,m_warrior_tex));
 }
 
 void Logic::update_enemies(float s_elapsed){
+
+  float speed = 100.f / enemies.size();
+
   for (auto it=enemies.begin(); it != enemies.end(); ++it) {
     it->point_at_player(player.get_xcor(),player.get_ycor());
-    it->move(s_elapsed);
-
-    //cout<<"angle: " << it->get_angle() << endl;
+    it->move(s_elapsed,speed);
   }
 
 }

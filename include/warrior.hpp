@@ -56,7 +56,7 @@ public:
           specified time had elapsed, based on the velocity of the warrior.
           @param micros_elapsed The time elapsed in microseconds.
   */
-  virtual void move(float s_elapsed) = 0;
+  //virtual void move(float s_elapsed) = 0;
 
 
   void set_angle(float angle){this->angle = angle;}
