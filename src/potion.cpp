@@ -11,6 +11,8 @@ Potion::Potion(float xcor, float ycor, sf::Texture &texture,float lifespan, int 
   this->lifespan = lifespan;
   this->health_recovery = health_recovery;
   age = 0;
+
+  color = sf::Color::Green;
 }
 
 bool Potion::can_despawn(){

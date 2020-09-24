@@ -18,7 +18,12 @@
     <constant value="1" id="IDS_MIN_SPAWN_INTERVAL"/>
     <constant value="10" id="IDS_BASE_SPAWN_INTERVAL"/>
 
+    <!-- The amount of gameplay time in seconds at which the enemy spawn interval will be at its minimum.-->
     <constant value="300" id="IDS_SPAWN_FASTER_UNTIL"/>
+
+    <!-- The amount of distance from the player that is considered "close".
+         Anything higher than this is far away.-->
+    <constant value="30" id="IDS_DISTANCE_THRESHOLD"/>
 
   </doubles>
 </constants>

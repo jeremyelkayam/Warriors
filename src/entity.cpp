@@ -1,4 +1,6 @@
 /*
+
+  float healthRecovery
   warrior.cpp
   Purpose: Represent a warrior. A warrior is any of the characters in the game. This class is abstract,
   and should therefore never be instantiated. Instead instantiate a subclass-- Player or Enemy.
