@@ -15,7 +15,7 @@ void Player::move(float s_elapsed){
   if(new_xcor < 0) new_xcor = 0;
   if(new_xcor > field_width) new_xcor = field_width;
   if(new_ycor < 0) new_ycor = 0;
-  if(new_ycor > field_width) new_ycor = field_height;
+  if(new_ycor > field_height) new_ycor = field_height;
 
   sprite.setPosition(new_xcor,new_ycor);
 
