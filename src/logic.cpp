@@ -7,8 +7,8 @@
 
 #include "logic.hpp"
 
-Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height, TextLoader &a_text_loader) :
-player(field_width/2,field_height/2,100,warrior_tex, field_width, field_height), m_warrior_tex(warrior_tex), randy(rand),
+Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height, int default_health, TextLoader &a_text_loader) :
+player(field_width/2,field_height/2,100,warrior_tex, field_width, field_height, default_health), m_warrior_tex(warrior_tex), randy(rand),
 width_dist(0.f,field_width), height_dist(0.f,field_height), text_loader(a_text_loader) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
@@ -124,8 +124,6 @@ float Logic::spawn_interval(float min, float max, float time_limit, bool countin
   float result = max * scalar + min;
 
   return max * scalar + min;
-
-
 }
 
 void Logic::update_enemies(float s_elapsed){

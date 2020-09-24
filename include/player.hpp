@@ -17,12 +17,15 @@ private:
 
   void move(float s_elapsed);
 
-public:
-  Player(float xcor,float ycor,float speed, sf::Texture &texture, float field_width, float field_height);
+  int health;
 
+public:
+  Player(float xcor,float ycor,float speed, sf::Texture &texture, float field_width, float field_height, int health);
 
   void update(float s_elapsed);
 
   void set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right);
+
+  void heal(int amount){health += amount;}
 
 };

@@ -8,6 +8,9 @@
 
     <!--size of one space on the color grid-->
     <constant value="8" id="IDS_COLORGRID_SIZE"/>
+
+    <!--size of one space on the color grid-->
+    <constant value="5" id="IDS_DEFAULT_HEALTH"/>
   </ints>
   <doubles>
     <!--view size constants-->

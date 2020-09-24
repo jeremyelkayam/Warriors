@@ -85,7 +85,8 @@ public:
     Constructor for the Logic class.
     Sets up the initial values for Logic.
    */
-  Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height,TextLoader &a_text_loader);
+  Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height, int default_health,
+          TextLoader &a_text_loader);
 
   void update(float s_elapsed);
 

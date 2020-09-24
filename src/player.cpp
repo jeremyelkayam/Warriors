@@ -52,7 +52,7 @@ void Player::update(float s_elapsed){
   move(s_elapsed);
 }
 
-Player::Player(float xcor, float ycor, float speed, sf::Texture &texture, float field_width, float field_height) :
+Player::Player(float xcor, float ycor, float speed, sf::Texture &texture, float field_width, float field_height, int health) :
 Entity(xcor,ycor,texture){
   color = sf::Color::Cyan;
   this->speed = speed;
@@ -60,4 +60,5 @@ Entity(xcor,ycor,texture){
   speed_scale_y = 0;
   this->field_height = field_height;
   this->field_width = field_width;
+  this->health = health;
 }

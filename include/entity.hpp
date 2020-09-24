@@ -53,4 +53,8 @@ public:
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid);
 
+  bool intersects(Entity &entity){return sprite.getGlobalBounds().intersects(entity.get_global_bounds());}
+
+  sf::FloatRect get_global_bounds(){return sprite.getGlobalBounds();}
+
 };
