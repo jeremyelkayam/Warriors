@@ -32,7 +32,9 @@ private:
   //But if I add multiplayer or something, it might be nice to put out a few potions at once.
   list<Potion> potions;
 
-  float time_since_last_spawn;
+  float time_since_last_enemy_spawn;
+
+  float time_since_last_potion_spawn;
 
   float total_time_elapsed;
 
@@ -46,6 +48,7 @@ private:
    */
   sf::Vector2f random_distant_location(float threshold);
 
+  float spawn_interval(float min, float max, float time_limit, bool countingUp);
 
   bool can_spawn_enemy();
 

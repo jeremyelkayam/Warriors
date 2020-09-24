@@ -10,7 +10,8 @@
 Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height, TextLoader &a_text_loader) :
 player(field_width/2,field_height/2,100,warrior_tex, field_width, field_height), m_warrior_tex(warrior_tex), randy(rand),
 width_dist(0.f,field_width), height_dist(0.f,field_height), text_loader(a_text_loader) {
-  time_since_last_spawn = 0;
+  time_since_last_enemy_spawn = 0;
+  time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
 
   this->field_width = field_width;
@@ -24,12 +25,17 @@ void Logic::update(float s_elapsed){
 
   //Check if it's time to spawn an enemy.
 
-  time_since_last_spawn += s_elapsed;
+  time_since_last_enemy_spawn += s_elapsed;
+  time_since_last_potion_spawn += s_elapsed;
 
 
   if(can_spawn_enemy()) {
-    time_since_last_spawn = 0;
+    cout << "spawning enemy" << endl;
     spawn_enemy();
+  }
+  if(can_spawn_potion()) {
+    cout << "spawning potion" << endl;
+    spawn_potion();
   }
 
   update_enemies(s_elapsed);
@@ -37,7 +43,13 @@ void Logic::update(float s_elapsed){
 }
 
 void Logic::draw_components(sf::RenderWindow &window,ColorGrid &color_grid){
+
+  //Draw all our enemies
   for (auto it=enemies.begin(); it != enemies.end(); ++it)
+    it->draw(window,color_grid);
+
+  //Draw all our potions
+  for (auto it=potions.begin(); it != potions.end(); ++it)
     it->draw(window,color_grid);
 
   player.draw(window,color_grid);
@@ -74,23 +86,46 @@ void Logic::spawn_enemy(){
   sf::Vector2f location = random_distant_location((float)text_loader.get_double("IDS_DISTANCE_THRESHOLD"));
 
   enemies.emplace_back(Enemy(location.x,location.y,m_warrior_tex));
+
+  time_since_last_enemy_spawn = 0;
 }
 
 
-bool Logic::can_spawn_enemy(){
-  //The base interval is how often enemies start spawning plus the minimum interval.
-  //The minimum interval is the limit of how quickly an enemy can spawn.
-  float base_spawn_interval = (float)text_loader.get_double("IDS_BASE_SPAWN_INTERVAL");
-  float min_spawn_interval = (float)text_loader.get_double("IDS_MIN_SPAWN_INTERVAL");
-  float spawn_faster_until = (float)text_loader.get_double("IDS_SPAWN_FASTER_UNTIL");
+bool Logic::can_spawn_enemy() {
 
-  float spawn_interval = base_spawn_interval * ((spawn_faster_until - total_time_elapsed) / spawn_faster_until) + min_spawn_interval;
+  return time_since_last_enemy_spawn > spawn_interval(
+          (float)text_loader.get_double("IDS_MIN_SPAWN_INTERVAL"),
+          (float)text_loader.get_double("IDS_BASE_SPAWN_INTERVAL"),
+          (float)text_loader.get_double("IDS_MATURE_GAME"),
+          false
+          );
+}
 
-  //If spawn_faster_until is greater than total_time_elapsed, this will go below the minimum interval.
-  //Let's round up if that happens.
-  if(spawn_interval < min_spawn_interval) spawn_interval = min_spawn_interval;
 
-  return time_since_last_spawn > spawn_interval;
+/*
+ * Spawn intervals can increase and decrease depending on the amount of time elapsed in the game.
+ * This is a simple function that returns a spawn interval
+ *
+ * @return true if spawning
+ */
+float Logic::spawn_interval(float min, float max, float time_limit, bool countingUp){
+  float elapsed = total_time_elapsed;
+  float scalar;
+
+  //This will prevent us from going over the max or under the min.
+  if(elapsed > time_limit) elapsed = time_limit;
+
+  if(countingUp){
+    scalar = elapsed / time_limit;
+  }else{
+    scalar = (time_limit - elapsed) / time_limit;
+  }
+
+  float result = max * scalar + min;
+
+  return max * scalar + min;
+
+
 }
 
 void Logic::update_enemies(float s_elapsed){
@@ -108,6 +143,18 @@ void Logic::spawn_potion() {
   sf::Vector2f location = random_distant_location((float)text_loader.get_double("IDS_DISTANCE_THRESHOLD"));
 
   potions.emplace_back(Potion(location.x,location.y,m_warrior_tex, 5, 1));
+
+  time_since_last_potion_spawn = 0;
+}
+
+bool Logic::can_spawn_potion() {
+  return time_since_last_potion_spawn > spawn_interval(
+          5,
+          20,
+          (float)text_loader.get_double("IDS_MATURE_GAME"),
+          true
+  );
+
 }
 
 

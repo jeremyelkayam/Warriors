@@ -18,8 +18,9 @@
     <constant value="1" id="IDS_MIN_SPAWN_INTERVAL"/>
     <constant value="10" id="IDS_BASE_SPAWN_INTERVAL"/>
 
-    <!-- The amount of gameplay time in seconds at which the enemy spawn interval will be at its minimum.-->
-    <constant value="300" id="IDS_SPAWN_FASTER_UNTIL"/>
+    <!-- The amount of gameplay time in seconds at which the enemy spawn interval will be at its minimum.
+         After this amount of gameplay time, the game is considered "mature" and will not get any harder.-->
+    <constant value="300" id="IDS_MATURE_GAME"/>
 
     <!-- The amount of distance from the player that is considered "close".
          Anything higher than this is far away.-->
