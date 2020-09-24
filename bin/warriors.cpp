@@ -25,17 +25,19 @@ int main(int argc, char** argv)
 
   TextLoader text_loader = TextLoader();
 
+  //Let's set up our random number generator with a commonly used seed: the current time.
   mt19937 randy;
   unsigned long my_seed = (unsigned)high_resolution_clock::now().time_since_epoch().count();
   cout << "my seed: " << my_seed << endl;
   randy.seed(my_seed);
+
   //The texture containing our placeholder warrior texture. This will likely be changed eventually
   //to support animations.
   sf::Texture warrior_tex;
   warrior_tex.loadFromFile(text_loader.get_string("IDS_PATH_WARRIOR_TEX"));
 
   //set up game components
-  shared_ptr<Logic>logic = make_shared<Logic>(warrior_tex,randy,
+  Logic logic(warrior_tex,randy,
           (float)text_loader.get_double("IDS_VIEW_X"),
           (float)text_loader.get_double("IDS_VIEW_Y"));
 
@@ -48,7 +50,7 @@ int main(int argc, char** argv)
           text_loader.get_string("IDS_W_NAME"),
           sf::Style::Resize | sf::Style::Close);
   //set up rendering
-  shared_ptr<HumanView>human_view = make_shared<HumanView>(logic, text_loader);
+  HumanView human_view(logic, text_loader);
 
   //enable titlebar & close options
   sf::Clock clock;
@@ -65,12 +67,12 @@ int main(int argc, char** argv)
           sf::Event event;
           while(window.pollEvent(event))
             {
-              human_view->handle_event(window, event);
+              human_view.handle_event(window, event);
             }
           //update renderer and logic
                 //cout<<"loop"<<endl;
-          logic->update(s_elapsed);
-          human_view->update(window);
+          logic.update(s_elapsed);
+          human_view.update(window);
           }
     }
 

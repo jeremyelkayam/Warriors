@@ -13,13 +13,13 @@ using std::endl;
 
 class Player : public Warrior {
 private:
-  float speed,speed_scale_x,speed_scale_y;
+  float speed,speed_scale_x,speed_scale_y, field_width, field_height;
 
   void move(float s_elapsed);
 
 public:
-  Player(float xcor,float ycor,float speed, sf::Texture &texture)
-    : Warrior(xcor,ycor,texture){color = sf::Color::Cyan; this->speed = speed; speed_scale_x = 0; speed_scale_y = 0;}
+  Player(float xcor,float ycor,float speed, sf::Texture &texture, float field_width, float field_height);
+
 
   void update(float s_elapsed);
 

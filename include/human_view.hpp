@@ -20,7 +20,7 @@ class HumanView
 {
 private:
   //A reference to the class that handles game logic.
-  shared_ptr<Logic>logic;
+  Logic &m_logic;
 
 
   //A reference to the text loader.
@@ -52,7 +52,7 @@ public:
     @param logic A reference to the class handling game logic.
     @param window
    */
-  HumanView(shared_ptr<Logic>logic,
+  HumanView(Logic &logic,
           TextLoader &text_loader);
 
   /*

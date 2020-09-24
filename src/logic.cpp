@@ -7,8 +7,8 @@
 
 #include "logic.hpp"
 
-Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, int field_width, int field_height) :
-player(1,1,100,warrior_tex), m_warrior_tex(warrior_tex), randy(rand),
+Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height) :
+player(1,1,100,warrior_tex, field_width, field_height), m_warrior_tex(warrior_tex), randy(rand),
 width_dist(0.f,field_width), height_dist(0.f,field_height) {
   time_since_last_spawn = 0;
   spawn_interval = 5;
@@ -18,6 +18,8 @@ width_dist(0.f,field_width), height_dist(0.f,field_height) {
 
 void Logic::update(float s_elapsed){
   player.update(s_elapsed);
+
+
   time_since_last_spawn += s_elapsed;
 
   if(time_since_last_spawn > spawn_interval) {

@@ -7,13 +7,13 @@
 #include "human_view.hpp"
 #include <iostream>
 
-HumanView::HumanView(shared_ptr<Logic>logic,
+HumanView::HumanView(Logic &logic,
         TextLoader &text_loader) :
         color_grid(text_loader.get_integer("IDS_COLORGRID_SIZE"),
                 (float)text_loader.get_double("IDS_VIEW_X"),
                 (float)text_loader.get_double("IDS_VIEW_Y")),
-                m_text_loader(text_loader){
-  this->logic=logic;
+                m_text_loader(text_loader),
+                m_logic(logic){
   this->view=sf::View(sf::FloatRect(0.f,0.f,
           (float)text_loader.get_double("IDS_VIEW_X"),
           (float)text_loader.get_double("IDS_VIEW_Y")));
@@ -28,8 +28,6 @@ HumanView::HumanView(shared_ptr<Logic>logic,
   d_cyan=sf::Color(0,215,215);
   d_yellow=sf::Color(215,215,0);
   d_white=sf::Color(215,215,215);
-
-
 
 }
 
@@ -81,7 +79,7 @@ void HumanView::update(sf::RenderWindow &window){
   window.clear(d_white);
   draw_background(window, sf::Color::Black);
 
-  logic->draw_components(window,color_grid);
+  m_logic.draw_components(window,color_grid);
 
   color_grid.draw(window);
   window.setView(window.getDefaultView());
@@ -97,7 +95,7 @@ void HumanView::handle_event(sf::RenderWindow &window, sf::Event &evt){
 }
 
 void HumanView::keyboard_movement(){
-  logic->set_player_movement(
+  m_logic.set_player_movement(
 
           sf::Keyboard::isKeyPressed(sf::Keyboard::Up),
           sf::Keyboard::isKeyPressed(sf::Keyboard::Down),

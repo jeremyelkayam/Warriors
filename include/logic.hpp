@@ -38,7 +38,7 @@ private:
 
   mt19937 &randy;
 
-  int field_width,field_height;
+  float field_width,field_height;
 
   uniform_real_distribution<float>width_dist,height_dist;
 
@@ -48,7 +48,7 @@ public:
     Constructor for the Logic class.
     Sets up the initial values for Logic.
    */
-  Logic(sf::Texture &warrior_tex, mt19937 &rand, int field_width, int field_height);
+  Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height);
 
   void update(float s_elapsed);
 
