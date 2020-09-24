@@ -24,7 +24,3 @@ void Enemy::move(float s_elapsed,float speed){
 
   sprite.setPosition(new_xcor,new_ycor);
 }
-
-Enemy::~Enemy(){
-  //Enemy::speed /= 0.75;
-}

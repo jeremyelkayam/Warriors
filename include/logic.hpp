@@ -18,6 +18,7 @@ using std::endl;
 using std::list;
 using std::shared_ptr;
 using std::mt19937;
+using std::uniform_real_distribution;
 
 class Logic
 {
@@ -37,6 +38,9 @@ private:
 
   mt19937 &randy;
 
+  int field_width,field_height;
+
+  uniform_real_distribution<float>width_dist,height_dist;
 
 
 public:
@@ -44,7 +48,7 @@ public:
     Constructor for the Logic class.
     Sets up the initial values for Logic.
    */
-  Logic(sf::Texture &warrior_tex, mt19937 &rand);
+  Logic(sf::Texture &warrior_tex, mt19937 &rand, int field_width, int field_height);
 
   void update(float s_elapsed);
 
@@ -52,7 +56,5 @@ public:
     player.set_movement(moving_up,moving_down,moving_left,moving_right);}
 
   void draw_components(sf::RenderWindow &window,ColorGrid &color_grid);
-
-
 
 };
