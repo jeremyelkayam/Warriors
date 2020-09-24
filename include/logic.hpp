@@ -28,7 +28,7 @@ private:
 
   float time_since_last_spawn;
 
-  float spawn_interval;
+  float total_time_elapsed;
 
   sf::Texture &m_warrior_tex;
 
@@ -42,13 +42,14 @@ private:
 
   uniform_real_distribution<float>width_dist,height_dist;
 
+  TextLoader &text_loader;
 
 public:
   /*
     Constructor for the Logic class.
     Sets up the initial values for Logic.
    */
-  Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height);
+  Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height,TextLoader &a_text_loader);
 
   void update(float s_elapsed);
 

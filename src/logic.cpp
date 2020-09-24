@@ -7,23 +7,31 @@
 
 #include "logic.hpp"
 
-Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height) :
+Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height, TextLoader &a_text_loader) :
 player(1,1,100,warrior_tex, field_width, field_height), m_warrior_tex(warrior_tex), randy(rand),
-width_dist(0.f,field_width), height_dist(0.f,field_height) {
+width_dist(0.f,field_width), height_dist(0.f,field_height), text_loader(a_text_loader) {
   time_since_last_spawn = 0;
-  spawn_interval = 5;
+  total_time_elapsed = 0;
+
   this->field_width = field_width;
   this->field_height = field_height;
 }
 
 void Logic::update(float s_elapsed){
-  player.update(s_elapsed);
+  total_time_elapsed += s_elapsed;
 
+  player.update(s_elapsed);
 
   time_since_last_spawn += s_elapsed;
 
+  float base_spawn_interval = (float)text_loader.get_double("IDS_BASE_SPAWN_INTERVAL");
+  float min_spawn_interval = (float)text_loader.get_double("IDS_MIN_SPAWN_INTERVAL");
+  float spawn_faster_until = (float)text_loader.get_double("IDS_SPAWN_FASTER_UNTIL");
+
+  float spawn_interval = base_spawn_interval * ((spawn_faster_until - total_time_elapsed) / spawn_faster_until) + min_spawn_interval;
+
   if(time_since_last_spawn > spawn_interval) {
-    cout << "spawn a guy" << endl;
+    cout << "spawn a guy" << endl << "interval: " << spawn_interval << endl;
     time_since_last_spawn = 0;
     spawn_enemy();
   }

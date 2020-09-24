@@ -39,7 +39,7 @@ int main(int argc, char** argv)
   //set up game components
   Logic logic(warrior_tex,randy,
           (float)text_loader.get_double("IDS_VIEW_X"),
-          (float)text_loader.get_double("IDS_VIEW_Y"));
+          (float)text_loader.get_double("IDS_VIEW_Y"),text_loader);
 
   // create main window
   sf::RenderWindow window(

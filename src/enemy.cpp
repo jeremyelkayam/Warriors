@@ -14,9 +14,8 @@ void Enemy::point_at_player(float player_x, float player_y){
 }
 
 Enemy::Enemy(float xcor,float ycor, sf::Texture &texture) : Warrior(xcor,ycor,texture){
-  cout << " i am born " << endl;
+  //cout << " i am born " << endl;
   color = sf::Color::Red;
-
 }
 void Enemy::move(float s_elapsed,float speed){
   float new_xcor = get_xcor() + (speed*(float)cos(angle)*s_elapsed);
