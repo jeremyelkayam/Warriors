@@ -24,7 +24,7 @@ private:
 
 
   //A reference to the text loader.
-  shared_ptr<TextLoader>text_loader;
+  TextLoader &m_text_loader;
 
   //The view containing the main gameplay.
   sf::View view;
@@ -53,7 +53,7 @@ public:
     @param window
    */
   HumanView(shared_ptr<Logic>logic,
-          shared_ptr<TextLoader>text_loader);
+          TextLoader &text_loader);
 
   /*
     Should be called once every loop. Observes the properties of the game,

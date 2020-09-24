@@ -8,15 +8,15 @@
 #include <iostream>
 
 HumanView::HumanView(shared_ptr<Logic>logic,
-        shared_ptr<TextLoader>text_loader) :
-        color_grid(text_loader->get_integer("IDS_COLORGRID_SIZE"),
-                (float)text_loader->get_double("IDS_VIEW_X"),
-                (float)text_loader->get_double("IDS_VIEW_Y")){
+        TextLoader &text_loader) :
+        color_grid(text_loader.get_integer("IDS_COLORGRID_SIZE"),
+                (float)text_loader.get_double("IDS_VIEW_X"),
+                (float)text_loader.get_double("IDS_VIEW_Y")),
+                m_text_loader(text_loader){
   this->logic=logic;
-  this->text_loader=text_loader;
   this->view=sf::View(sf::FloatRect(0.f,0.f,
-          (float)text_loader->get_double("IDS_VIEW_X"),
-          (float)text_loader->get_double("IDS_VIEW_Y")));
+          (float)text_loader.get_double("IDS_VIEW_X"),
+          (float)text_loader.get_double("IDS_VIEW_Y")));
 
 
 
@@ -37,8 +37,8 @@ HumanView::HumanView(shared_ptr<Logic>logic,
 void HumanView::handle_size(sf::RenderWindow &window){
   //x is width, y is height. their ratio should be 4:3.
   //if not, SCALE THE VIEWPORT
-  float current_aspect = (float)window.getSize().x / (float)window.getSize().y;
-  float target_aspect = text_loader->get_double("IDS_VIEW_X")/text_loader->get_double("IDS_VIEW_Y");
+  float current_aspect = (float)window.getSize().x / (float)window.getSize().y ;
+  float target_aspect = (float)  (m_text_loader.get_double("IDS_VIEW_X") / m_text_loader.get_double("IDS_VIEW_Y") );
   
   //std::cout<<"current aspect:"<<current_aspect<<std::endl;
   //std::cout<<"target aspect:"<<target_aspect<<std::endl;
@@ -61,8 +61,8 @@ void HumanView::handle_size(sf::RenderWindow &window){
 
 void HumanView::draw_background(sf::RenderWindow &window, sf::Color bgcolor){
   sf::RectangleShape bgRect = sf::RectangleShape(sf::Vector2f(
-          (float)text_loader->get_double("IDS_VIEW_X"),
-          (float)text_loader->get_double("IDS_VIEW_Y")));
+          (float)m_text_loader.get_double("IDS_VIEW_X"),
+          (float)m_text_loader.get_double("IDS_VIEW_Y")));
   bgRect.setPosition(0.f,0.f);
   bgRect.setFillColor(bgcolor);
   window.draw(bgRect);
