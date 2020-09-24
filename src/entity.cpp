@@ -5,11 +5,10 @@
   @author Jeremy Elkayam
  */
 
-#include "warrior.hpp"
+#include "entity.hpp"
 
-Warrior::Warrior(float xcor, float ycor, sf::Texture &texture) {
+Entity::Entity(float xcor, float ycor, sf::Texture &texture) {
   this->sprite.setPosition(xcor,ycor);
-  this->angle=0;
   this->sprite.setTexture(texture);
 
   //Set our sprite's coordinates to the center of the sprite. It'll Just Make Things A Bit Easier
@@ -18,7 +17,7 @@ Warrior::Warrior(float xcor, float ycor, sf::Texture &texture) {
                   sprite_rect.top + sprite_rect.height/2);
 }
 
-void Warrior::draw(sf::RenderWindow &window, ColorGrid &color_grid){
+void Entity::draw(sf::RenderWindow &window, ColorGrid &color_grid){
   window.draw(sprite);
   color_grid.update(sprite.getGlobalBounds(),color);
 }

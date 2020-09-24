@@ -13,7 +13,7 @@ void Enemy::point_at_player(float player_x, float player_y){
   angle = (float)atan2(delta_y,delta_x);
 }
 
-Enemy::Enemy(float xcor,float ycor, sf::Texture &texture) : Warrior(xcor,ycor,texture){
+Enemy::Enemy(float xcor,float ycor, sf::Texture &texture) : Entity(xcor,ycor,texture){
   //cout << " i am born " << endl;
   color = sf::Color::Red;
 }

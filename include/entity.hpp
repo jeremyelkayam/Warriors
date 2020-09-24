@@ -13,31 +13,27 @@
 using std::cout;
 using std::endl;
 
-class Warrior
+class Entity
 {
 protected:
-  /*
-   * angle: angle of the warrior's velocity in radians
-   */
-  float angle;
 
   sf::Sprite sprite;
 
   sf::Color color;
 
   /*
-    Constructor for the Warrior class. Sets initial values.
+    Constructor for the Entity class. Sets initial values.
 
-    @param xcor initial x-coordinate of the warrior.
-    @param ycor initial y-coordinate of the warrior.
+    @param xcor initial x-coordinate of the entity.
+    @param ycor initial y-coordinate of the entity.
    */
-  Warrior(float xcor, float ycor, sf::Texture &texture);
+  Entity(float xcor, float ycor, sf::Texture &texture);
 public:
   
   /*
-    Returns the x-coordinate of the warrior.
+    Returns the x-coordinate of the entity.
 
-    @return the warrior's x-coordinate
+    @return the entity's x-coordinate
   */
   float get_xcor(){return sprite.getPosition().x;}
 
@@ -49,17 +45,11 @@ public:
   */
   float get_ycor(){return sprite.getPosition().y;}
 
-  float get_angle(){return angle;}
-
   /*
      Sets the coordinates of the warrior to what they would be after the
           specified time had elapsed, based on the velocity of the warrior.
           @param micros_elapsed The time elapsed in microseconds.
   */
-  //virtual void move(float s_elapsed) = 0;
-
-
-  void set_angle(float angle){this->angle = angle;}
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid);
 

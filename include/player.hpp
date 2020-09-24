@@ -5,13 +5,13 @@
 */
 
 #pragma once
-#include "warrior.hpp"
+#include "entity.hpp"
 #include <iostream>
 
 using std::cout;
 using std::endl;
 
-class Player : public Warrior {
+class Player : public Entity {
 private:
   float speed,speed_scale_x,speed_scale_y, field_width, field_height;
 

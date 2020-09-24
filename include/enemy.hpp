@@ -5,10 +5,12 @@
  */
 
 #pragma once
-#include "warrior.hpp"
+#include "entity.hpp"
 
-class Enemy : public Warrior {
+class Enemy : public Entity {
 private:
+
+  float angle;
 
 public:
   Enemy(float xcor,float ycor, sf::Texture &texture);

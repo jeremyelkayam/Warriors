@@ -53,7 +53,7 @@ void Player::update(float s_elapsed){
 }
 
 Player::Player(float xcor, float ycor, float speed, sf::Texture &texture, float field_width, float field_height) :
-Warrior(xcor,ycor,texture){
+Entity(xcor,ycor,texture){
   color = sf::Color::Cyan;
   this->speed = speed;
   speed_scale_x = 0;
