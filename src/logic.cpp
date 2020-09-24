@@ -8,7 +8,7 @@
 #include "logic.hpp"
 
 Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height, TextLoader &a_text_loader) :
-player(1,1,100,warrior_tex, field_width, field_height), m_warrior_tex(warrior_tex), randy(rand),
+player(field_width/2,field_height/2,100,warrior_tex, field_width, field_height), m_warrior_tex(warrior_tex), randy(rand),
 width_dist(0.f,field_width), height_dist(0.f,field_height), text_loader(a_text_loader) {
   time_since_last_spawn = 0;
   total_time_elapsed = 0;
