@@ -12,6 +12,15 @@
 
 class Potion : public Entity {
 
+private:
+  //The amount of time this potion can exist in seconds.
+  float lifespan;
+
+  //The amount of time this potion has existed in seconds.
+  float age;
+
+  int health_recovery;
+
 public:
   /*
     Constructor for the Potion class. Sets initial values.
@@ -20,7 +29,14 @@ public:
     @param ycor initial y-coordinate of the potion.
     @param texture the texture to be used by the potion's sprite.
    */
-  Potion(float xcor, float ycor, sf::Texture &texture);
+  Potion(float xcor, float ycor, sf::Texture &texture, float lifespan,int health_recovery);
+
+  void update(float s_elapsed);
+
+  bool can_despawn();
+
+  int get_health_recovery(){return health_recovery;}
+
 
 };
 
