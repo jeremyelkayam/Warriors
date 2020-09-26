@@ -121,8 +121,6 @@ float Logic::spawn_interval(float min, float max, float time_limit, bool countin
     scalar = (time_limit - elapsed) / time_limit;
   }
 
-  float result = max * scalar + min;
-
   return max * scalar + min;
 }
 
@@ -162,6 +160,10 @@ void Logic::update_potions(float s_elapsed){
     it->update(s_elapsed);
     if (it->can_despawn()) {
       //Delete the current potion, and then move on to the next one
+      potions.erase(it++);
+    } else if (it->intersects(player)) {
+      //We need to delete it, but also heal the player.
+      player.heal(it->get_health_recovery());
       potions.erase(it++);
     } else {
       ++it;
