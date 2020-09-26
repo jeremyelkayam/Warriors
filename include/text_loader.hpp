@@ -30,7 +30,7 @@ private:
   //Maps storing values loaded in from XML files.
   unordered_map<string, string> strings;
   unordered_map<string, int> ints;
-  unordered_map<string, double> doubles;
+  unordered_map<string, float> floats;
 
   /*
     Using tinyxml2, load in the appropriate values from an xml file and store them in
@@ -38,9 +38,7 @@ private:
    */
   void load_strings();
   void load_ints();
-
-  //todo: refactor into float
-  void load_doubles();
+  void load_floats();
 
 public:
 
@@ -68,5 +66,5 @@ public:
 
     @param id: The unique identifier of the value as stored in values.xml
    */
-  double get_double(string id);
+  float get_float(string id);
 };

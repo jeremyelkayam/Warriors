@@ -55,19 +55,19 @@ void Player::update(float s_elapsed){
 }
 
 Player::Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color) :
-Warrior((float)text_loader.get_double("IDS_VIEW_X") / 2, (float)text_loader.get_double("IDS_VIEW_Y") / 2,
+Warrior(text_loader.get_float("IDS_VIEW_X") / 2, text_loader.get_float("IDS_VIEW_Y") / 2,
         texture, sword_tex, color),
-        max_sword_time((float)text_loader.get_double("IDS_SWORD_TIME")),
-        max_invis_frames((float)text_loader.get_double("IDS_INVIS_TIME")){
+        max_sword_time(text_loader.get_float("IDS_SWORD_TIME")),
+        max_invis_frames(text_loader.get_float("IDS_INVIS_TIME")){
 
   set_origin_to_center();
 
   this->color = color;
-  this->speed = (float)text_loader.get_double("IDS_MOVEMENT_SPEED");
+  this->speed = text_loader.get_float("IDS_MOVEMENT_SPEED");
   speed_scale_x = 0;
   speed_scale_y = 0;
-  this->field_height = (float)text_loader.get_double("IDS_VIEW_Y");
-  this->field_width = (float)text_loader.get_double("IDS_VIEW_X");
+  this->field_height = text_loader.get_float("IDS_VIEW_Y");
+  this->field_width = text_loader.get_float("IDS_VIEW_X");
   this->health = (unsigned int)text_loader.get_integer("IDS_DEFAULT_HEALTH");
 
   this->invis_frames = 0;
@@ -85,7 +85,7 @@ void Player::hurt(int amount){
 
 void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
 
-  int current_invis_frame = (int)(invis_frames * 10);
+  auto current_invis_frame = (int)(invis_frames * 10);
 
   //We should draw the player normally if they don't have any invincibility frames.
   //If they do have invincibility frames, their sprite can flash on and off.

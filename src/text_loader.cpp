@@ -9,13 +9,13 @@
 
 TextLoader::TextLoader(){
 
-cout<<"instantiating"<<endl;
+  //cout<<"instantiating"<<endl;
   load_strings();
-  cout<<"got strings"<<endl;
+  //cout<<"got strings"<<endl;
   load_ints();
-  cout<<"got ints"<<endl;
-  load_doubles();
-  cout<<"got doubles"<<endl;
+  //cout<<"got ints"<<endl;
+  load_floats();
+  //cout<<"got floats"<<endl;
   
 }
 
@@ -47,21 +47,21 @@ void TextLoader::load_ints(){
 }
 
 
-void TextLoader::load_doubles(){
+void TextLoader::load_floats(){
   tinyxml2::XMLDocument doc;
   doc.LoadFile( "../assets/values/constants.xml" );
   tinyxml2::XMLElement * root =  doc.FirstChildElement("constants")->FirstChildElement("doubles");
 
-  double double_value;
+  float float_value;
 
   for(tinyxml2::XMLElement* node = root->FirstChildElement("constant"); node != nullptr; node= node->NextSiblingElement("constant")) {
     string s(node->Attribute("id"));
     stringstream str_value;
     //converting the string value from xml to an double
     str_value << node -> Attribute("value");
-    str_value >> double_value;
+    str_value >> float_value;
 
-    doubles.insert({s, double_value});
+    floats.insert({s, float_value});
   }
 }
 
@@ -76,8 +76,8 @@ int TextLoader::get_integer(const std::string id){
 }
 
 
-double TextLoader::get_double(const std::string id){
-  assert(doubles.find(id) != doubles.end());
-  return doubles.at(id);
+float TextLoader::get_float(const std::string id){
+  assert(floats.find(id) != floats.end());
+  return floats.at(id);
 }
 

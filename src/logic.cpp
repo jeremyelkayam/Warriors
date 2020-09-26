@@ -9,14 +9,14 @@
 
 Logic::Logic(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader) :
 player(a_text_loader,warrior_tex, sword_tex, sf::Color::Cyan), m_warrior_tex(warrior_tex),
-m_sword_tex(sword_tex), randy(rand), width_dist(0.f,(float)a_text_loader.get_double("IDS_VIEW_X")),
-height_dist(0.f,(float)a_text_loader.get_double("IDS_VIEW_Y")), text_loader(a_text_loader) {
+m_sword_tex(sword_tex), randy(rand), width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
+height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y")), text_loader(a_text_loader) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
 
-  this->field_width = (float)a_text_loader.get_double("IDS_VIEW_X");
-  this->field_height = (float)a_text_loader.get_double("IDS_VIEW_Y");
+  this->field_width = a_text_loader.get_float("IDS_VIEW_X");
+  this->field_height = a_text_loader.get_float("IDS_VIEW_Y");
 }
 
 void Logic::update(float s_elapsed){
@@ -84,7 +84,7 @@ sf::Vector2f Logic::random_distant_location(float threshold){
 
 void Logic::spawn_enemy(){
 
-  sf::Vector2f location = random_distant_location((float)text_loader.get_double("IDS_DISTANCE_THRESHOLD"));
+  sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
   enemies.emplace_back(Enemy(location.x,location.y,m_warrior_tex, m_sword_tex));
 
@@ -95,11 +95,10 @@ void Logic::spawn_enemy(){
 bool Logic::can_spawn_enemy() {
 
   return time_since_last_enemy_spawn > spawn_interval(
-          (float)text_loader.get_double("IDS_MIN_SPAWN_INTERVAL"),
-          (float)text_loader.get_double("IDS_BASE_SPAWN_INTERVAL"),
-          (float)text_loader.get_double("IDS_MATURE_GAME"),
-          false
-          );
+          text_loader.get_float("IDS_MIN_SPAWN_INTERVAL"),
+          text_loader.get_float("IDS_BASE_SPAWN_INTERVAL"),
+          text_loader.get_float("IDS_MATURE_GAME"),
+          false);
 }
 
 
@@ -139,7 +138,7 @@ void Logic::update_enemies(float s_elapsed){
 }
 
 void Logic::spawn_potion() {
-  sf::Vector2f location = random_distant_location((float)text_loader.get_double("IDS_DISTANCE_THRESHOLD"));
+  sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
   potions.emplace_back(Potion(location.x,location.y,m_warrior_tex, 5, 1));
 
@@ -150,7 +149,7 @@ bool Logic::can_spawn_potion() {
   return time_since_last_potion_spawn > spawn_interval(
           5,
           20,
-          (float)text_loader.get_double("IDS_MATURE_GAME"),
+          text_loader.get_float("IDS_MATURE_GAME"),
           true
   );
 
