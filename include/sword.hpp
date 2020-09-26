@@ -7,6 +7,8 @@
 #pragma once
 
 #include "entity.hpp"
+#include <iostream>
+
 
 class Sword : public Entity {
 private:
@@ -17,13 +19,16 @@ public:
 
   Sword(float xcor, float ycor, sf::Texture &texture, float warrior_width, sf::Color color);
 
-  void unsheath(){active = true;}
+  //void set_active(bool active){this->active = active;}
 
-  void sheath(){active = false;}
+  void unsheath(){this->active = true; }
+  void sheath(){this->active = false; }
 
   //todo: fix this warning
   void draw(sf::RenderWindow &window, ColorGrid &grid){if(active) Entity::draw(window,grid);}
 
   void update(float xcor, float ycor, float angle);
+
+  bool is_active(){return active;}
 
 };

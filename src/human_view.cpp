@@ -101,4 +101,6 @@ void HumanView::keyboard_movement(){
           sf::Keyboard::isKeyPressed(sf::Keyboard::Down),
           sf::Keyboard::isKeyPressed(sf::Keyboard::Left),
           sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
+
+  m_logic.set_player_sword(sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
 }

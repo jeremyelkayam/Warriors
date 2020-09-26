@@ -17,9 +17,11 @@ private:
 
   const float max_sword_time, max_invis_frames;
 
+  unsigned int health;
+
   void move(float s_elapsed);
 
-  unsigned int health;
+  void update_sword(float s_elapsed);
 
 public:
   Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color);
@@ -33,5 +35,7 @@ public:
   void hurt(int amount);
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid);
+
+  void set_sword(bool active);
 
 };

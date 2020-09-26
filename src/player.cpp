@@ -39,10 +39,20 @@ void Player::set_movement(bool moving_up, bool moving_down, bool moving_left, bo
     speed_scale_y+=1.f;
   }
 
-
   if(speed_scale_y != 0.f && speed_scale_x != 0.f){
     speed_scale_y *= sin(M_PI/4);
     speed_scale_x *= sin(M_PI/4);
+  }
+}
+
+void Player::set_sword(bool active){
+  if(active){
+    //The player cannot draw their sword if they are recharging sword time.
+    if(sword_time >= max_sword_time){
+      sword.unsheath();
+    }
+  }else{
+    sword.sheath();
   }
 }
 
@@ -52,6 +62,31 @@ void Player::update(float s_elapsed){
   if(invis_frames > 0){
     invis_frames -= s_elapsed;
   }
+
+  update_sword(s_elapsed);
+
+}
+
+void Player::update_sword(float s_elapsed){
+
+  auto angle = (float)atan2(speed_scale_y, speed_scale_x);
+
+  sword.update(get_xcor(), get_ycor(), angle);
+
+  //If the player is using their sword, they are using up sword time.
+  if(sword.is_active()){
+    sword_time -= s_elapsed;
+
+    //If the player is not using their sword, they are recharging sword time.
+  }else if(sword_time < max_sword_time){
+    sword_time += s_elapsed;
+  }
+
+  //If the player runs out of sword time, they must sheath their sword.
+  if(sword_time <= 0){
+    sword.sheath();
+  }
+
 }
 
 Player::Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color) :
@@ -72,6 +107,8 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, text_loader.get_float("IDS_VIEW
 
   this->invis_frames = 0;
   this->sword_time = max_sword_time;
+
+  sword.sheath();
 }
 
 void Player::hurt(int amount){
@@ -90,6 +127,6 @@ void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
   //We should draw the player normally if they don't have any invincibility frames.
   //If they do have invincibility frames, their sprite can flash on and off.
   if(invis_frames <= 0 || current_invis_frame % 2){
-    Entity::draw(window, color_grid);
+    Warrior::draw(window, color_grid);
   }
 }

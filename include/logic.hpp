@@ -32,15 +32,13 @@ private:
   //But if I add multiplayer or something, it might be nice to put out a few potions at once.
   list<Potion> potions;
 
-  float time_since_last_enemy_spawn;
-
-  float time_since_last_potion_spawn;
-
-  float total_time_elapsed;
-
   sf::Texture &m_warrior_tex;
 
   sf::Texture &m_sword_tex;
+
+  const float base_speed;
+
+  float time_since_last_enemy_spawn,time_since_last_potion_spawn,total_time_elapsed;
   /*
    * Generate a random location that is within the confines of the game board and is
    * also at least threshold units away from the player.
@@ -92,6 +90,8 @@ public:
 
   void set_player_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
     player.set_movement(moving_up,moving_down,moving_left,moving_right);}
+
+  void set_player_sword(bool active){player.set_sword(active);}
 
   void draw_components(sf::RenderWindow &window,ColorGrid &color_grid);
 

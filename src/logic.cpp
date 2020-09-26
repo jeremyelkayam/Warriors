@@ -10,7 +10,8 @@
 Logic::Logic(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader) :
 player(a_text_loader,warrior_tex, sword_tex, sf::Color::Cyan), m_warrior_tex(warrior_tex),
 m_sword_tex(sword_tex), randy(rand), width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
-height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y")), text_loader(a_text_loader) {
+height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y")),
+base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")), text_loader(a_text_loader) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -126,12 +127,18 @@ float Logic::spawn_interval(float min, float max, float time_limit, bool countin
 
 void Logic::update_enemies(float s_elapsed){
 
-  float speed = 100.f / enemies.size();
-
-  for (auto it=enemies.begin(); it != enemies.end(); ++it) {
+  float speed = base_speed / (enemies.size() + 1);
+  auto it=enemies.begin();
+  while (it != enemies.end()) {
     it->update(s_elapsed,speed,player.get_xcor(),player.get_ycor());
+
     if(it->slicing(player)){
       player.hurt(1);//TODO: parameterize this
+    }
+    if(player.slicing(*it)){
+      enemies.erase(it++);
+    }else{
+      ++it;
     }
   }
 
