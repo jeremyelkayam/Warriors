@@ -19,7 +19,7 @@ private:
 
   void move(float s_elapsed);
 
-  int health;
+  unsigned int health;
 
 public:
   Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color);
@@ -31,5 +31,7 @@ public:
   void heal(int amount){health += amount;}
 
   void hurt(int amount);
+
+  void draw(sf::RenderWindow &window, ColorGrid &color_grid);
 
 };

@@ -48,6 +48,10 @@ void Player::set_movement(bool moving_up, bool moving_down, bool moving_left, bo
 
 void Player::update(float s_elapsed){
   move(s_elapsed);
+
+  if(invis_frames > 0){
+    invis_frames -= s_elapsed;
+  }
 }
 
 Player::Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color) :
@@ -64,10 +68,28 @@ Warrior((float)text_loader.get_double("IDS_VIEW_X") / 2, (float)text_loader.get_
   speed_scale_y = 0;
   this->field_height = (float)text_loader.get_double("IDS_VIEW_Y");
   this->field_width = (float)text_loader.get_double("IDS_VIEW_X");
-  this->health = text_loader.get_integer("IDS_DEFAULT_HEALTH");
+  this->health = (unsigned int)text_loader.get_integer("IDS_DEFAULT_HEALTH");
 
   this->invis_frames = 0;
   this->sword_time = max_sword_time;
-
 }
 
+void Player::hurt(int amount){
+  //If the player has no invincibility frames left, they can get hurt.
+  if(invis_frames <= 0){
+    health -= amount;
+    invis_frames = max_invis_frames;
+    cout << "YOU HURT ME" << endl;
+  }
+}
+
+void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
+
+  int current_invis_frame = (int)(invis_frames * 10);
+
+  //We should draw the player normally if they don't have any invincibility frames.
+  //If they do have invincibility frames, their sprite can flash on and off.
+  if(invis_frames <= 0 || current_invis_frame % 2){
+    Entity::draw(window, color_grid);
+  }
+}
