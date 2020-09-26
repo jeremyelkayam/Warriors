@@ -131,6 +131,9 @@ void Logic::update_enemies(float s_elapsed){
 
   for (auto it=enemies.begin(); it != enemies.end(); ++it) {
     it->update(s_elapsed,speed,player.get_xcor(),player.get_ycor());
+    if(it->slicing(player)){
+      player.hurt(1);//TODO: parameterize this
+    }
   }
 
 }

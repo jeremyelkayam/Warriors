@@ -23,7 +23,7 @@
 
     <constant value="100" id="IDS_MOVEMENT_SPEED"/>
     <constant value="5" id="IDS_SWORD_TIME"/>
-    <constant value="5" id="IDS_INVIS_TIME"/>
+    <constant value="2" id="IDS_INVIS_TIME"/>
 
     <!-- The amount of gameplay time in seconds at which the enemy spawn interval will be at its minimum.
          After this amount of gameplay time, the game is considered "mature" and will not get any harder.-->

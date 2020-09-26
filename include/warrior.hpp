@@ -16,5 +16,6 @@ public:
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid);
 
+  bool slicing(Entity &entity){return entity.intersects(sword);}
 };
 
