@@ -7,9 +7,9 @@
 
 #include "logic.hpp"
 
-Logic::Logic(sf::Texture &warrior_tex, mt19937 &rand, float field_width, float field_height, int default_health, TextLoader &a_text_loader) :
-player(field_width/2,field_height/2,100,warrior_tex, field_width, field_height, default_health), m_warrior_tex(warrior_tex), randy(rand),
-width_dist(0.f,field_width), height_dist(0.f,field_height), text_loader(a_text_loader) {
+Logic::Logic(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, float field_width, float field_height, int default_health, TextLoader &a_text_loader) :
+player(field_width/2,field_height/2,100,warrior_tex, field_width, field_height, default_health), m_warrior_tex(warrior_tex),
+m_sword_tex(sword_tex), randy(rand), width_dist(0.f,field_width), height_dist(0.f,field_height), text_loader(a_text_loader) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -85,7 +85,7 @@ void Logic::spawn_enemy(){
 
   sf::Vector2f location = random_distant_location((float)text_loader.get_double("IDS_DISTANCE_THRESHOLD"));
 
-  enemies.emplace_back(Enemy(location.x,location.y,m_warrior_tex));
+  enemies.emplace_back(Enemy(location.x,location.y,m_warrior_tex, m_sword_tex));
 
   time_since_last_enemy_spawn = 0;
 }
@@ -129,8 +129,7 @@ void Logic::update_enemies(float s_elapsed){
   float speed = 100.f / enemies.size();
 
   for (auto it=enemies.begin(); it != enemies.end(); ++it) {
-    it->point_at_player(player.get_xcor(),player.get_ycor());
-    it->move(s_elapsed,speed);
+    it->update(s_elapsed,speed,player.get_xcor(),player.get_ycor());
   }
 
 }

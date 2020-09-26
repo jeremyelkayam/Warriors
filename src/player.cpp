@@ -6,7 +6,6 @@
 
 #include "player.hpp"
 
-//TODO: Sometimes player's location starts out fucked up. Might be due to memory issues.
 void Player::move(float s_elapsed){
   float new_xcor = get_xcor() + speed*speed_scale_x*s_elapsed;
   float new_ycor = get_ycor() + speed*speed_scale_y*s_elapsed;
@@ -54,6 +53,9 @@ void Player::update(float s_elapsed){
 
 Player::Player(float xcor, float ycor, float speed, sf::Texture &texture, float field_width, float field_height, int health) :
 Entity(xcor,ycor,texture){
+
+  set_origin_to_center();
+
   color = sf::Color::Cyan;
   this->speed = speed;
   speed_scale_x = 0;

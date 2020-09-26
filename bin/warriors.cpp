@@ -34,10 +34,12 @@ int main(int argc, char** argv)
   //The texture containing our placeholder warrior texture. This will likely be changed eventually
   //to support animations.
   sf::Texture warrior_tex;
+  sf::Texture sword_tex;
   warrior_tex.loadFromFile(text_loader.get_string("IDS_PATH_WARRIOR_TEX"));
+  sword_tex.loadFromFile(text_loader.get_string("IDS_PATH_SWORD_TEX"));
 
   //set up game components
-  Logic logic(warrior_tex,randy,
+  Logic logic(warrior_tex,sword_tex, randy,
           (float)text_loader.get_double("IDS_VIEW_X"),
           (float)text_loader.get_double("IDS_VIEW_Y"),
           text_loader.get_integer("IDS_DEFAULT_HEALTH"),

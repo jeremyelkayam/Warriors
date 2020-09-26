@@ -19,7 +19,7 @@ protected:
 
   sf::Sprite sprite;
 
-  sf::Color color;
+  sf::Color color = sf::Color::White;
 
   /*
     Constructor for the Entity class. Sets initial values.
@@ -28,6 +28,9 @@ protected:
     @param ycor initial y-coordinate of the entity.
    */
   Entity(float xcor, float ycor, sf::Texture &texture);
+
+  void set_origin_to_center();
+
 public:
   
   /*

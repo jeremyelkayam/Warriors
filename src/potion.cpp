@@ -8,6 +8,8 @@
 #include "potion.hpp"
 
 Potion::Potion(float xcor, float ycor, sf::Texture &texture,float lifespan, int health_recovery) : Entity(xcor,ycor,texture) {
+  set_origin_to_center();
+
   this->lifespan = lifespan;
   this->health_recovery = health_recovery;
   age = 0;
