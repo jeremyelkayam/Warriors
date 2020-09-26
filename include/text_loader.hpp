@@ -38,6 +38,8 @@ private:
    */
   void load_strings();
   void load_ints();
+
+  //todo: refactor into float
   void load_doubles();
 
 public:

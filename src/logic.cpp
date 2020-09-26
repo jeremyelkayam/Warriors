@@ -7,15 +7,16 @@
 
 #include "logic.hpp"
 
-Logic::Logic(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, float field_width, float field_height, int default_health, TextLoader &a_text_loader) :
-player(field_width/2,field_height/2,100,warrior_tex, field_width, field_height, default_health), m_warrior_tex(warrior_tex),
-m_sword_tex(sword_tex), randy(rand), width_dist(0.f,field_width), height_dist(0.f,field_height), text_loader(a_text_loader) {
+Logic::Logic(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader) :
+player(a_text_loader,warrior_tex, sword_tex, sf::Color::Cyan), m_warrior_tex(warrior_tex),
+m_sword_tex(sword_tex), randy(rand), width_dist(0.f,(float)a_text_loader.get_double("IDS_VIEW_X")),
+height_dist(0.f,(float)a_text_loader.get_double("IDS_VIEW_Y")), text_loader(a_text_loader) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
 
-  this->field_width = field_width;
-  this->field_height = field_height;
+  this->field_width = (float)a_text_loader.get_double("IDS_VIEW_X");
+  this->field_height = (float)a_text_loader.get_double("IDS_VIEW_Y");
 }
 
 void Logic::update(float s_elapsed){

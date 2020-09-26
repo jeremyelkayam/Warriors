@@ -44,23 +44,30 @@ void Player::set_movement(bool moving_up, bool moving_down, bool moving_left, bo
     speed_scale_y *= sin(M_PI/4);
     speed_scale_x *= sin(M_PI/4);
   }
-
 }
 
 void Player::update(float s_elapsed){
   move(s_elapsed);
 }
 
-Player::Player(float xcor, float ycor, float speed, sf::Texture &texture, float field_width, float field_height, int health) :
-Entity(xcor,ycor,texture){
+Player::Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color) :
+Warrior((float)text_loader.get_double("IDS_VIEW_X") / 2, (float)text_loader.get_double("IDS_VIEW_Y") / 2,
+        texture, sword_tex, color),
+        max_sword_time((float)text_loader.get_double("IDS_SWORD_TIME")),
+        max_invis_frames((float)text_loader.get_double("IDS_INVIS_TIME")){
 
   set_origin_to_center();
 
-  color = sf::Color::Cyan;
-  this->speed = speed;
+  this->color = color;
+  this->speed = (float)text_loader.get_double("IDS_MOVEMENT_SPEED");
   speed_scale_x = 0;
   speed_scale_y = 0;
-  this->field_height = field_height;
-  this->field_width = field_width;
-  this->health = health;
+  this->field_height = (float)text_loader.get_double("IDS_VIEW_Y");
+  this->field_width = (float)text_loader.get_double("IDS_VIEW_X");
+  this->health = text_loader.get_integer("IDS_DEFAULT_HEALTH");
+
+  this->invis_frames = 0;
+  this->sword_time = max_sword_time;
+
 }
+

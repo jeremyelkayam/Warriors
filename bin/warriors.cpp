@@ -39,11 +39,7 @@ int main(int argc, char** argv)
   sword_tex.loadFromFile(text_loader.get_string("IDS_PATH_SWORD_TEX"));
 
   //set up game components
-  Logic logic(warrior_tex,sword_tex, randy,
-          (float)text_loader.get_double("IDS_VIEW_X"),
-          (float)text_loader.get_double("IDS_VIEW_Y"),
-          text_loader.get_integer("IDS_DEFAULT_HEALTH"),
-          text_loader);
+  Logic logic(warrior_tex,sword_tex, randy, text_loader);
 
   // create main window
   sf::RenderWindow window(
