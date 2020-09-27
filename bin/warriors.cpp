@@ -9,10 +9,8 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <memory>
-#include <random>
-#include <chrono>
 #include "human_view.hpp"
-#include "playing_screen.hpp"
+#include "logic.hpp"
 #include "text_loader.hpp"
 
 using std::shared_ptr;
@@ -25,21 +23,16 @@ int main(int argc, char** argv)
 
   TextLoader text_loader = TextLoader();
 
-  //Let's set up our random number generator with a commonly used seed: the current time.
-  mt19937 randy;
-  unsigned long my_seed = (unsigned)high_resolution_clock::now().time_since_epoch().count();
-  cout << "my seed: " << my_seed << endl;
-  randy.seed(my_seed);
 
-  //The texture containing our placeholder warrior texture. This will likely be changed eventually
-  //to support animations.
   sf::Texture warrior_tex;
   sf::Texture sword_tex;
+
   warrior_tex.loadFromFile(text_loader.get_string("IDS_PATH_WARRIOR_TEX"));
   sword_tex.loadFromFile(text_loader.get_string("IDS_PATH_SWORD_TEX"));
 
   //set up game components
-  PlayingScreen logic(warrior_tex,sword_tex, randy, text_loader);
+
+  Logic logic(text_loader, warrior_tex, sword_tex);
 
   // create main window
   sf::RenderWindow window(

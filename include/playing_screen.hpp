@@ -25,6 +25,13 @@ using std::uniform_real_distribution;
 class PlayingScreen
 {
 private:
+
+  //The view containing the main gameplay.
+  sf::View play_view;
+
+  //The view containing the HUD.
+  sf::View hud_view;
+
   Player player;
   list<Enemy> enemies;
 
@@ -80,6 +87,11 @@ private:
 
   TextLoader &text_loader;
 
+  void handle_size(sf::RenderWindow &window, sf::View &view, float top_padding);
+
+  void draw_background(sf::RenderWindow &window, sf::View &view, sf::Color bgcolor);
+
+
 public:
   /*
     Constructor for the PlayingScreen class.
@@ -94,9 +106,12 @@ public:
 
   void set_player_sword(bool active){player.set_sword(active);}
 
+  void draw(sf::RenderWindow &window, ColorGrid &color_grid);
+
+  bool game_over(){return player.get_health() == 0;}
+
   void draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid);
 
   void draw_hud(sf::RenderWindow &window, ColorGrid &color_grid);
 
-  bool game_over(){return player.get_health() == 0;}
 };

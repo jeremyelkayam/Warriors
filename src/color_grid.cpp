@@ -30,7 +30,6 @@ ColorGrid::ColorGrid(int square_size, float view_width, float view_height) {
       //do that here.
     }
   }
-
 }
 
 void ColorGrid::reset() {
@@ -45,8 +44,8 @@ void ColorGrid::update(sf::FloatRect object_bounds, sf::Color color) {
   int paint_from_col = (int) object_bounds.left / square_size;
   int paint_from_row = (int) object_bounds.top / square_size;
 
-  int how_many_cols = ceil(object_bounds.width / square_size);
-  int how_many_rows = ceil(object_bounds.height / square_size);
+  auto how_many_cols = (int) ceil(object_bounds.width / square_size);
+  auto how_many_rows = (int) ceil(object_bounds.height / square_size);
 
   for (int row = paint_from_row; row <= paint_from_row + how_many_rows; row++) {
     if (row >= 0 && row < grid.size()) { //protect us from hitting nonexistent grid squares

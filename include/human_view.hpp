@@ -9,7 +9,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "playing_screen.hpp"
+#include "logic.hpp"
 #include "text_loader.hpp"
 #include "color_grid.hpp"
 
@@ -20,16 +20,12 @@ class HumanView
 {
 private:
   //A reference to the class that handles game logic.
-  PlayingScreen &m_logic;
+  Logic &logic;
 
 
   //A reference to the text loader.
   TextLoader &m_text_loader;
 
-  //The view containing the main gameplay.
-  sf::View view;
-
-  sf::View hud_view;
 
   //The color grid for our image.
   ColorGrid color_grid;
@@ -41,11 +37,6 @@ private:
   sf::Color d_blue, d_red, d_magenta, d_green, d_cyan, d_yellow, d_white;
 
 
-
-  void draw_background(sf::RenderWindow &window, sf::View &view, sf::Color bgcolor);
-
-  void handle_size(sf::RenderWindow &window, sf::View &view, float top_padding);
-
   void keyboard_movement();
 
 public:
@@ -54,7 +45,7 @@ public:
     @param logic A reference to the class handling game logic.
     @param window
    */
-  HumanView(PlayingScreen &logic,
+  HumanView(Logic &a_logic,
           TextLoader &text_loader);
 
   /*
