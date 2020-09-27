@@ -1,13 +1,13 @@
 /*
-  logic.cpp
+  playing_screen.cpp
   Purpose: Handle the logic computations of the game's main loop
            (e.g. controls, collison detection, etc).
   @author Jeremy Elkayam
  */
 
-#include "logic.hpp"
+#include "playing_screen.hpp"
 
-Logic::Logic(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader) :
+PlayingScreen::PlayingScreen(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader) :
 player(a_text_loader,warrior_tex, sword_tex, sf::Color::Cyan), m_warrior_tex(warrior_tex),
 m_sword_tex(sword_tex), randy(rand), width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y")),
@@ -20,31 +20,35 @@ base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")), text_loader(a_text_lo
   this->field_height = a_text_loader.get_float("IDS_VIEW_Y");
 }
 
-void Logic::update(float s_elapsed){
-  total_time_elapsed += s_elapsed;
+void PlayingScreen::update(float s_elapsed){
 
-  player.update(s_elapsed);
+  if(!game_over()) {
 
-  //Check if it's time to spawn an enemy.
+    total_time_elapsed += s_elapsed;
 
-  time_since_last_enemy_spawn += s_elapsed;
-  time_since_last_potion_spawn += s_elapsed;
+    player.update(s_elapsed);
+
+    //Check if it's time to spawn an enemy.
+
+    time_since_last_enemy_spawn += s_elapsed;
+    time_since_last_potion_spawn += s_elapsed;
 
 
-  if(can_spawn_enemy()) {
-    cout << "spawning enemy" << endl;
-    spawn_enemy();
+    if (can_spawn_enemy()) {
+      cout << "spawning enemy" << endl;
+      spawn_enemy();
+    }
+    if (can_spawn_potion()) {
+      cout << "spawning potion" << endl;
+      spawn_potion();
+    }
+
+    update_enemies(s_elapsed);
+    update_potions(s_elapsed);
   }
-  if(can_spawn_potion()) {
-    cout << "spawning potion" << endl;
-    spawn_potion();
-  }
-
-  update_enemies(s_elapsed);
-  update_potions(s_elapsed);
 }
 
-void Logic::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid){
+void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid){
 
   //Draw all our enemies
   for (auto it=enemies.begin(); it != enemies.end(); ++it)
@@ -57,23 +61,22 @@ void Logic::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid){
   player.draw(window,color_grid);
 }
 
-void Logic::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
+void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
 
   //todo this is bad
-  sf::RectangleShape rect(sf::Vector2f(1.f, 1.f));
+  //refactor the rectangle shape out of the thing
+  sf::RectangleShape rect(sf::Vector2f(1.f, 4.f));
   rect.setFillColor(sf::Color::White);
   float y = 1.f;
 
   for(int i = 0 ; i < player.get_health() ; ++i){
     rect.setPosition(i*2 + 1, y);
     window.draw(rect);
-
   }
-
 }
 
 
-sf::Vector2f Logic::random_distant_location(float threshold){
+sf::Vector2f PlayingScreen::random_distant_location(float threshold){
   float xcor,ycor,dist;
   do{
     //Generate a random position within our field
@@ -85,10 +88,10 @@ sf::Vector2f Logic::random_distant_location(float threshold){
     float xdist = player.get_xcor() - xcor;
     float ydist = player.get_ycor() - ycor;
 
-    xdist = (float)pow(xdist, 2.f);
-    ydist = (float)pow(ydist, 2.f);
+    xdist = xdist * xdist;
+    ydist = xdist * xdist;
 
-    dist = (float)sqrt(xdist + ydist);
+    dist = (float)sqrt((double)xdist + (double)ydist);
 
     //We don't want an enemy to spawn on top of the player. That would suck.
     //So, if the player was too close, let's repeat.
@@ -99,7 +102,7 @@ sf::Vector2f Logic::random_distant_location(float threshold){
 }
 
 
-void Logic::spawn_enemy(){
+void PlayingScreen::spawn_enemy(){
 
   sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
@@ -109,7 +112,7 @@ void Logic::spawn_enemy(){
 }
 
 
-bool Logic::can_spawn_enemy() {
+bool PlayingScreen::can_spawn_enemy() {
 
   return time_since_last_enemy_spawn > spawn_interval(
           text_loader.get_float("IDS_MIN_SPAWN_INTERVAL"),
@@ -125,7 +128,7 @@ bool Logic::can_spawn_enemy() {
  *
  * @return true if spawning
  */
-float Logic::spawn_interval(float min, float max, float time_limit, bool countingUp){
+float PlayingScreen::spawn_interval(float min, float max, float time_limit, bool countingUp){
   float elapsed = total_time_elapsed;
   float scalar;
 
@@ -141,7 +144,7 @@ float Logic::spawn_interval(float min, float max, float time_limit, bool countin
   return max * scalar + min;
 }
 
-void Logic::update_enemies(float s_elapsed){
+void PlayingScreen::update_enemies(float s_elapsed){
 
   float speed = base_speed / (enemies.size() + 1);
   auto it=enemies.begin();
@@ -160,7 +163,7 @@ void Logic::update_enemies(float s_elapsed){
 
 }
 
-void Logic::spawn_potion() {
+void PlayingScreen::spawn_potion() {
   sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
   potions.emplace_back(Potion(location.x,location.y,m_warrior_tex, 5, 1));
@@ -168,7 +171,7 @@ void Logic::spawn_potion() {
   time_since_last_potion_spawn = 0;
 }
 
-bool Logic::can_spawn_potion() {
+bool PlayingScreen::can_spawn_potion() {
   return time_since_last_potion_spawn > spawn_interval(
           5,
           20,
@@ -179,7 +182,7 @@ bool Logic::can_spawn_potion() {
 }
 
 
-void Logic::update_potions(float s_elapsed){
+void PlayingScreen::update_potions(float s_elapsed){
   auto it=potions.begin();
   while (it != potions.end()) {
     it->update(s_elapsed);

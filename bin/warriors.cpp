@@ -12,7 +12,7 @@
 #include <random>
 #include <chrono>
 #include "human_view.hpp"
-#include "logic.hpp"
+#include "playing_screen.hpp"
 #include "text_loader.hpp"
 
 using std::shared_ptr;
@@ -39,7 +39,7 @@ int main(int argc, char** argv)
   sword_tex.loadFromFile(text_loader.get_string("IDS_PATH_SWORD_TEX"));
 
   //set up game components
-  Logic logic(warrior_tex,sword_tex, randy, text_loader);
+  PlayingScreen logic(warrior_tex,sword_tex, randy, text_loader);
 
   // create main window
   sf::RenderWindow window(

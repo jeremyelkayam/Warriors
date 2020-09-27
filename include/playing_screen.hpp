@@ -1,7 +1,8 @@
 /*
-  logic.hpp
-  Purpose: Handle the logic computations of the game's main loop
-           (e.g. collison detection, movement, etc).
+  playing_screen.hpp
+  Purpose: Handle all the logic of the main gameplay (e.g. collisions,
+           enemies, items, etc).
+
   @author Jeremy Elkayam
  */
 
@@ -21,7 +22,7 @@ using std::shared_ptr;
 using std::mt19937;
 using std::uniform_real_distribution;
 
-class Logic
+class PlayingScreen
 {
 private:
   Player player;
@@ -81,10 +82,10 @@ private:
 
 public:
   /*
-    Constructor for the Logic class.
-    Sets up the initial values for Logic.
+    Constructor for the PlayingScreen class.
+    Sets up the initial values for PlayingScreen.
    */
-  Logic(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader);
+  PlayingScreen(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader);
 
   void update(float s_elapsed);
 
@@ -97,5 +98,5 @@ public:
 
   void draw_hud(sf::RenderWindow &window, ColorGrid &color_grid);
 
-
+  bool game_over(){return player.get_health() == 0;}
 };

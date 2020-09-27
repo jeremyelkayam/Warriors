@@ -19,7 +19,6 @@ void Player::move(float s_elapsed){
   sprite.setPosition(new_xcor,new_ycor);
 
   //cout << "position: " << new_xcor << "," << new_ycor << endl;
-
 }
 
 void Player::set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){

@@ -7,7 +7,7 @@
 #include "human_view.hpp"
 #include <iostream>
 
-HumanView::HumanView(Logic &logic,
+HumanView::HumanView(PlayingScreen &logic,
         TextLoader &text_loader) :
         color_grid(text_loader.get_integer("IDS_COLORGRID_SIZE"),
                 text_loader.get_float("IDS_VIEW_X"),
@@ -84,19 +84,27 @@ void HumanView::update(sf::RenderWindow &window){
   window.clear(d_white);
   //std::cout<<"drawing"<<std::endl;
 
-  //todo: fix this
+  //todo: fix this terribleness
 
-  handle_size(window, hud_view, 0.f);
-  window.setView(hud_view);
-  draw_background(window, hud_view, sf::Color::Red);
+  if(!m_logic.game_over()){
 
-  m_logic.draw_hud(window, color_grid);
+    handle_size(window, hud_view, 0.f);
+    window.setView(hud_view);
+    draw_background(window, hud_view, sf::Color::Red);
 
-  handle_size(window, view, 0.166667f);
-  window.setView(view);
-  draw_background(window, view, sf::Color::Black);
+    m_logic.draw_hud(window, color_grid);
 
-  m_logic.draw_gameplay(window, color_grid);
+    handle_size(window, view, 0.166667f);
+    window.setView(view);
+    draw_background(window, view, sf::Color::Black);
+
+    m_logic.draw_gameplay(window, color_grid);
+
+  }else{
+    window.close();
+  }
+
+
 
   color_grid.draw(window);
   window.setView(window.getDefaultView());

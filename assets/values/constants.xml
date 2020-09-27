@@ -18,7 +18,7 @@
     <constant value="160" id="IDS_VIEW_Y"/>
     <constant value="0.16666666667" id="IDS_HUD_PROPORTION"/>
 
-    <!--Logic constants-->
+    <!--PlayingScreen constants-->
     <constant value="1" id="IDS_MIN_SPAWN_INTERVAL"/>
     <constant value="10" id="IDS_BASE_SPAWN_INTERVAL"/>
 

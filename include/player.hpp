@@ -38,6 +38,6 @@ public:
 
   void set_sword(bool active);
 
-  int get_health(){return health;};
+  unsigned int get_health(){return health;};
 
 };

@@ -9,7 +9,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "logic.hpp"
+#include "playing_screen.hpp"
 #include "text_loader.hpp"
 #include "color_grid.hpp"
 
@@ -20,7 +20,7 @@ class HumanView
 {
 private:
   //A reference to the class that handles game logic.
-  Logic &m_logic;
+  PlayingScreen &m_logic;
 
 
   //A reference to the text loader.
@@ -54,7 +54,7 @@ public:
     @param logic A reference to the class handling game logic.
     @param window
    */
-  HumanView(Logic &logic,
+  HumanView(PlayingScreen &logic,
           TextLoader &text_loader);
 
   /*
