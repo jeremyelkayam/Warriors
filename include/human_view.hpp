@@ -40,9 +40,9 @@ private:
 
 
 
-  void draw_background(sf::RenderWindow &window, sf::Color bgcolor);
+  void draw_background(sf::RenderWindow &window, sf::View &view, sf::Color bgcolor);
 
-  void handle_size(sf::RenderWindow &window);
+  void handle_size(sf::RenderWindow &window, sf::View &view, float vertical_offset);
 
   void keyboard_movement();
 

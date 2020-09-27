@@ -32,35 +32,37 @@ HumanView::HumanView(Logic &logic,
 }
 
 
-void HumanView::handle_size(sf::RenderWindow &window){
+void HumanView::handle_size(sf::RenderWindow &window, sf::View &view, float vertical_offset){
+
   //x is width, y is height. their ratio should be 4:3.
   //if not, SCALE THE VIEWPORT
   float current_aspect = (float)window.getSize().x / (float)window.getSize().y ;
-  float target_aspect = m_text_loader.get_float("IDS_VIEW_X") / m_text_loader.get_float("IDS_VIEW_Y");
+  float target_aspect = m_text_loader.get_float("IDS_VIEW_X") / (m_text_loader.get_float("IDS_VIEW_Y"));
   
   //std::cout<<"current aspect:"<<current_aspect<<std::endl;
   //std::cout<<"target aspect:"<<target_aspect<<std::endl;
 
+
   if(current_aspect > target_aspect){
     //it's too wide. let's set the viewport to match the height
     view.setViewport(sf::FloatRect((1 - target_aspect / current_aspect)/2,
-                                   0.f,
+                                   vertical_offset,
                                    target_aspect / current_aspect,
-                                   1.f));
+                                   1.f - vertical_offset));
   }else{
     //either it's too tall or it's perfect. let's set the viewport to match width
     view.setViewport(sf::FloatRect(0.f,
-                                   (1 - current_aspect / target_aspect)/2,
+                                   (1 - current_aspect / target_aspect)/2 + vertical_offset,
                                    1.f,
-                                   current_aspect / target_aspect));
+                                   current_aspect / target_aspect - vertical_offset));
   }
-  window.setView(view);
+  //window.setView(view);
 }
 
-void HumanView::draw_background(sf::RenderWindow &window, sf::Color bgcolor){
+void HumanView::draw_background(sf::RenderWindow &window, sf::View &view, sf::Color bgcolor){
   sf::RectangleShape bgRect = sf::RectangleShape(sf::Vector2f(
-          m_text_loader.get_float("IDS_VIEW_X"),
-          m_text_loader.get_float("IDS_VIEW_Y")));
+          view.getSize().x,
+          view.getSize().y));
   bgRect.setPosition(0.f,0.f);
   bgRect.setFillColor(bgcolor);
   window.draw(bgRect);
@@ -72,12 +74,12 @@ void HumanView::update(sf::RenderWindow &window){
   //handle inputs
 
   keyboard_movement();
-
-  //std::cout<<"drawing"<<std::endl;
-  handle_size(window);
   color_grid.reset();
   window.clear(d_white);
-  draw_background(window, sf::Color::Black);
+  //std::cout<<"drawing"<<std::endl;
+  handle_size(window, view, 0);
+  window.setView(view);
+  draw_background(window, view, sf::Color::Black);
 
   m_logic.draw_components(window,color_grid);
 
