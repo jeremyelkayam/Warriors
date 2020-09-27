@@ -29,6 +29,8 @@ public:
 
   void update(float xcor, float ycor, float angle);
 
+  void update(float xcor, float ycor){sprite.setPosition(xcor,ycor);};
+
   bool is_active(){return active;}
 
 };

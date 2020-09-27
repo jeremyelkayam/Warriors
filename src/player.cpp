@@ -68,9 +68,13 @@ void Player::update(float s_elapsed){
 
 void Player::update_sword(float s_elapsed){
 
-  auto angle = (float)atan2(speed_scale_y, speed_scale_x);
+  if(speed_scale_x == 0 && speed_scale_y == 0) {
+    sword.update(get_xcor(), get_ycor());
+  }else {
+    auto angle = (float) atan2((double)speed_scale_y, (double)speed_scale_x);
 
-  sword.update(get_xcor(), get_ycor(), angle);
+    sword.update(get_xcor(), get_ycor(), angle);
+  }
 
   //If the player is using their sword, they are using up sword time.
   if(sword.is_active()){

@@ -48,11 +48,7 @@ public:
   */
   float get_ycor(){return sprite.getPosition().y;}
 
-  /*
-     Sets the coordinates of the warrior to what they would be after the
-          specified time had elapsed, based on the velocity of the warrior.
-          @param micros_elapsed The time elapsed in microseconds.
-  */
+  float get_angle(){return sprite.getRotation();}
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid);
 
