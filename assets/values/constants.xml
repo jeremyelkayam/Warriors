@@ -15,7 +15,7 @@
   <doubles>
     <!--view size constants-->
     <constant value="256" id="IDS_VIEW_X"/>
-    <constant value="192" id="IDS_VIEW_Y"/>
+    <constant value="160" id="IDS_VIEW_Y"/>
     <constant value="0.16666666667" id="IDS_HUD_PROPORTION"/>
 
     <!--Logic constants-->

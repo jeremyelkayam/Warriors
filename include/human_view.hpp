@@ -29,6 +29,8 @@ private:
   //The view containing the main gameplay.
   sf::View view;
 
+  sf::View hud_view;
+
   //The color grid for our image.
   ColorGrid color_grid;
 
@@ -42,7 +44,7 @@ private:
 
   void draw_background(sf::RenderWindow &window, sf::View &view, sf::Color bgcolor);
 
-  void handle_size(sf::RenderWindow &window, sf::View &view, float vertical_offset);
+  void handle_size(sf::RenderWindow &window, sf::View &view, float top_padding);
 
   void keyboard_movement();
 

@@ -93,7 +93,9 @@ public:
 
   void set_player_sword(bool active){player.set_sword(active);}
 
-  void draw_components(sf::RenderWindow &window,ColorGrid &color_grid);
+  void draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid);
+
+  void draw_hud(sf::RenderWindow &window, ColorGrid &color_grid);
 
 
 };

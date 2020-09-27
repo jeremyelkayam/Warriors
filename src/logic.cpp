@@ -44,7 +44,7 @@ void Logic::update(float s_elapsed){
   update_potions(s_elapsed);
 }
 
-void Logic::draw_components(sf::RenderWindow &window,ColorGrid &color_grid){
+void Logic::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid){
 
   //Draw all our enemies
   for (auto it=enemies.begin(); it != enemies.end(); ++it)
@@ -56,6 +56,22 @@ void Logic::draw_components(sf::RenderWindow &window,ColorGrid &color_grid){
 
   player.draw(window,color_grid);
 }
+
+void Logic::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
+
+  //todo this is bad
+  sf::RectangleShape rect(sf::Vector2f(1.f, 1.f));
+  rect.setFillColor(sf::Color::White);
+  float y = 1.f;
+
+  for(int i = 0 ; i < player.get_health() ; ++i){
+    rect.setPosition(i*2 + 1, y);
+    window.draw(rect);
+
+  }
+
+}
+
 
 sf::Vector2f Logic::random_distant_location(float threshold){
   float xcor,ycor,dist;
