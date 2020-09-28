@@ -93,7 +93,7 @@ void Player::update_sword(float s_elapsed){
 }
 
 Player::Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color) :
-Warrior(text_loader.get_float("IDS_VIEW_X") / 2, text_loader.get_float("IDS_VIEW_Y") / 2,
+Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT")) / 2,
         texture, sword_tex, color),
         max_sword_time(text_loader.get_float("IDS_SWORD_TIME")),
         max_invis_frames(text_loader.get_float("IDS_INVIS_TIME")){
@@ -104,7 +104,7 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, text_loader.get_float("IDS_VIEW
   this->speed = text_loader.get_float("IDS_MOVEMENT_SPEED");
   speed_scale_x = 0;
   speed_scale_y = 0;
-  this->field_height = text_loader.get_float("IDS_VIEW_Y");
+  this->field_height = text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT");
   this->field_width = text_loader.get_float("IDS_VIEW_X");
   this->health = (unsigned int)text_loader.get_integer("IDS_DEFAULT_HEALTH");
 
@@ -133,3 +133,4 @@ void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
     Warrior::draw(window, color_grid);
   }
 }
+

@@ -10,14 +10,8 @@
 PlayingScreen::PlayingScreen(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader) :
 player(a_text_loader,warrior_tex, sword_tex, sf::Color::Cyan), m_warrior_tex(warrior_tex),
 m_sword_tex(sword_tex), randy(rand), width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
-height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y")),
+height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
 base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
-play_view(sf::FloatRect(0.f,0.f,
-                   a_text_loader.get_float("IDS_VIEW_X"),
-                   a_text_loader.get_float("IDS_VIEW_Y"))),
-hud_view(sf::FloatRect(0.f,0.f,
-                       a_text_loader.get_float("IDS_VIEW_X"),
-                       32.f)),
                        text_loader(a_text_loader) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
@@ -25,7 +19,7 @@ hud_view(sf::FloatRect(0.f,0.f,
 
   //todo: these no longer need to exist
   this->field_width = a_text_loader.get_float("IDS_VIEW_X");
-  this->field_height = a_text_loader.get_float("IDS_VIEW_Y");
+  this->field_height = a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT");
 }
 
 void PlayingScreen::update(float s_elapsed){
@@ -56,11 +50,9 @@ void PlayingScreen::update(float s_elapsed){
   }
 }
 
-void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid){
 
-  handle_size(window, play_view, 0.16666667f);
-  window.setView(play_view);
-  draw_background(window, play_view, sf::Color::Black);
+
+void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid){
 
   //Draw all our enemies
   for (auto it=enemies.begin(); it != enemies.end(); ++it)
@@ -75,7 +67,7 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
 
 void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
 
-
+/*
   handle_size(window, hud_view, 0.f);
   window.setView(hud_view);
   draw_background(window, hud_view, sf::Color::Red);
@@ -91,6 +83,7 @@ void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
     rect.setPosition(i*2 + 1, y);
     window.draw(rect);
   }
+  */
 }
 
 
@@ -224,40 +217,4 @@ void PlayingScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
 }
 
 
-void PlayingScreen::handle_size(sf::RenderWindow &window, sf::View &view, float top_padding){
 
-  //x is width, y is height. their ratio should be 4:3.
-  //if not, SCALE THE VIEWPORT
-  float current_aspect = (float)window.getSize().x / (float)window.getSize().y ;
-  float target_aspect = 4.f / 3.f;
-
-  //std::cout<<"current aspect:"<<current_aspect<<std::endl;
-  //std::cout<<"target aspect:"<<target_aspect<<std::endl;
-
-  float view_height = view.getSize().y / 192.f;
-
-
-  if(current_aspect > target_aspect){
-    //it's too wide. let's set the viewport to match the height
-    view.setViewport(sf::FloatRect((1 - target_aspect / current_aspect)/2,
-                                   top_padding,
-                                   target_aspect / current_aspect,
-                                   view_height));
-  }else{
-    //either it's too tall or it's perfect. let's set the viewport to match width
-    view.setViewport(sf::FloatRect(0.f,
-                                   (1 - current_aspect / target_aspect)/2 + top_padding * (current_aspect / target_aspect),
-                                   1.f,
-                                   current_aspect / target_aspect * view_height));
-  }
-  //window.setView(view);
-}
-
-void PlayingScreen::draw_background(sf::RenderWindow &window, sf::View &view, sf::Color bgcolor){
-  sf::RectangleShape bgRect = sf::RectangleShape(sf::Vector2f(
-          view.getSize().x,
-          view.getSize().y));
-  bgRect.setPosition(0.f,0.f);
-  bgRect.setFillColor(bgcolor);
-  window.draw(bgRect);
-}

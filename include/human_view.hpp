@@ -23,6 +23,8 @@ private:
   Logic &logic;
 
 
+  sf::View view;
+
   //A reference to the text loader.
   TextLoader &m_text_loader;
 
@@ -38,6 +40,11 @@ private:
 
 
   void keyboard_movement();
+
+  void handle_size(sf::RenderWindow &window, float top_padding);
+
+  void draw_background(sf::RenderWindow &window, sf::Color bgcolor);
+
 
 public:
   /*

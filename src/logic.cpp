@@ -22,10 +22,7 @@ void Logic::draw(sf::RenderWindow &window, ColorGrid &color_grid){
 
   if(current_screen.game_over()) window.close();
 
-  current_screen.draw_hud(window, color_grid);
-
-  current_screen.draw_gameplay(window, color_grid);
-
+  current_screen.draw(window, color_grid);
 }
 
 void Logic::update(float s_elapsed) {
