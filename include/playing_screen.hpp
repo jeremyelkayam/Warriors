@@ -38,6 +38,8 @@ private:
 
   sf::Texture &m_sword_tex;
 
+  sf::Font font;
+
   const float base_speed;
 
   float time_since_last_enemy_spawn,time_since_last_potion_spawn,total_time_elapsed;
@@ -84,6 +86,8 @@ private:
   void draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid);
 
   void draw_hud(sf::RenderWindow &window, ColorGrid &color_grid);
+
+  void load_font();
 
 public:
   /*

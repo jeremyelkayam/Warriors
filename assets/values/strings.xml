@@ -6,5 +6,9 @@
   <!--Texture Paths-->
   <string value="../assets/sprites/dummy.png" id="IDS_PATH_WARRIOR_TEX"/>
   <string value="../assets/sprites/sword.png" id="IDS_PATH_SWORD_TEX"/>
+
+  <!-- Font Paths -->
+  <string value="../assets/fonts/zx-spectrum.ttf" id="IDS_PATH_FONT"/>
+
 </strings>
 

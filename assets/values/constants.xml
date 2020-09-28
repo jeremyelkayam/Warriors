@@ -6,6 +6,9 @@
     <constant value="720" id="IDS_WINDOW_Y"/>
     <constant value="24" id="IDS_WINDOW_PDEPTH" />
 
+
+    <constant value="7" id="IDS_FONT_SIZE"/>
+
     <!--size of one space on the color grid-->
     <constant value="8" id="IDS_COLORGRID_SIZE"/>
 

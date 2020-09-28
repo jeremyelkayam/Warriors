@@ -50,7 +50,7 @@ public:
 
   float get_angle(){return sprite.getRotation();}
 
-  void draw(sf::RenderWindow &window, ColorGrid &color_grid);
+  virtual void draw(sf::RenderWindow &window, ColorGrid &color_grid);
 
   bool intersects(Entity &entity){return sprite.getGlobalBounds().intersects(entity.get_global_bounds());}
 

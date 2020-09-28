@@ -24,7 +24,6 @@ public:
   void unsheath(){this->active = true; }
   void sheath(){this->active = false; }
 
-  //todo: fix this warning
   void draw(sf::RenderWindow &window, ColorGrid &grid){if(active) Entity::draw(window,grid);}
 
   void update(float xcor, float ycor, float angle);

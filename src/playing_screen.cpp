@@ -17,9 +17,14 @@ base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
 
-  //todo: these no longer need to exist
   this->field_width = a_text_loader.get_float("IDS_VIEW_X");
   this->field_height = a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT");
+
+  load_font();
+}
+
+void PlayingScreen::load_font(){
+  assert(font.loadFromFile(text_loader.get_string("IDS_PATH_FONT")));
 }
 
 void PlayingScreen::update(float s_elapsed){
@@ -67,18 +72,32 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
 
 void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
 
-
   //todo this is bad
   //refactor the rectangle shape out of the thing
+  //probably move hud to a class eventually
   sf::RectangleShape rect(sf::Vector2f(1.f, 6.f));
   rect.setFillColor(sf::Color::White);
   float y = 9.f + field_height;
+
+  sf::Text time_text;
+
+  time_text.setFont(font);
+
+  //tHIS IS TERRIBLE! BUT I GUESS SFML DOESN'T HAVE A GOOD WAY TO SET THE SMOOTHING OFF ON THE TEXTURE.
+  auto& texture = const_cast<sf::Texture&>(font.getTexture((unsigned int)text_loader.get_integer("IDS_FONT_SIZE")));
+  texture.setSmooth(false);
+
+  time_text.setString("time " + std::to_string(total_time_elapsed));
+  time_text.setCharacterSize((unsigned int)text_loader.get_integer("IDS_FONT_SIZE"));
+  time_text.setFillColor(sf::Color::White);
+  time_text.setPosition(183, y);
 
   for(int i = 0 ; i < player.get_health() ; ++i){
     rect.setPosition(i*2, y);
     window.draw(rect);
     color_grid.update(rect.getGlobalBounds(), sf::Color::Cyan);
   }
+  window.draw(time_text);
 
 }
 
