@@ -67,23 +67,19 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
 
 void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
 
-/*
-  handle_size(window, hud_view, 0.f);
-  window.setView(hud_view);
-  draw_background(window, hud_view, sf::Color::Red);
-
 
   //todo this is bad
   //refactor the rectangle shape out of the thing
-  sf::RectangleShape rect(sf::Vector2f(1.f, 4.f));
+  sf::RectangleShape rect(sf::Vector2f(1.f, 6.f));
   rect.setFillColor(sf::Color::White);
-  float y = 1.f;
+  float y = 9.f + field_height;
 
   for(int i = 0 ; i < player.get_health() ; ++i){
-    rect.setPosition(i*2 + 1, y);
+    rect.setPosition(i*2, y);
     window.draw(rect);
+    color_grid.update(rect.getGlobalBounds(), sf::Color::Cyan);
   }
-  */
+
 }
 
 
