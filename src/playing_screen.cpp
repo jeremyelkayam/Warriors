@@ -8,13 +8,13 @@
 #include "playing_screen.hpp"
 
 PlayingScreen::PlayingScreen(mt19937 &rand, TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
+Screen(a_text_loader, a_resource_manager),
 player(a_text_loader,a_resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
         a_resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
         sf::Color::Cyan),
         randy(rand), width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
-base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
-                       text_loader(a_text_loader), resource_manager(a_resource_manager) {
+base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;

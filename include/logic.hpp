@@ -8,6 +8,7 @@
 #include <random>
 #include <memory>
 #include "playing_screen.hpp"
+#include "title_screen.hpp"
 #include "resource_manager.hpp"
 
 using std::unique_ptr;

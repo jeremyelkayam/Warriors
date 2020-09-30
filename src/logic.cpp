@@ -7,7 +7,7 @@
 Logic::Logic(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
 text_loader(a_text_loader), resource_manager(a_resource_manager){
 
-  current_screen = unique_ptr<PlayingScreen>(new PlayingScreen(randy, a_text_loader, a_resource_manager));
+  current_screen = unique_ptr<TitleScreen>(new TitleScreen(text_loader, resource_manager));
 
   //Let's set up our random number generator with a commonly used seed: the current time.
   unsigned long my_seed = (unsigned)std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -29,8 +29,6 @@ void Logic::update(float s_elapsed) {
 
   if(current_screen->go_to_next()){
 
-    cout << "you lose. restarting game" << endl;
-
-    current_screen = unique_ptr<PlayingScreen>(new PlayingScreen(randy, text_loader, resource_manager));
+    //current_screen = unique_ptr<PlayingScreen>(new PlayingScreen(randy, text_loader, resource_manager));
   }
 }

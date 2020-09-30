@@ -77,9 +77,6 @@ private:
 
   uniform_real_distribution<float>width_dist,height_dist;
 
-  TextLoader &text_loader;
-  ResourceManager &resource_manager;
-
   void draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid);
 
   void draw_hud(sf::RenderWindow &window, ColorGrid &color_grid);

@@ -6,14 +6,23 @@
 
 #include "SFML/Graphics.hpp"
 #include "color_grid.hpp"
+#include "resource_manager.hpp"
 
 using std::unique_ptr;
 
 class Screen {
 
-private:
+protected:
+
+  TextLoader &text_loader;
+  ResourceManager &resource_manager;
+
+
 
 public:
+
+  Screen(TextLoader &a_text_loader, ResourceManager &a_resource_manager);
+
 
   virtual ~Screen();
 
