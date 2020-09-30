@@ -136,7 +136,7 @@ void PlayingScreen::spawn_enemy(){
 
   enemies.emplace_back(Enemy(location.x,location.y,
                              resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
-                             resource_manager.get_texture("IDS_PATH_SWORD_TEX")));
+                             resource_manager.get_texture("IDS_PATH_SHORTSWORD_TEX")));
 
   time_since_last_enemy_spawn = 0;
 }
@@ -196,7 +196,7 @@ void PlayingScreen::update_enemies(float s_elapsed){
 void PlayingScreen::spawn_potion() {
   sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
-  potions.emplace_back(Potion(location.x,location.y,resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"), 5, 1));
+  potions.emplace_back(Potion(location.x,location.y,resource_manager.get_texture("IDS_PATH_POTION_TEX"), 5, 1));
 
   time_since_last_potion_spawn = 0;
 }
