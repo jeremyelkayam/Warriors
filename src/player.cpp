@@ -98,6 +98,8 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIE
         max_sword_time(text_loader.get_float("IDS_SWORD_TIME")),
         max_invis_frames(text_loader.get_float("IDS_INVIS_TIME")){
 
+  cout << "make a player" << endl;
+
   set_origin_to_center();
 
   this->color = color;
@@ -110,6 +112,8 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIE
 
   this->invis_frames = 0;
   this->sword_time = max_sword_time;
+
+  cout << "my health" << health << endl;
 
   sword.sheath();
 }

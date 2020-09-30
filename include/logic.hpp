@@ -22,8 +22,6 @@ private:
 
   ResourceManager &resource_manager;
 
-  std::mt19937 randy;
-
   unique_ptr<Screen> current_screen;
 
 public:
@@ -37,6 +35,8 @@ public:
 //    current_screen->set_player_movement(moving_up,moving_down,moving_left,moving_right);}
 
 //  void set_player_sword(bool active){current_screen->set_player_sword(active);}
+
+  void handle_event(sf::Event &evt){current_screen->handle_event(evt);}
 
 };
 

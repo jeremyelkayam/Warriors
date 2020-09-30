@@ -11,10 +11,12 @@
 #include <iostream>
 #include <list>
 #include <random>
+#include <chrono>
 #include "player.hpp"
 #include "enemy.hpp"
 #include "potion.hpp"
 #include "screen.hpp"
+#include "title_screen.hpp"
 #include "resource_manager.hpp"
 
 using std::cout;
@@ -71,7 +73,7 @@ private:
  */
   void update_potions(float s_elapsed);
 
-  mt19937 &randy;
+  mt19937 randy;
 
   float field_width,field_height;
 
@@ -88,7 +90,7 @@ public:
     Constructor for the PlayingScreen class.
     Sets up the initial values for PlayingScreen.
    */
-  PlayingScreen(mt19937 &rand, TextLoader &a_text_loader, ResourceManager &a_resource_manager);
+  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager);
 
   void update(float s_elapsed) override;
 
@@ -100,5 +102,7 @@ public:
   void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 
   bool go_to_next() override {return player.get_health() == 0;}
+
+  unique_ptr<Screen> next_screen() override;
 
 };

@@ -74,7 +74,7 @@ void TextLoader::load_all_paths() {
   tinyxml2::XMLElement * root =  doc.FirstChildElement("strings")->FirstChildElement("paths");
 
   for(tinyxml2::XMLElement* node = root->FirstChildElement("string"); node != nullptr; node= node->NextSiblingElement("string")) {
-    cout << "attribute: " << node->Attribute("id") << endl;
+    //cout << "attribute: " << node->Attribute("id") << endl;
 
     string s(node->Attribute("id"));
     paths.insert({s, node -> Attribute("value")});

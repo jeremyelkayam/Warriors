@@ -59,7 +59,10 @@ void HumanView::handle_event(sf::RenderWindow &window, sf::Event &evt){
     case sf::Event::Closed :
       window.close();
       break;
+    default:
+      logic.handle_event(evt);
   }
+
 }
 
 

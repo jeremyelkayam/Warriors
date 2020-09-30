@@ -5,7 +5,7 @@
 #include "resource_manager.hpp"
 
 sf::Texture &ResourceManager::get_texture(string id) {
-  cout << "id: " << id << endl;
+  //cout << "id: " << id << endl;
   assert(textures.find(id) != textures.end());
   return textures.at(id);
 }

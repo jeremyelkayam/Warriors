@@ -7,17 +7,22 @@
 
 #include "playing_screen.hpp"
 
-PlayingScreen::PlayingScreen(mt19937 &rand, TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
+PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
 Screen(a_text_loader, a_resource_manager),
 player(a_text_loader,a_resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
         a_resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
         sf::Color::Cyan),
-        randy(rand), width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
+        width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
 base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
+
+  //Let's set up our random number generator with a commonly used seed: the current time.
+  unsigned long my_seed = (unsigned)std::chrono::high_resolution_clock::now().time_since_epoch().count();
+  cout << "my seed: " << my_seed << endl;
+  randy.seed(my_seed);
 
   this->field_width = a_text_loader.get_float("IDS_VIEW_X");
   this->field_height = a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT");
@@ -27,7 +32,7 @@ base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")) {
 
 void PlayingScreen::update(float s_elapsed){
 
-  if(!next_screen()) {
+  if(!go_to_next()) {
 
     //todo: CHANGE THIS
     keyboard_movement();
@@ -235,6 +240,7 @@ void PlayingScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
 //todo: This will get more complicated. Eventually move this to the InputManager.
 //todo: Also, this should be updated by HumanView, not Logic.
 void PlayingScreen::keyboard_movement(){
+
   player.set_movement(
           sf::Keyboard::isKeyPressed(sf::Keyboard::Up),
           sf::Keyboard::isKeyPressed(sf::Keyboard::Down),
@@ -242,4 +248,10 @@ void PlayingScreen::keyboard_movement(){
           sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
 
   player.set_sword(sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
+}
+
+unique_ptr<Screen> PlayingScreen::next_screen() {
+  assert(go_to_next());
+  //todo: replace with end screen eventually
+  return unique_ptr<Screen>(new TitleScreen(text_loader,resource_manager));
 }
