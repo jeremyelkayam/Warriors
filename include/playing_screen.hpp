@@ -16,7 +16,7 @@
 #include "enemy.hpp"
 #include "potion.hpp"
 #include "screen.hpp"
-#include "title_screen.hpp"
+#include "end_screen.hpp"
 #include "resource_manager.hpp"
 
 using std::cout;

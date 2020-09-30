@@ -89,10 +89,17 @@ void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
 
   time_text.setFont(resource_manager.get_font());
 
-  time_text.setString("time " + std::to_string(total_time_elapsed));
+  //Let's get the number of digits BEFORE the decimal point
+  unsigned long whole_digits = std::to_string((int)total_time_elapsed).length();
+
+  string time_trunc = std::to_string(total_time_elapsed);
+
+  time_trunc.resize(whole_digits + 3);
+
+  time_text.setString("time " + time_trunc);
   time_text.setCharacterSize((unsigned int)text_loader.get_integer("IDS_FONT_SIZE"));
   time_text.setFillColor(sf::Color::White);
-  time_text.setPosition(183, y);
+  time_text.setPosition(150, y);
 
   for(int i = 0 ; i < player.get_health() ; ++i){
     rect.setPosition(i*2, y);
@@ -253,5 +260,5 @@ void PlayingScreen::keyboard_movement(){
 unique_ptr<Screen> PlayingScreen::next_screen() {
   assert(go_to_next());
   //todo: replace with end screen eventually
-  return unique_ptr<Screen>(new TitleScreen(text_loader,resource_manager));
+  return unique_ptr<Screen>(new EndScreen(text_loader,resource_manager,total_time_elapsed));
 }

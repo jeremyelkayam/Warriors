@@ -37,5 +37,9 @@
          Anything higher than this is far away.-->
     <constant value="40" id="IDS_DISTANCE_THRESHOLD"/>
 
+    <!-- For screens from which you cannot move on until a certain amount of time has elapsed,
+         use IDS_MIN_SCREEN_TIME-->
+    <constant value="2" id="IDS_MIN_SCREEN_TIME"/>
+
   </doubles>
 </constants>

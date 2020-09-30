@@ -3,6 +3,7 @@
 
   <!-- Window Title-->
   <string value="Warriors" id="IDS_W_NAME"/>
+  <string value="Well, you died." id="IDS_LOSS_TEXT"/>
 
   <!-- Font Paths -->
   <string value="../assets/fonts/zx-spectrum.ttf" id="IDS_PATH_FONT"/>
