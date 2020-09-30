@@ -14,6 +14,7 @@
 #include "player.hpp"
 #include "enemy.hpp"
 #include "potion.hpp"
+#include "screen.hpp"
 
 using std::cout;
 using std::endl;
@@ -22,7 +23,7 @@ using std::shared_ptr;
 using std::mt19937;
 using std::uniform_real_distribution;
 
-class PlayingScreen
+class PlayingScreen : public Screen
 {
 private:
 
@@ -89,6 +90,8 @@ private:
 
   void load_font();
 
+  void keyboard_movement();
+
 public:
   /*
     Constructor for the PlayingScreen class.
@@ -96,15 +99,15 @@ public:
    */
   PlayingScreen(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader);
 
-  void update(float s_elapsed);
+  void update(float s_elapsed) override;
 
   void set_player_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
     player.set_movement(moving_up,moving_down,moving_left,moving_right);}
 
   void set_player_sword(bool active){player.set_sword(active);}
 
-  void draw(sf::RenderWindow &window, ColorGrid &color_grid);
+  void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 
-  bool game_over(){return player.get_health() == 0;}
+  bool go_to_next() override {return player.get_health() == 0;}
 
 };

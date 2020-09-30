@@ -39,7 +39,7 @@ void HumanView::update(sf::RenderWindow &window){
 
   //handle inputs
 
-  keyboard_movement();
+  //keyboard_movement();
   color_grid.reset();
   window.clear(d_white);
   //std::cout<<"drawing"<<std::endl;
@@ -62,18 +62,6 @@ void HumanView::handle_event(sf::RenderWindow &window, sf::Event &evt){
   }
 }
 
-
-//todo: this is getting out of hand. Maybe throw this into a "controls" class.
-void HumanView::keyboard_movement(){
-  logic.set_player_movement(
-
-          sf::Keyboard::isKeyPressed(sf::Keyboard::Up),
-          sf::Keyboard::isKeyPressed(sf::Keyboard::Down),
-          sf::Keyboard::isKeyPressed(sf::Keyboard::Left),
-          sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
-
-  logic.set_player_sword(sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
-}
 
 void HumanView::handle_size(sf::RenderWindow &window, float top_padding){
   //x is width, y is height. their ratio should be 4:3.

@@ -38,9 +38,6 @@ private:
   */
   sf::Color d_blue, d_red, d_magenta, d_green, d_cyan, d_yellow, d_white;
 
-
-  void keyboard_movement();
-
   void handle_size(sf::RenderWindow &window, float top_padding);
 
   void draw_background(sf::RenderWindow &window, sf::Color bgcolor);

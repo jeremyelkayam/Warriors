@@ -29,7 +29,10 @@ void PlayingScreen::load_font(){
 
 void PlayingScreen::update(float s_elapsed){
 
-  if(!game_over()) {
+  if(!next_screen()) {
+
+    //todo: CHANGE THIS
+    keyboard_movement();
 
     total_time_elapsed += s_elapsed;
 
@@ -233,3 +236,14 @@ void PlayingScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
 
 
 
+//todo: This will get more complicated. Eventually move this to the InputManager.
+//todo: Also, this should be updated by HumanView, not Logic.
+void PlayingScreen::keyboard_movement(){
+  player.set_movement(
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Up),
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Down),
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Left),
+          sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
+
+  player.set_sword(sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
+}
