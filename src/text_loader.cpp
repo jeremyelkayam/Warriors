@@ -16,6 +16,7 @@ TextLoader::TextLoader(){
   //cout<<"got ints"<<endl;
   load_floats();
   //cout<<"got floats"<<endl;
+  load_all_paths();
   
 }
 
@@ -64,6 +65,30 @@ void TextLoader::load_floats(){
     floats.insert({s, float_value});
   }
 }
+
+void TextLoader::load_all_paths() {
+  tinyxml2::XMLDocument doc;
+
+  doc.LoadFile( "../assets/values/strings.xml" );
+
+  tinyxml2::XMLElement * root =  doc.FirstChildElement("strings")->FirstChildElement("paths");
+
+  for(tinyxml2::XMLElement* node = root->FirstChildElement("string"); node != nullptr; node= node->NextSiblingElement("string")) {
+    cout << "attribute: " << node->Attribute("id") << endl;
+
+    string s(node->Attribute("id"));
+    paths.insert({s, node -> Attribute("value")});
+  }
+}
+
+unordered_map<string, string> &TextLoader::get_all_paths(){
+
+  //haha im a moron and spent 30 minutes trying to figure out why i forgot to return paths
+  return paths;
+
+}
+
+
 
 std::string TextLoader::get_string(const std::string id){
   assert(strings.find(id) != strings.end());

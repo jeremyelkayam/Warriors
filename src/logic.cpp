@@ -4,10 +4,10 @@
 
 #include "logic.hpp"
 
-Logic::Logic(TextLoader &a_text_loader, sf::Texture &a_warrior_tex, sf::Texture &a_sword_tex) :
-text_loader(a_text_loader), warrior_tex(a_warrior_tex), sword_tex(a_sword_tex){
+Logic::Logic(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
+text_loader(a_text_loader), resource_manager(a_resource_manager){
 
-  current_screen = unique_ptr<PlayingScreen>(new PlayingScreen(warrior_tex, sword_tex, randy, a_text_loader));
+  current_screen = unique_ptr<PlayingScreen>(new PlayingScreen(randy, a_text_loader, a_resource_manager));
 
   //Let's set up our random number generator with a commonly used seed: the current time.
   unsigned long my_seed = (unsigned)std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -31,6 +31,6 @@ void Logic::update(float s_elapsed) {
 
     cout << "you lose. restarting game" << endl;
 
-    current_screen = unique_ptr<PlayingScreen>(new PlayingScreen(warrior_tex, sword_tex, randy, text_loader));
+    current_screen = unique_ptr<PlayingScreen>(new PlayingScreen(randy, text_loader, resource_manager));
   }
 }

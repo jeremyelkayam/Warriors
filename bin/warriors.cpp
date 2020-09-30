@@ -12,6 +12,7 @@
 #include "human_view.hpp"
 #include "logic.hpp"
 #include "text_loader.hpp"
+#include "resource_manager.hpp"
 
 using std::shared_ptr;
 using std::make_shared;
@@ -21,18 +22,14 @@ using std::chrono::high_resolution_clock;
 int main(int argc, char** argv)
 {
 
-  TextLoader text_loader = TextLoader();
+  TextLoader text_loader;
 
+  ResourceManager resource_manager(text_loader);
 
-  sf::Texture warrior_tex;
-  sf::Texture sword_tex;
-
-  warrior_tex.loadFromFile(text_loader.get_string("IDS_PATH_WARRIOR_TEX"));
-  sword_tex.loadFromFile(text_loader.get_string("IDS_PATH_SWORD_TEX"));
 
   //set up game components
 
-  Logic logic(text_loader, warrior_tex, sword_tex);
+  Logic logic(text_loader, resource_manager);
 
   // create main window
   sf::RenderWindow window(

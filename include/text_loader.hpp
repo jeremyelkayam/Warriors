@@ -29,6 +29,7 @@ private:
 
   //Maps storing values loaded in from XML files.
   unordered_map<string, string> strings;
+  unordered_map<string, string> paths;
   unordered_map<string, int> ints;
   unordered_map<string, float> floats;
 
@@ -39,6 +40,7 @@ private:
   void load_strings();
   void load_ints();
   void load_floats();
+  void load_all_paths();
 
 public:
 
@@ -67,4 +69,6 @@ public:
     @param id: The unique identifier of the value as stored in values.xml
    */
   float get_float(string id);
+
+  unordered_map<string, string> &get_all_paths();
 };

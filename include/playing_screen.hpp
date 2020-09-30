@@ -15,6 +15,7 @@
 #include "enemy.hpp"
 #include "potion.hpp"
 #include "screen.hpp"
+#include "resource_manager.hpp"
 
 using std::cout;
 using std::endl;
@@ -34,12 +35,6 @@ private:
   //Currently we only have one potion on the game board at a time.
   //But if I add multiplayer or something, it might be nice to put out a few potions at once.
   list<Potion> potions;
-
-  sf::Texture &m_warrior_tex;
-
-  sf::Texture &m_sword_tex;
-
-  sf::Font font;
 
   const float base_speed;
 
@@ -83,12 +78,11 @@ private:
   uniform_real_distribution<float>width_dist,height_dist;
 
   TextLoader &text_loader;
+  ResourceManager &resource_manager;
 
   void draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid);
 
   void draw_hud(sf::RenderWindow &window, ColorGrid &color_grid);
-
-  void load_font();
 
   void keyboard_movement();
 
@@ -97,7 +91,7 @@ public:
     Constructor for the PlayingScreen class.
     Sets up the initial values for PlayingScreen.
    */
-  PlayingScreen(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader);
+  PlayingScreen(mt19937 &rand, TextLoader &a_text_loader, ResourceManager &a_resource_manager);
 
   void update(float s_elapsed) override;
 

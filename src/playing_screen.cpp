@@ -7,12 +7,14 @@
 
 #include "playing_screen.hpp"
 
-PlayingScreen::PlayingScreen(sf::Texture &warrior_tex, sf::Texture &sword_tex, mt19937 &rand, TextLoader &a_text_loader) :
-player(a_text_loader,warrior_tex, sword_tex, sf::Color::Cyan), m_warrior_tex(warrior_tex),
-m_sword_tex(sword_tex), randy(rand), width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
+PlayingScreen::PlayingScreen(mt19937 &rand, TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
+player(a_text_loader,a_resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
+        a_resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
+        sf::Color::Cyan),
+        randy(rand), width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
 base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
-                       text_loader(a_text_loader) {
+                       text_loader(a_text_loader), resource_manager(a_resource_manager) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -20,12 +22,8 @@ base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
   this->field_width = a_text_loader.get_float("IDS_VIEW_X");
   this->field_height = a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT");
 
-  load_font();
 }
 
-void PlayingScreen::load_font(){
-  assert(font.loadFromFile(text_loader.get_string("IDS_PATH_FONT")));
-}
 
 void PlayingScreen::update(float s_elapsed){
 
@@ -84,11 +82,7 @@ void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
 
   sf::Text time_text;
 
-  time_text.setFont(font);
-
-  //tHIS IS TERRIBLE! BUT I GUESS SFML DOESN'T HAVE A GOOD WAY TO SET THE SMOOTHING OFF ON THE TEXTURE.
-  auto& texture = const_cast<sf::Texture&>(font.getTexture((unsigned int)text_loader.get_integer("IDS_FONT_SIZE")));
-  texture.setSmooth(false);
+  time_text.setFont(resource_manager.get_font());
 
   time_text.setString("time " + std::to_string(total_time_elapsed));
   time_text.setCharacterSize((unsigned int)text_loader.get_integer("IDS_FONT_SIZE"));
@@ -135,7 +129,9 @@ void PlayingScreen::spawn_enemy(){
 
   sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
-  enemies.emplace_back(Enemy(location.x,location.y,m_warrior_tex, m_sword_tex));
+  enemies.emplace_back(Enemy(location.x,location.y,
+                             resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
+                             resource_manager.get_texture("IDS_PATH_SWORD_TEX")));
 
   time_since_last_enemy_spawn = 0;
 }
@@ -195,7 +191,7 @@ void PlayingScreen::update_enemies(float s_elapsed){
 void PlayingScreen::spawn_potion() {
   sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
-  potions.emplace_back(Potion(location.x,location.y,m_warrior_tex, 5, 1));
+  potions.emplace_back(Potion(location.x,location.y,resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"), 5, 1));
 
   time_since_last_potion_spawn = 0;
 }

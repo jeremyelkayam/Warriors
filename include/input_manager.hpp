@@ -29,7 +29,7 @@ public:
 
   InputManager(){};
 
-  player_input get_player_input(){ return my_player_input};
+  player_input get_player_input(){ return my_player_input;}
 
   void set_player_input(player_input a_player_input){my_player_input = a_player_input;}
 
