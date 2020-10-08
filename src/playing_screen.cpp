@@ -27,7 +27,8 @@ base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")) {
   this->field_width = a_text_loader.get_float("IDS_VIEW_X");
   this->field_height = a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT");
 
-  background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX"));
+  background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX0"));
+  foreground.setTexture(a_resource_manager.get_texture("IDS_PATH_FOREGROUND_TEX"));
 }
 
 
@@ -35,10 +36,15 @@ void PlayingScreen::update(float s_elapsed){
 
   if(!go_to_next()) {
 
+    total_time_elapsed += s_elapsed;
+
     //todo: CHANGE THIS
     keyboard_movement();
 
-    total_time_elapsed += s_elapsed;
+
+    background.setTexture(resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX"
+    + std::to_string( (int)(total_time_elapsed * 2) % 2 )));
+
 
     player.update(s_elapsed);
 
@@ -77,6 +83,8 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
     it.draw(window,color_grid);
 
   player.draw(window,color_grid);
+
+  window.draw(foreground);
 }
 
 void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
