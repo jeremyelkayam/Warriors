@@ -30,6 +30,8 @@ class PlayingScreen : public Screen
 {
 private:
 
+  sf::Sprite background;
+
   Player player;
   list<Enemy> enemies;
 

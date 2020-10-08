@@ -11,6 +11,7 @@
   <paths>
     <!--Texture Paths-->
     <string value="../assets/sprites/dummy.png" id="IDS_PATH_WARRIOR_TEX"/>
+    <string value="../assets/sprites/playbackground0.png" id="IDS_PATH_BACKGROUND_TEX"/>
     <string value="../assets/sprites/potion.png" id="IDS_PATH_POTION_TEX"/>
     <string value="../assets/sprites/sword.png" id="IDS_PATH_SWORD_TEX"/>
     <string value="../assets/sprites/shortsword.png" id="IDS_PATH_SHORTSWORD_TEX"/>

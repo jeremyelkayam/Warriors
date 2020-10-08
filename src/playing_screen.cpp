@@ -27,6 +27,7 @@ base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")) {
   this->field_width = a_text_loader.get_float("IDS_VIEW_X");
   this->field_height = a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT");
 
+  background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX"));
 }
 
 
@@ -65,13 +66,15 @@ void PlayingScreen::update(float s_elapsed){
 
 void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid){
 
+  window.draw(background);
+
   //Draw all our enemies
-  for (auto it=enemies.begin(); it != enemies.end(); ++it)
-    it->draw(window,color_grid);
+  for (auto it : enemies)
+    it.draw(window,color_grid);
 
   //Draw all our potions
-  for (auto it=potions.begin(); it != potions.end(); ++it)
-    it->draw(window,color_grid);
+  for (auto it : potions)
+    it.draw(window,color_grid);
 
   player.draw(window,color_grid);
 }
