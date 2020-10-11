@@ -38,7 +38,7 @@ public:
 
     @return the entity's x-coordinate
   */
-  float get_xcor(){return sprite.getPosition().x;}
+  float get_xcor() const {return sprite.getPosition().x;}
 
   
   /*
@@ -46,14 +46,14 @@ public:
 
     @return the warrior's y-coordinate
   */
-  float get_ycor(){return sprite.getPosition().y;}
+  float get_ycor() const {return sprite.getPosition().y;}
 
-  float get_angle(){return sprite.getRotation();}
+  float get_angle() const {return sprite.getRotation();}
 
-  virtual void draw(sf::RenderWindow &window, ColorGrid &color_grid);
+  virtual void draw(sf::RenderWindow &window, ColorGrid &color_grid) const;
 
-  bool intersects(Entity &entity){return sprite.getGlobalBounds().intersects(entity.get_global_bounds());}
+  bool intersects(const Entity &entity) const {return sprite.getGlobalBounds().intersects(entity.get_global_bounds());}
 
-  sf::FloatRect get_global_bounds(){return sprite.getGlobalBounds();}
+  sf::FloatRect get_global_bounds() const {return sprite.getGlobalBounds();}
 
 };

@@ -17,6 +17,6 @@ public:
   virtual void draw(sf::RenderWindow &window, ColorGrid &color_grid);
 
   //You can only slice if your sword is drawn.
-  bool slicing(Entity &entity){return sword.is_active() && entity.intersects(sword);}
+  bool slicing(Entity &entity) const {return sword.is_active() && entity.intersects(sword);}
 };
 

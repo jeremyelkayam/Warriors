@@ -9,9 +9,6 @@
 
 PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
 Screen(a_text_loader, a_resource_manager),
-player(a_text_loader,a_resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
-        a_resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
-        sf::Color::Cyan),
         width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
 base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")) {
@@ -29,6 +26,12 @@ base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")) {
 
   background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX0"));
   foreground.setTexture(a_resource_manager.get_texture("IDS_PATH_FOREGROUND_TEX"));
+
+  players.emplace_back(Player(a_text_loader,a_resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
+          a_resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
+          sf::Color::Cyan));
+
+  cout << "num players " << players.size() << endl;
 }
 
 
@@ -46,8 +49,10 @@ void PlayingScreen::update(float s_elapsed){
     + std::to_string( (int)(total_time_elapsed * 2) % 2 )));
 
 
-    player.update(s_elapsed);
-
+    //needs to be a reference to avoid copying, but should not be const as we are modifying.
+    for(auto &player : players) {
+      player.update(s_elapsed);
+    }
     //Check if it's time to spawn an enemy.
 
     time_since_last_enemy_spawn += s_elapsed;
@@ -82,7 +87,9 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
   for (auto it : potions)
     it.draw(window,color_grid);
 
-  player.draw(window,color_grid);
+  for(auto &player : players) {
+    player.draw(window, color_grid);
+  }
 
   window.draw(foreground);
 }
@@ -112,11 +119,13 @@ void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
   time_text.setFillColor(sf::Color::White);
   time_text.setPosition(150, y);
 
+  /*
   for(int i = 0 ; i < player.get_health() ; ++i){
     rect.setPosition(i*2, y);
     window.draw(rect);
     color_grid.update(rect.getGlobalBounds(), sf::Color::Cyan);
   }
+   */
   window.draw(time_text);
 
 }
@@ -124,25 +133,41 @@ void PlayingScreen::draw_hud(sf::RenderWindow &window, ColorGrid &color_grid) {
 
 sf::Vector2f PlayingScreen::random_distant_location(float threshold){
   float xcor,ycor,dist;
+
   do{
     //Generate a random position within our field
 
     xcor = width_dist(randy);
     ycor = height_dist(randy);
 
-    //Calculate Euclidean distance
-    float xdist = player.get_xcor() - xcor;
-    float ydist = player.get_ycor() - ycor;
+    //The distance checks only matter if the distance goes below the threshold.
+    //The initial value for dist is the value above which we don't care about dist.
+    dist = threshold;
+    //We are only reading from our players, not writing to them. This must be const
+    for(const auto &player : players) {
 
-    xdist = xdist * xdist;
-    ydist = ydist * ydist;
+      //Calculate Euclidean distance
+      float xdist = player.get_xcor() - xcor;
+      float ydist = player.get_ycor() - ycor;
 
-    dist = (float)sqrt((double)xdist + (double)ydist);
+      xdist = xdist * xdist;
+      ydist = ydist * ydist;
+
+      dist = min( dist, (float) sqrt((double) xdist + (double) ydist));
+
+      cout << "dist: " <<  (float) sqrt((double) xdist + (double) ydist) << endl;
+      cout << "threshold: " << threshold << endl;
+    }
+
+    cout << "outer dist: " << dist << endl;
+
+    cout << "loop check: " << (dist < threshold) << endl;
 
     //We don't want an enemy to spawn on top of the player. That would suck.
     //So, if the player was too close, let's repeat.
   }while(dist<threshold);
 
+  cout << "here you go" << endl;
   return {xcor,ycor};
 
 }
@@ -197,18 +222,27 @@ void PlayingScreen::update_enemies(float s_elapsed){
   float speed = base_speed / (enemies.size() + 1);
   auto it=enemies.begin();
   while (it != enemies.end()) {
-    it->update(s_elapsed,speed,player.get_xcor(),player.get_ycor());
 
-    if(it->slicing(player)){
-      player.hurt(1);//TODO: parameterize this
+    //TODO: enemy AI needs to get a bit more complex for multiplayer. For now, everyone follows P1
+
+    it->update(s_elapsed,speed,players.front().get_xcor(),players.front().get_ycor());
+    bool dead = false;
+
+    for(auto &player : players) {
+      if (it->slicing(player)) {
+        player.hurt(1);//TODO: parameterize this
+      }
+      if (player.slicing(*it)) {
+        enemies.erase(it++);
+        dead = true;
+        //the enemy here no longer exists, so our pointer is dead. don't do anything with the iterator after this
+        //Let's stop the for loop
+        break;
+      }
     }
-    if(player.slicing(*it)){
-      enemies.erase(it++);
-    }else{
-      ++it;
-    }
+    if(!dead) ++it;
+
   }
-
 }
 
 void PlayingScreen::spawn_potion() {
@@ -232,21 +266,30 @@ bool PlayingScreen::can_spawn_potion() {
 
 void PlayingScreen::update_potions(float s_elapsed){
   auto it=potions.begin();
+
   while (it != potions.end()) {
     it->update(s_elapsed);
+    bool destroyed = false;
+
     if (it->can_despawn()) {
       //Delete the current potion, and then move on to the next one
-      potions.erase(it++);
-    } else if (it->intersects(player)) {
-      //We need to delete it, but also heal the player.
-      player.heal(it->get_health_recovery());
-      potions.erase(it++);
-    } else {
-      ++it;
+      potions.erase(it++); // This is kind of ugly. Is there a better way to do this?
+      destroyed = true;
+    }else {
+      //we DO NOT run this if the potion was erased
+      for (auto &player : players) {
+        if (it->intersects(player)) {
+          //We need to delete it, but also heal the player.
+          player.heal(it->get_health_recovery());
+          potions.erase(it++);
+          destroyed = true;
+        }
+      }
     }
+    if(!destroyed) ++it;
   }
-
 }
+
 
 void PlayingScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
   draw_gameplay(window, color_grid);
@@ -259,17 +302,17 @@ void PlayingScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
 //todo: Also, this should be updated by HumanView, not Logic.
 void PlayingScreen::keyboard_movement(){
 
-  player.set_movement(
-          sf::Keyboard::isKeyPressed(sf::Keyboard::Up),
-          sf::Keyboard::isKeyPressed(sf::Keyboard::Down),
-          sf::Keyboard::isKeyPressed(sf::Keyboard::Left),
-          sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
+    players.front().set_movement(
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Up),
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Down),
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Left),
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
 
-  player.set_sword(sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
+    players.front().set_sword(sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
+
 }
 
 unique_ptr<Screen> PlayingScreen::next_screen() {
   assert(go_to_next());
-  //todo: replace with end screen eventually
   return unique_ptr<Screen>(new EndScreen(text_loader,resource_manager,total_time_elapsed));
 }

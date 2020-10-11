@@ -12,6 +12,7 @@
 #include <list>
 #include <random>
 #include <chrono>
+#include <algorithm>
 #include "player.hpp"
 #include "enemy.hpp"
 #include "potion.hpp"
@@ -25,6 +26,7 @@ using std::list;
 using std::shared_ptr;
 using std::mt19937;
 using std::uniform_real_distribution;
+using std::min;
 
 class PlayingScreen : public Screen
 {
@@ -33,7 +35,7 @@ private:
   sf::Sprite background;
   sf::Sprite foreground;
 
-  Player player;
+  list<Player> players;
   list<Enemy> enemies;
 
   //A list of the potions.
@@ -97,14 +99,15 @@ public:
 
   void update(float s_elapsed) override;
 
+  //TODO: These player functions only work for a one-player game. They should really just be moved into each player.
   void set_player_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
-    player.set_movement(moving_up,moving_down,moving_left,moving_right);}
+    players.front().set_movement(moving_up,moving_down,moving_left,moving_right);}
 
-  void set_player_sword(bool active){player.set_sword(active);}
+  void set_player_sword(bool active){players.front().set_sword(active);}
+
+  bool go_to_next() override {return players.empty();}
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
-
-  bool go_to_next() override {return player.get_health() == 0;}
 
   unique_ptr<Screen> next_screen() override;
 

@@ -14,7 +14,7 @@ Entity::Entity(float xcor, float ycor, sf::Texture &texture) {
   this->sprite.setTexture(texture);
 }
 
-void Entity::draw(sf::RenderWindow &window, ColorGrid &color_grid){
+void Entity::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {
   window.draw(sprite);
   color_grid.update(sprite.getGlobalBounds(),color);
 }
