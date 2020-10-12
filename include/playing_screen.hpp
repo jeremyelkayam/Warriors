@@ -97,7 +97,7 @@ public:
     Constructor for the PlayingScreen class.
     Sets up the initial values for PlayingScreen.
    */
-  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager);
+  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, int num_players);
 
   void update(float s_elapsed) override;
 

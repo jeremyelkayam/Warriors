@@ -4,10 +4,13 @@
 
 #include "hud.hpp"
 
-HUD::HUD(list<Player> &some_players, float &elapsed_time_ref, TextLoader &a_text_loader,
-        ResourceManager &a_resource_manager) :
-players(some_players), total_time_elapsed(elapsed_time_ref),
-top(a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")) {
+HUD::HUD(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
+top(a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
+health_bar_width( a_text_loader.get_float("IDS_HEALTHBAR_W") ),
+health_bar_height( a_text_loader.get_float("IDS_HEALTHBAR_H") ),
+sword_bar_max_width( a_text_loader.get_float("IDS_SWORDBAR_W") ),
+sword_bar_height( a_text_loader.get_float("IDS_SWORDBAR_H") )
+{
 
   background.setTexture(a_resource_manager.get_texture("IDS_PATH_HUD_TEX"));
   background.setPosition(0,top);
@@ -16,9 +19,9 @@ top(a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEI
   time_text.setCharacterSize((unsigned int)a_text_loader.get_integer("IDS_FONT_SIZE"));
   time_text.setFillColor(sf::Color::White);
 
-  float y = 9.f + top;
+  //todo: parameterize.
+  float y = 8.f + top;
   time_text.setPosition(150, y);
-
 
   //health_unit.setSize(sf::Vector2f(1.f, 6.f));
   //health_unit.setFillColor(sf::Color::White);
@@ -27,7 +30,7 @@ top(a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEI
 
 //
 
-void HUD::update(){
+void HUD::update(float &total_time_elapsed){
   //Let's get the number of digits BEFORE the decimal point
   unsigned long whole_digits = std::to_string((int)total_time_elapsed).length();
 
@@ -35,25 +38,86 @@ void HUD::update(){
   time_trunc.resize(whole_digits + 3);
 
   time_text.setString("time " + time_trunc);
+  //cout << "sections: " << sections.size() << endl;
+
+  auto section_iterator = sections.begin();
+
+  while(section_iterator != sections.end()) {
+    if (section_iterator->player.is_dead()) {
+
+      sections.erase(section_iterator++);
+
+    } else {
+
+      //If they're not dead, we do everything normally.
+
+      //cout << "time to update the sections" << endl;
+      const int player_health = section_iterator->player.get_health();
+
+      //in this case, the player has less health than they have health bars. That's a problem.
+      while (player_health < section_iterator->health_bars.size()) {
+        //Remove health bars until our health meter is accurate to the player's health meter.
+        section_iterator->health_bars.pop_back();
+      }
+
+      //This for loop only runs if
+      //Why mix 'while' and 'for'? Well, I need indexing to determine the positions of the health bars. Sorry.
+      for (int i = section_iterator->health_bars.size(); i < player_health; ++i) {
+
+        sf::RectangleShape next_bar(sf::Vector2f(health_bar_width, health_bar_height));
+        //todo: maybe parameterize more
+        //todo: this will only work for player one
+        next_bar.setPosition(8.f + i * (health_bar_width + 1), 8.f + top);
+        next_bar.setFillColor(sf::Color::White);
+
+        section_iterator->health_bars.emplace_back(next_bar);
+
+      }
+
+      //At this point, the health bars should equal the player's health.
+      //Just to be safe, let's assert.
+      assert(section_iterator->health_bars.size() == player_health);
+
+      //todo: Maybe the sword bar needs something to show where the maximum is.
+      //Maybe a sprite that appears next to the bar when the sword is ready?
+      float sword_bar_width =
+              (section_iterator->player.get_sword_time() / section_iterator->player.get_max_sword_time())
+              * sword_bar_max_width;
+      section_iterator->sword_bar.setSize(sf::Vector2f(sword_bar_width, sword_bar_height));
+      section_iterator->sword_bar.setFillColor(sf::Color::White);
+      section_iterator->sword_bar.setPosition(8.f, 8.f + top + health_bar_height + 1.f);
+
+      //Advance the loop.
+      ++section_iterator;
+    }
+  }
 
 }
 
-void HUD::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {
+void HUD::draw ( sf::RenderWindow &window, ColorGrid &color_grid ) const {
 
-  window.draw(background);
-  color_grid.update(background.getGlobalBounds(), sf::Color::White);
+  window.draw( background );
+  color_grid.update( background.getGlobalBounds(), sf::Color::White );
 
 
-
-  /*for(const auto &player : players) {
-
-    for (int i = 0; i < player.get_health(); ++i) {
-      rect.setPosition(i * 2, y);
+  for ( const auto &section : sections ) {
+    for( const auto &rect : section.health_bars ){
       window.draw(rect);
-      color_grid.update(rect.getGlobalBounds(), sf::Color::Cyan);
+      color_grid.update(rect.getGlobalBounds(), section.player.get_color());
     }
+    window.draw(section.sword_bar);
   }
-   */
 
   window.draw(time_text);
+}
+
+void HUD::add_player(const Player &player) {
+  cout << "time to make the structs. how many players? " << endl;
+  struct hud_section section {
+    player,
+    {},
+    sf::RectangleShape()
+  };
+
+  sections.emplace_back(section);
 }

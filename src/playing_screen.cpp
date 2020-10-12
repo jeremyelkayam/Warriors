@@ -7,12 +7,12 @@
 
 #include "playing_screen.hpp"
 
-PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
+PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, int num_players) :
 Screen(a_text_loader, a_resource_manager),
         width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
 base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
-hud(players,total_time_elapsed, a_text_loader,a_resource_manager){
+hud(a_text_loader,a_resource_manager){
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -28,9 +28,14 @@ hud(players,total_time_elapsed, a_text_loader,a_resource_manager){
   background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX0"));
   foreground.setTexture(a_resource_manager.get_texture("IDS_PATH_FOREGROUND_TEX"));
 
-  players.emplace_back(Player(a_text_loader,a_resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
-          a_resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
-          sf::Color::Cyan));
+  for(int i = 0; i < num_players ; ++i) {
+    players.emplace_back(Player(a_text_loader,a_resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
+                                a_resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
+                                sf::Color::Cyan));
+    hud.add_player(players.back());
+  }
+
+
 
   cout << "num players " << players.size() << endl;
 }
@@ -49,10 +54,18 @@ void PlayingScreen::update(float s_elapsed){
     background.setTexture(resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX"
     + std::to_string( (int)(total_time_elapsed * 2) % 2 )));
 
+    // Yes, this means the hud is always going to be one frame behind.
+    // But that's because it can't have a null player, which we could create in just a bit here.
+    hud.update(total_time_elapsed);
 
-    //needs to be a reference to avoid copying, but should not be const as we are modifying.
-    for(auto &player : players) {
-      player.update(s_elapsed);
+    auto player_iter = players.begin();
+    while(player_iter != players.end()){
+      if(player_iter->is_dead()){
+        players.erase(player_iter++);
+      }else{
+        player_iter->update(s_elapsed);
+        ++player_iter;
+      }
     }
     //Check if it's time to spawn an enemy.
 
@@ -69,7 +82,6 @@ void PlayingScreen::update(float s_elapsed){
       spawn_potion();
     }
 
-    hud.update();
     update_enemies(s_elapsed);
     update_potions(s_elapsed);
   }
@@ -140,7 +152,7 @@ sf::Vector2f PlayingScreen::random_distant_location(float threshold){
 
 void PlayingScreen::spawn_enemies(){
 
-  for(int i = 0; i < total_time_elapsed ; i+=15) {
+  for(int i = 0; i < ( total_time_elapsed * players.size() ) ; i+=15) {
 
     sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
@@ -199,6 +211,7 @@ void PlayingScreen::update_enemies(float s_elapsed){
     for(auto &player : players) {
       if (it->slicing(player)) {
         player.hurt(1);//TODO: parameterize this
+
       }
       if (player.slicing(*it)) {
         enemies.erase(it++);

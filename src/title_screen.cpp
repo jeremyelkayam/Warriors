@@ -24,7 +24,7 @@ bool TitleScreen::go_to_next() {
 
 unique_ptr<Screen> TitleScreen::next_screen(){
   assert(go_to_next());
-  return unique_ptr<PlayingScreen>(new PlayingScreen(text_loader, resource_manager));
+  return unique_ptr<PlayingScreen>(new PlayingScreen(text_loader, resource_manager, 1));
 }
 
 void TitleScreen::handle_event(sf::Event &evt) {

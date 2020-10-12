@@ -56,4 +56,6 @@ public:
 
   sf::FloatRect get_global_bounds() const {return sprite.getGlobalBounds();}
 
+  sf::Color get_color() const {return color;}
+
 };

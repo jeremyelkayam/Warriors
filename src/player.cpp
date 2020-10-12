@@ -56,6 +56,9 @@ void Player::set_sword(bool active){
 }
 
 void Player::update(float s_elapsed){
+  //if I'm dead, for the love of god stop updating me
+  assert(!is_dead());
+
   move(s_elapsed);
 
   if(invis_frames > 0){
@@ -127,7 +130,7 @@ void Player::hurt(int amount){
   }
 }
 
-void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
+void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {
 
   auto current_invis_frame = (int)(invis_frames * 10);
 

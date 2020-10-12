@@ -7,6 +7,7 @@
 #include "player.hpp"
 #include "resource_manager.hpp"
 #include <list>
+#include <cassert>
 #include <SFML/Graphics.hpp>
 
 using std::list;
@@ -15,22 +16,26 @@ class HUD {
 private:
   sf::Sprite background;
 
-  float &total_time_elapsed;
-  const float top;
-
-  list<Player> &players;
+  const float top, health_bar_width, health_bar_height, sword_bar_max_width, sword_bar_height;
 
   sf::Text time_text;
-  list<list<sf::RectangleShape>> health_bars;
-  list<sf::RectangleShape> sword_bars;
+
+  struct hud_section {
+    const Player &player;
+    list<sf::RectangleShape>health_bars;
+    sf::RectangleShape sword_bar;
+  };
+
+  list<hud_section>sections;
 
 public:
 
-  HUD(list<Player> &some_players, float &elapsed_time_ref,
-          TextLoader &a_text_loader, ResourceManager &a_resource_manager);
+  HUD(TextLoader &a_text_loader, ResourceManager &a_resource_manager);
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid) const;
 
-  void update();
+  void update(float &total_time_elapsed);
+
+  void add_player(const Player &player);
 
 };

@@ -34,10 +34,16 @@ public:
 
   void hurt(int amount);
 
-  void draw(sf::RenderWindow &window, ColorGrid &color_grid);
+  void draw(sf::RenderWindow &window, ColorGrid &color_grid) const override;
 
   void set_sword(bool active);
 
-  unsigned int get_health(){return health;};
+  unsigned int get_health() const {return health;}
+
+  float get_sword_time() const {return sword_time;}
+
+  float get_max_sword_time() const { return max_sword_time; }
+
+  bool is_dead() const { return health <= 0; }
 
 };
