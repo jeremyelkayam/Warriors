@@ -61,7 +61,7 @@ private:
 
   bool can_spawn_enemy();
 
-  void spawn_enemy();
+  void spawn_enemies();
 
 /*
  * Update every enemy stored in the class, including movement, hit detection, and

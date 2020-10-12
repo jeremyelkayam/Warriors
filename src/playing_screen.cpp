@@ -62,7 +62,7 @@ void PlayingScreen::update(float s_elapsed){
 
     if (can_spawn_enemy()) {
       cout << "spawning enemy" << endl;
-      spawn_enemy();
+      spawn_enemies();
     }
     if (can_spawn_potion()) {
       cout << "spawning potion" << endl;
@@ -138,13 +138,16 @@ sf::Vector2f PlayingScreen::random_distant_location(float threshold){
 }
 
 
-void PlayingScreen::spawn_enemy(){
+void PlayingScreen::spawn_enemies(){
 
-  sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
+  for(int i = 0; i < total_time_elapsed ; i+=15) {
 
-  enemies.emplace_back(Enemy(location.x,location.y,
-                             resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
-                             resource_manager.get_texture("IDS_PATH_SHORTSWORD_TEX")));
+    sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
+
+    enemies.emplace_back(Enemy(location.x, location.y,
+                               resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
+                               resource_manager.get_texture("IDS_PATH_SHORTSWORD_TEX")));
+  }
 
   time_since_last_enemy_spawn = 0;
 }

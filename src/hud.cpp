@@ -41,6 +41,7 @@ void HUD::update(){
 void HUD::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {
 
   window.draw(background);
+  color_grid.update(background.getGlobalBounds(), sf::Color::White);
 
 
 
