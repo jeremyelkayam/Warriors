@@ -14,6 +14,7 @@
     <string value="../assets/sprites/playbackground0.png" id="IDS_PATH_BACKGROUND_TEX0"/>
     <string value="../assets/sprites/playbackground1.png" id="IDS_PATH_BACKGROUND_TEX1"/>
     <string value="../assets/sprites/playforeground.png" id="IDS_PATH_FOREGROUND_TEX"/>
+    <string value="../assets/sprites/hud-background.png" id="IDS_PATH_HUD_TEX"/>
     <string value="../assets/sprites/potion.png" id="IDS_PATH_POTION_TEX"/>
     <string value="../assets/sprites/sword.png" id="IDS_PATH_SWORD_TEX"/>
     <string value="../assets/sprites/shortsword.png" id="IDS_PATH_SHORTSWORD_TEX"/>

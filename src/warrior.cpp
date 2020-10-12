@@ -11,7 +11,7 @@ Entity(xcor,ycor,texture), sword(xcor,ycor,sword_tex,sprite.getLocalBounds().wid
   this->color = color;
 }
 
-void Warrior::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
+void Warrior::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {
   sword.draw(window, color_grid);
   Entity::draw(window, color_grid);
 }

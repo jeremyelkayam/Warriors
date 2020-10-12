@@ -19,6 +19,7 @@
 #include "screen.hpp"
 #include "end_screen.hpp"
 #include "resource_manager.hpp"
+#include "hud.hpp"
 
 using std::cout;
 using std::endl;
@@ -34,6 +35,8 @@ private:
 
   sf::Sprite background;
   sf::Sprite foreground;
+
+  HUD hud;
 
   list<Player> players;
   list<Enemy> enemies;
@@ -86,7 +89,6 @@ private:
 
   void draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid);
 
-  void draw_hud(sf::RenderWindow &window, ColorGrid &color_grid);
 
   void keyboard_movement();
 

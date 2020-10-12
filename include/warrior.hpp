@@ -14,7 +14,7 @@ protected:
 public:
   Warrior(float xcor,float ycor, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color);
 
-  virtual void draw(sf::RenderWindow &window, ColorGrid &color_grid);
+  void draw(sf::RenderWindow &window, ColorGrid &color_grid) const override;
 
   //You can only slice if your sword is drawn.
   bool slicing(Entity &entity) const {return sword.is_active() && entity.intersects(sword);}
