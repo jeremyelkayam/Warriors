@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "color_grid.hpp"
 #include "resource_manager.hpp"
 

@@ -22,6 +22,8 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
 
   setup_text(lasted_text, a_text_loader.get_float("IDS_VIEW_X")/2, a_text_loader.get_float("IDS_VIEW_X")/2,
              "You lasted " + time_trunc + " seconds.", 1);
+  end_game_sound.setBuffer(a_resource_manager.get_sound_buffer("IDS_PATH_LOSE_MUSIC"));
+  end_game_sound.play();
 
 }
 
@@ -36,6 +38,7 @@ bool EndScreen::go_to_next() {
 
 unique_ptr<Screen> EndScreen::next_screen(){
   assert(go_to_next());
+  end_game_sound.stop();
   return unique_ptr<Screen>(new TitleScreen(text_loader, resource_manager));
 }
 

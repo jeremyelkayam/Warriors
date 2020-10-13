@@ -23,6 +23,8 @@ private:
 
   void setup_text(sf::Text &text, float xcor, float ycor, string content, int size_multiplier);
 
+  sf::Sound end_game_sound;
+
 
 public:
   EndScreen(TextLoader &text_loader, ResourceManager &resource_manager, float game_time);
