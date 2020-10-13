@@ -9,6 +9,9 @@ Screen(a_text_loader, a_resource_manager) {
 
   title_background.setTexture(resource_manager.get_texture("IDS_PATH_TITLE_TEX"));
 
+  title_theme.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_TITLE_MUSIC"));
+  title_theme.play();
+
   screen_over = false;
 
 }
@@ -24,6 +27,7 @@ bool TitleScreen::go_to_next() {
 
 unique_ptr<Screen> TitleScreen::next_screen(){
   assert(go_to_next());
+  title_theme.stop();
   return unique_ptr<PlayingScreen>(new PlayingScreen(text_loader, resource_manager, 1));
 }
 

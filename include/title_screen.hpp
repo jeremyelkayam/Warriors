@@ -13,6 +13,8 @@ private:
 
   sf::Sprite title_background;
 
+  sf::Sound title_theme;
+
   bool screen_over;
 
 
