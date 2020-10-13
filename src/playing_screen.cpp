@@ -33,7 +33,7 @@ hud(a_text_loader,a_resource_manager){
     hud.add_player(players.back());
   }
 
-
+  kill_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_KILL_SOUND"));
 
   cout << "num players " << players.size() << endl;
 }
@@ -213,6 +213,7 @@ void PlayingScreen::update_enemies(float s_elapsed){
       }
       if (player.slicing(*it)) {
         enemies.erase(it++);
+        kill_sound.play();
         dead = true;
         //the enemy here no longer exists, so our pointer is dead. don't do anything with the iterator after this
         //Let's stop the for loop

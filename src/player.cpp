@@ -121,6 +121,7 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIE
 
 
   hurt_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_HURT_SOUND"));
+  heal_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_HEAL_SOUND"));
   slash_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_SLASH_SOUND"));
 
   sword.sheath();
@@ -134,6 +135,11 @@ void Player::hurt(int amount){
     hurt_sound.play();
     //cout << "YOU HURT ME" << endl;
   }
+}
+
+void Player::heal(int amount) {
+  health += amount;
+  heal_sound.play();
 }
 
 void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {

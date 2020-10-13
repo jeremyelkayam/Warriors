@@ -33,8 +33,9 @@ class PlayingScreen : public Screen
 {
 private:
 
-  sf::Sprite background;
-  sf::Sprite foreground;
+  sf::Sprite background, foreground;
+
+  sf::Sound kill_sound;
 
   HUD hud;
 

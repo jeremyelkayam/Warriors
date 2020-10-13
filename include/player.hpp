@@ -25,7 +25,7 @@ private:
 
   void update_sword(float s_elapsed);
 
-  sf::Sound hurt_sound, slash_sound;
+  sf::Sound hurt_sound, heal_sound, slash_sound;
 
 public:
   Player(TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color);
@@ -34,7 +34,7 @@ public:
 
   void set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right);
 
-  void heal(int amount){health += amount;}
+  void heal(int amount);
 
   void hurt(int amount);
 
