@@ -10,16 +10,20 @@
 
   <paths>
     <!--Texture Paths-->
-    <string value="../assets/sprites/dummy.png" id="IDS_PATH_WARRIOR_TEX"/>
-    <string value="../assets/sprites/playbackground0.png" id="IDS_PATH_BACKGROUND_TEX0"/>
-    <string value="../assets/sprites/playbackground1.png" id="IDS_PATH_BACKGROUND_TEX1"/>
-    <string value="../assets/sprites/playforeground.png" id="IDS_PATH_FOREGROUND_TEX"/>
-    <string value="../assets/sprites/hud-background.png" id="IDS_PATH_HUD_TEX"/>
-    <string value="../assets/sprites/potion.png" id="IDS_PATH_POTION_TEX"/>
-    <string value="../assets/sprites/sword.png" id="IDS_PATH_SWORD_TEX"/>
-    <string value="../assets/sprites/swordreadyicon.png" id="IDS_PATH_SWORD_READY_TEX"/>
-    <string value="../assets/sprites/shortsword.png" id="IDS_PATH_SHORTSWORD_TEX"/>
-    <string value="../assets/sprites/title.png" id="IDS_PATH_TITLE_TEX"/>
+    <string value="../assets/sprites/dummy.png" id="IDS_PATH_WARRIOR_TEX" type="texture"/>
+    <string value="../assets/sprites/playbackground0.png" id="IDS_PATH_BACKGROUND_TEX0" type="texture"/>
+    <string value="../assets/sprites/playbackground1.png" id="IDS_PATH_BACKGROUND_TEX1" type="texture"/>
+    <string value="../assets/sprites/playforeground.png" id="IDS_PATH_FOREGROUND_TEX" type="texture"/>
+    <string value="../assets/sprites/hud-background.png" id="IDS_PATH_HUD_TEX" type="texture"/>
+    <string value="../assets/sprites/potion.png" id="IDS_PATH_POTION_TEX" type="texture"/>
+    <string value="../assets/sprites/sword.png" id="IDS_PATH_SWORD_TEX" type="texture"/>
+    <string value="../assets/sprites/swordreadyicon.png" id="IDS_PATH_SWORD_READY_TEX" type="texture"/>
+    <string value="../assets/sprites/shortsword.png" id="IDS_PATH_SHORTSWORD_TEX" type="texture"/>
+    <string value="../assets/sprites/title.png" id="IDS_PATH_TITLE_TEX" type="texture"/>
+
+    <!--Sound Paths-->
+    <string value="../assets/sounds/supertest-lose.ogg" id="IDS_PATH_LOSE_MUSIC" type="sound"/>
+    <string value="../assets/sounds/evtlose.ogg" id="IDS_PATH_TITLE_MUSIC" type="sound"/>
 
   </paths>
 

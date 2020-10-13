@@ -77,17 +77,16 @@ void TextLoader::load_all_paths() {
     //cout << "attribute: " << node->Attribute("id") << endl;
 
     string s(node->Attribute("id"));
-    paths.insert({s, node -> Attribute("value")});
+
+
+    if(node -> Attribute("type") == string("texture")){
+      tex_paths.insert({s, node -> Attribute("value")});
+    }else if(node->Attribute("type") == string("sound")){
+      sound_paths.insert({s, node -> Attribute("value")});
+    }else assert(false);
+
   }
 }
-
-unordered_map<string, string> &TextLoader::get_all_paths(){
-
-  //haha im a moron and spent 30 minutes trying to figure out why i forgot to return paths
-  return paths;
-
-}
-
 
 
 std::string TextLoader::get_string(const std::string id){

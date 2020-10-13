@@ -20,6 +20,7 @@ using std::unordered_map;
 using std::stringstream;
 using std::cout;
 using std::endl;
+using std::pair;
 using tinyxml2::XMLDocument;
 using tinyxml2::XMLElement;
 
@@ -29,7 +30,8 @@ private:
 
   //Maps storing values loaded in from XML files.
   unordered_map<string, string> strings;
-  unordered_map<string, string> paths;
+  unordered_map<string, string> tex_paths;
+  unordered_map<string, string> sound_paths;
   unordered_map<string, int> ints;
   unordered_map<string, float> floats;
 
@@ -70,5 +72,7 @@ public:
    */
   float get_float(string id);
 
-  unordered_map<string, string> &get_all_paths();
+  unordered_map<string, string> &get_all_texture_paths(){ return tex_paths;}
+
+  unordered_map<string, string> &get_all_sound_paths() { return sound_paths; }
 };

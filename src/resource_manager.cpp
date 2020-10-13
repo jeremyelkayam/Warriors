@@ -10,9 +10,16 @@ sf::Texture &ResourceManager::get_texture(string id) {
   return textures.at(id);
 }
 
+sf::SoundBuffer &ResourceManager::get_sound_buffer(string id) {
+  //cout << "id: " << id << endl;
+  assert(sound_buffers.find(id) != sound_buffers.end());
+  return sound_buffers.at(id);
+}
+
 ResourceManager::ResourceManager(TextLoader &text_loader) {
 
-  load_textures(text_loader.get_all_paths());
+  load_textures(text_loader.get_all_texture_paths());
+  load_sounds(text_loader.get_all_sound_paths());
 
   font.loadFromFile(text_loader.get_string("IDS_PATH_FONT"));
 
@@ -22,14 +29,26 @@ ResourceManager::ResourceManager(TextLoader &text_loader) {
 
 }
 
-void ResourceManager::load_textures(unordered_map<string, string> &texpaths) {
-  cout << texpaths.size() << endl;
-  for (auto it : texpaths){
-    sf::Texture tex;
-    tex.loadFromFile(it.second);
+void ResourceManager::load_textures(unordered_map<string, string> &paths) {
+  //cout << texpaths.size() << endl;
+  for (const auto &it : paths){
+      sf::Texture tex;
+      tex.loadFromFile(it.second);
 
-    cout << it.first << endl;
+      //cout << it.first << endl;
 
-    textures.insert({it.first, tex});
+      textures.insert({it.first, tex});
+
+  }
+}
+
+void ResourceManager::load_sounds(unordered_map<string, string> &paths) {
+  //cout << texpaths.size() << endl;
+  for (const auto &it : paths){
+    sf::SoundBuffer buf;
+    buf.loadFromFile(it.second);
+
+    sound_buffers.insert({it.first, buf});
+
   }
 }
