@@ -29,9 +29,7 @@ hud(a_text_loader,a_resource_manager){
   foreground.setTexture(a_resource_manager.get_texture("IDS_PATH_FOREGROUND_TEX"));
 
   for(int i = 0; i < num_players ; ++i) {
-    players.emplace_back(Player(a_text_loader,a_resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
-                                a_resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
-                                sf::Color::Cyan));
+    players.emplace_back(Player(a_text_loader,a_resource_manager, sf::Color::Cyan));
     hud.add_player(players.back());
   }
 

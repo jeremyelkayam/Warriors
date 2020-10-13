@@ -6,7 +6,9 @@
 
 #pragma once
 #include "warrior.hpp"
+#include "resource_manager.hpp"
 #include <iostream>
+#include <SFML/Audio.hpp>
 
 using std::cout;
 using std::endl;
@@ -23,8 +25,10 @@ private:
 
   void update_sword(float s_elapsed);
 
+  sf::Sound hurt_sound, slash_sound;
+
 public:
-  Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color);
+  Player(TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color);
 
   void update(float s_elapsed);
 

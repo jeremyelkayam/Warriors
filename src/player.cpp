@@ -49,6 +49,7 @@ void Player::set_sword(bool active){
     //The player cannot draw their sword if they are recharging sword time.
     if(sword_time >= max_sword_time){
       sword.unsheath();
+      slash_sound.play();
     }
   }else{
     sword.sheath();
@@ -95,9 +96,11 @@ void Player::update_sword(float s_elapsed){
 
 }
 
-Player::Player(TextLoader &text_loader, sf::Texture &texture, sf::Texture &sword_tex, sf::Color color) :
+Player::Player(TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color) :
 Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT")) / 2,
-        texture, sword_tex, color),
+        resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
+        resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
+        color),
         max_sword_time(text_loader.get_float("IDS_SWORD_TIME")),
         max_invis_frames(text_loader.get_float("IDS_INVIS_TIME")){
 
@@ -116,7 +119,9 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIE
   this->invis_frames = 0;
   this->sword_time = max_sword_time;
 
-  cout << "my health" << health << endl;
+
+  hurt_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_HURT_SOUND"));
+  slash_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_SLASH_SOUND"));
 
   sword.sheath();
 }
@@ -126,7 +131,8 @@ void Player::hurt(int amount){
   if(invis_frames <= 0){
     health -= amount;
     invis_frames = max_invis_frames;
-    cout << "YOU HURT ME" << endl;
+    hurt_sound.play();
+    //cout << "YOU HURT ME" << endl;
   }
 }
 

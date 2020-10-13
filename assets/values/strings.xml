@@ -24,6 +24,8 @@
     <!--Sound Paths-->
     <string value="../assets/sounds/supertest-lose.ogg" id="IDS_PATH_LOSE_MUSIC" type="sound"/>
     <string value="../assets/sounds/evtlose.ogg" id="IDS_PATH_TITLE_MUSIC" type="sound"/>
+    <string value="../assets/sounds/hit_3.ogg" id="IDS_PATH_HURT_SOUND" type="sound"/>
+    <string value="../assets/sounds/slash.ogg" id="IDS_PATH_SLASH_SOUND" type="sound"/>
 
   </paths>
 
