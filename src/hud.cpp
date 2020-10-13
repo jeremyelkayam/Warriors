@@ -9,7 +9,8 @@ top(a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEI
 health_bar_width( a_text_loader.get_float("IDS_HEALTHBAR_W") ),
 health_bar_height( a_text_loader.get_float("IDS_HEALTHBAR_H") ),
 sword_bar_max_width( a_text_loader.get_float("IDS_SWORDBAR_W") ),
-sword_bar_height( a_text_loader.get_float("IDS_SWORDBAR_H") )
+sword_bar_height( a_text_loader.get_float("IDS_SWORDBAR_H") ),
+sword_icon_tex(a_resource_manager.get_texture("IDS_PATH_SWORD_READY_TEX"))
 {
 
   background.setTexture(a_resource_manager.get_texture("IDS_PATH_HUD_TEX"));
@@ -87,6 +88,9 @@ void HUD::update(float &total_time_elapsed){
       section_iterator->sword_bar.setFillColor(sf::Color::White);
       section_iterator->sword_bar.setPosition(8.f, 8.f + top + health_bar_height + 1.f);
 
+      section_iterator->sword_icon.setTexture(sword_icon_tex, true);
+      section_iterator->sword_icon.setPosition(8.f + sword_bar_width + 1.f, 8.f + top + health_bar_height + 1.f);
+
       //Advance the loop.
       ++section_iterator;
     }
@@ -106,6 +110,10 @@ void HUD::draw ( sf::RenderWindow &window, ColorGrid &color_grid ) const {
       color_grid.update(rect.getGlobalBounds(), section.player.get_color());
     }
     window.draw(section.sword_bar);
+
+    if(section.player.get_sword_time() >= section.player.get_max_sword_time()) {
+      window.draw(section.sword_icon);
+    }
   }
 
   window.draw(time_text);
@@ -116,7 +124,8 @@ void HUD::add_player(const Player &player) {
   struct hud_section section {
     player,
     {},
-    sf::RectangleShape()
+    sf::RectangleShape(),
+    sf::Sprite()
   };
 
   sections.emplace_back(section);

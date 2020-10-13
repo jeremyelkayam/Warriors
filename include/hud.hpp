@@ -18,12 +18,15 @@ private:
 
   const float top, health_bar_width, health_bar_height, sword_bar_max_width, sword_bar_height;
 
+  const sf::Texture &sword_icon_tex;
+
   sf::Text time_text;
 
   struct hud_section {
     const Player &player;
     list<sf::RectangleShape>health_bars;
     sf::RectangleShape sword_bar;
+    sf::Sprite sword_icon;
   };
 
   list<hud_section>sections;

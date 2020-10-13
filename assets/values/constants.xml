@@ -31,9 +31,9 @@
     <!-- HUD constants -->
     <constant value="32" id="IDS_HUD_HEIGHT"/>
     <constant value="1" id="IDS_HEALTHBAR_W"/>
-    <constant value="2" id="IDS_HEALTHBAR_H"/>
+    <constant value="3" id="IDS_HEALTHBAR_H"/>
     <constant value="10" id="IDS_SWORDBAR_W"/>
-    <constant value="2" id="IDS_SWORDBAR_H"/>
+    <constant value="3" id="IDS_SWORDBAR_H"/>
 
 
     <!-- The amount of gameplay time in seconds at which the enemy spawn interval will be at its minimum.
