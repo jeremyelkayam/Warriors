@@ -12,7 +12,10 @@ Screen(a_text_loader, a_resource_manager),
         width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
 base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
-hud(a_text_loader,a_resource_manager){
+base_dmg(1),
+base_heal(1),
+hud(a_text_loader,a_resource_manager),
+ring(10.f, 10.f, a_resource_manager.get_texture("IDS_PATH_RING_TEX"),50.f){
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -34,6 +37,7 @@ hud(a_text_loader,a_resource_manager){
   }
 
   kill_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_KILL_SOUND"));
+  ring_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_RING_SOUND"));
 
   cout << "num players " << players.size() << endl;
 }
@@ -62,6 +66,12 @@ void PlayingScreen::update(float s_elapsed){
         players.erase(player_iter++);
       }else{
         player_iter->update(s_elapsed);
+
+        if(player_iter->intersects(ring) && ring.is_active()){
+          ring.consume();
+          ring_sound.play();
+        }
+
         ++player_iter;
       }
     }
@@ -82,6 +92,8 @@ void PlayingScreen::update(float s_elapsed){
 
     update_enemies(s_elapsed);
     update_potions(s_elapsed);
+
+    ring.update(s_elapsed);
   }
 }
 
@@ -104,6 +116,10 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
   }
 
   window.draw(foreground);
+
+  if(ring.is_active()){
+    ring.draw(window,color_grid);
+  }
 }
 
 sf::Vector2f PlayingScreen::random_distant_location(float threshold){
@@ -208,11 +224,15 @@ void PlayingScreen::update_enemies(float s_elapsed){
 
     for(auto &player : players) {
       if (it->slicing(player)) {
-        player.hurt(1);//TODO: parameterize this
-
+        player.hurt(base_dmg);//TODO: parameterize this
       }
+
       if (player.slicing(*it)) {
         enemies.erase(it++);
+
+        if(ring_sound.getStatus() == sf::SoundSource::Status::Playing)
+          player.heal(base_heal);
+
         kill_sound.play();
         dead = true;
         //the enemy here no longer exists, so our pointer is dead. don't do anything with the iterator after this
@@ -228,7 +248,7 @@ void PlayingScreen::update_enemies(float s_elapsed){
 void PlayingScreen::spawn_potion() {
   sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
-  potions.emplace_back(Potion(location.x,location.y,resource_manager.get_texture("IDS_PATH_POTION_TEX"), 5, 1));
+  potions.emplace_back(Potion(location.x,location.y,resource_manager.get_texture("IDS_PATH_POTION_TEX"), 5, base_heal));
 
   time_since_last_potion_spawn = 0;
 }

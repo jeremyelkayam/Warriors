@@ -20,6 +20,7 @@
 #include "end_screen.hpp"
 #include "resource_manager.hpp"
 #include "hud.hpp"
+#include "special_item.hpp"
 
 using std::cout;
 using std::endl;
@@ -35,7 +36,7 @@ private:
 
   sf::Sprite background, foreground;
 
-  sf::Sound kill_sound;
+  sf::Sound kill_sound, ring_sound;
 
   HUD hud;
 
@@ -47,7 +48,11 @@ private:
   //But if I add multiplayer or something, it might be nice to put out a few potions at once.
   list<Potion> potions;
 
+  SpecialItem ring;
+
   const float base_speed;
+
+  const int base_heal, base_dmg;
 
   float time_since_last_enemy_spawn,time_since_last_potion_spawn,total_time_elapsed;
   /*
@@ -92,6 +97,8 @@ private:
 
 
   void keyboard_movement();
+
+  bool explode();
 
 public:
   /*
