@@ -40,7 +40,7 @@ private:
 
   sf::Sprite background, foreground;
 
-  sf::Sound kill_sound;
+  sf::Sound kill_sound,start_sound;
 
   sf::RectangleShape field_fill;
 

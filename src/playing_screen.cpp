@@ -46,6 +46,8 @@ bomb(a_resource_manager.get_texture("IDS_PATH_BOMB_TEX"),
   }
 
   kill_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_KILL_SOUND"));
+  start_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_ROUND_START_SOUND"));
+  start_sound.play();
 
   cout << "num players " << players.size() << endl;
 }
