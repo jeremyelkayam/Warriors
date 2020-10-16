@@ -34,9 +34,15 @@ class PlayingScreen : public Screen
 {
 private:
 
+  const vector<sf::Color> explosion_colors
+  { sf::Color::White, sf::Color::Yellow, sf::Color::White, sf::Color::Cyan, sf::Color::White, sf::Color::Red,
+    sf::Color::White, sf::Color::Green };
+
   sf::Sprite background, foreground;
 
   sf::Sound kill_sound;
+
+  sf::RectangleShape field_fill;
 
   HUD hud;
 
@@ -52,11 +58,12 @@ private:
 
   Bomb bomb;
 
-  const float base_speed;
+  const float base_speed, color_change_interval;
 
-  const int base_heal, base_dmg;
+  const unsigned int base_heal, base_dmg;
 
-  float time_since_last_enemy_spawn,time_since_last_potion_spawn,total_time_elapsed;
+  float time_since_last_enemy_spawn,time_since_last_potion_spawn,total_time_elapsed, last_color_change;
+  unsigned long color_change_index;
   /*
    * Generate a random location that is within the confines of the game board and is
    * also at least threshold units away from the player.
@@ -91,7 +98,7 @@ private:
 
   mt19937 randy;
 
-  float field_width,field_height;
+  const float field_width,field_height;
 
   uniform_real_distribution<float>width_dist,height_dist,time_dist;
 

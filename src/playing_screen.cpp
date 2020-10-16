@@ -15,6 +15,9 @@ time_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("I
 base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
 base_dmg(1),
 base_heal(1),
+field_width(a_text_loader.get_float("IDS_VIEW_X")),
+field_height(a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
+color_change_interval(a_text_loader.get_float("IDS_COLOR_CHANGE_INTERVAL")),
 hud(a_text_loader,a_resource_manager),
 ring(a_resource_manager.get_texture("IDS_PATH_RING_TEX"),
      a_resource_manager.get_sound_buffer("IDS_PATH_RING_SOUND"),120.f),
@@ -25,13 +28,14 @@ bomb(a_resource_manager.get_texture("IDS_PATH_BOMB_TEX"),
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
 
+  field_fill.setSize(sf::Vector2f(field_width,field_height));
+  color_change_index = 0;
+  last_color_change = 0;
+
   //Let's set up our random number generator with a commonly used seed: the current time.
   unsigned long my_seed = (unsigned)std::chrono::high_resolution_clock::now().time_since_epoch().count();
   cout << "my seed: " << my_seed << endl;
   randy.seed(my_seed);
-
-  this->field_width = a_text_loader.get_float("IDS_VIEW_X");
-  this->field_height = a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT");
 
   background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX0"));
   foreground.setTexture(a_resource_manager.get_texture("IDS_PATH_FOREGROUND_TEX"));
@@ -79,7 +83,6 @@ void PlayingScreen::update(float s_elapsed){
         if(player_iter->intersects(bomb) && bomb.item_active()){
           bomb.consume();
           explode();
-
         }
 
         ++player_iter;
@@ -93,7 +96,7 @@ void PlayingScreen::update(float s_elapsed){
     bomb.update(s_elapsed);
 
 
-    if (can_spawn_enemy()) {
+    if (can_spawn_enemy() && !bomb.effect_active()) {
       cout << "spawning enemy" << endl;
       spawn_enemies();
     }
@@ -130,6 +133,23 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
 
   ring.draw(window,color_grid);
   bomb.draw(window,color_grid);
+
+  //draw the explosion flashes! Boom boom!
+  if(bomb.effect_active()){
+    field_fill.setFillColor(explosion_colors.at(color_change_index));
+    window.draw(field_fill, sf::BlendAdd);
+
+    //Clear the color grid. This is a hacky workaround, but I want the color grid to be disabled while the explosion
+    //As implemented, my color grid doesn't support background colors other than black. That's good for most situations,
+    //but for this specific case, I want the background colored in. Since it's only for a few seconds, we can sacrifice
+    //colored-in characters.
+    color_grid.reset();
+    if(total_time_elapsed - last_color_change >= color_change_interval) {
+      ++color_change_index;
+      color_change_index %= explosion_colors.size(); //make sure we loop around the back of the vector
+      last_color_change = total_time_elapsed;
+    }
+  }
 }
 
 void PlayingScreen::spawn_if_able(SpecialItem &item){
@@ -343,6 +363,6 @@ void PlayingScreen::explode() {
       player.heal((unsigned int) (enemies.size() / (players.size() * text_loader.get_integer("IDS_BOMB_HEAL_NERF"))));
     }
   }
-
   enemies.clear();
+  last_color_change = total_time_elapsed;
 }

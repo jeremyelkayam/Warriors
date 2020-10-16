@@ -32,6 +32,8 @@
     <constant value="5" id="IDS_SWORD_TIME"/>
     <constant value="2" id="IDS_INVIS_TIME"/>
 
+    <constant value="0.1" id="IDS_COLOR_CHANGE_INTERVAL"/>
+
     <!-- HUD constants -->
     <constant value="32" id="IDS_HUD_HEIGHT"/>
     <constant value="1" id="IDS_HEALTHBAR_W"/>

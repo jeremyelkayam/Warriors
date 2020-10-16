@@ -25,7 +25,7 @@ private:
 
   void update_sword(float s_elapsed);
 
-  sf::Sound hurt_sound, heal_sound, slash_sound;
+  sf::Sound hurt_sound, heal_sound, slash_sound, sheath_sound;
 
 public:
   Player(TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color);

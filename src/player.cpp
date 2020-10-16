@@ -52,6 +52,7 @@ void Player::set_sword(bool active){
       slash_sound.play();
     }
   }else{
+    if(sword.is_active()) sheath_sound.play();
     sword.sheath();
   }
 }
@@ -91,9 +92,9 @@ void Player::update_sword(float s_elapsed){
 
   //If the player runs out of sword time, they must sheath their sword.
   if(sword_time <= 0){
+    sheath_sound.play();
     sword.sheath();
   }
-
 }
 
 Player::Player(TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color) :
@@ -123,6 +124,7 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIE
   hurt_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_HURT_SOUND"));
   heal_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_HEAL_SOUND"));
   slash_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_SLASH_SOUND"));
+  sheath_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_SHEATH_SOUND"));
 
   sword.sheath();
 }

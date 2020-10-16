@@ -19,7 +19,7 @@ private:
   //The amount of time this potion has existed in seconds.
   float age;
 
-  int health_recovery;
+  unsigned int health_recovery;
 
 public:
   /*
@@ -35,7 +35,7 @@ public:
 
   bool can_despawn();
 
-  int get_health_recovery(){return health_recovery;}
+  unsigned int get_health_recovery(){return health_recovery;}
 
 
 };
