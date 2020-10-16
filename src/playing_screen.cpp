@@ -11,12 +11,16 @@ PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resou
 Screen(a_text_loader, a_resource_manager),
         width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
+time_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
 base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
 base_dmg(1),
 base_heal(1),
 hud(a_text_loader,a_resource_manager),
-ring(10.f, 10.f, a_resource_manager.get_texture("IDS_PATH_RING_TEX"),
-     resource_manager.get_sound_buffer("IDS_PATH_RING_SOUND"),10.f){
+ring(a_resource_manager.get_texture("IDS_PATH_RING_TEX"),
+     a_resource_manager.get_sound_buffer("IDS_PATH_RING_SOUND"),120.f),
+bomb(a_resource_manager.get_texture("IDS_PATH_BOMB_TEX"),
+     a_resource_manager.get_texture("IDS_PATH_FUSE_TEX"),
+     a_resource_manager.get_sound_buffer("IDS_PATH_BOMB_SOUND"),80.f) {//todo: maybe add randomness to the spawn time
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -71,6 +75,13 @@ void PlayingScreen::update(float s_elapsed){
           ring.consume();
         }
 
+        //todo: this sucks and I want there to be a better way without implementing an events system
+        if(player_iter->intersects(bomb) && bomb.item_active()){
+          bomb.consume();
+          explode();
+
+        }
+
         ++player_iter;
       }
     }
@@ -79,6 +90,7 @@ void PlayingScreen::update(float s_elapsed){
     time_since_last_enemy_spawn += s_elapsed;
     time_since_last_potion_spawn += s_elapsed;
     ring.update(s_elapsed);
+    bomb.update(s_elapsed);
 
 
     if (can_spawn_enemy()) {
@@ -89,18 +101,14 @@ void PlayingScreen::update(float s_elapsed){
       cout << "spawning potion" << endl;
       spawn_potion();
     }
-    if(ring.ready_to_spawn()) {
-      sf::Vector2f ring_pos = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
-      ring.spawn(ring_pos.x,ring_pos.y);
-    }
+    spawn_if_able(ring);
+    spawn_if_able(bomb);
 
     update_enemies(s_elapsed);
     update_potions(s_elapsed);
 
   }
 }
-
-
 
 void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid){
 
@@ -120,8 +128,14 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
 
   window.draw(foreground);
 
-  if(ring.item_active()){
-    ring.draw(window,color_grid);
+  ring.draw(window,color_grid);
+  bomb.draw(window,color_grid);
+}
+
+void PlayingScreen::spawn_if_able(SpecialItem &item){
+  if(item.ready_to_spawn()) {
+    sf::Vector2f pos = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
+    item.spawn(pos.x,pos.y);
   }
 }
 
@@ -318,4 +332,17 @@ void PlayingScreen::keyboard_movement(){
 unique_ptr<Screen> PlayingScreen::next_screen() {
   assert(go_to_next());
   return unique_ptr<Screen>(new EndScreen(text_loader,resource_manager,total_time_elapsed));
+}
+
+void PlayingScreen::explode() {
+  assert(bomb.effect_active());
+  if(ring.effect_active()) {
+    for (auto &player : players) {
+      //The bomb is unique in that it heals all players equally. The amount of health healed per enemy
+      //is dependent on the heal nerf. Health is then divided equally between all players.
+      player.heal((unsigned int) (enemies.size() / (players.size() * text_loader.get_integer("IDS_BOMB_HEAL_NERF"))));
+    }
+  }
+
+  enemies.clear();
 }

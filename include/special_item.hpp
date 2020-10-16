@@ -8,7 +8,7 @@
 
 class SpecialItem : public Entity {
 
-private:
+protected:
 
   bool active, consumed;
 
@@ -22,7 +22,7 @@ private:
 
 public:
 
-  SpecialItem(float xcor, float ycor, sf::Texture &texture, sf::SoundBuffer &used_sound_buffer, float a_appear_time);
+  SpecialItem(sf::Texture &texture, sf::SoundBuffer &used_sound_buffer, float a_appear_time);
 
   bool item_active() {return active;}
 
@@ -32,8 +32,10 @@ public:
 
   void consume();
 
-  void spawn(float xcor, float ycor);
+  virtual void spawn(float xcor, float ycor);
 
   bool ready_to_spawn(){return age >= appear_time && !consumed && !active; }
+
+  void draw(sf::RenderWindow &window, ColorGrid &color_grid) const override;
 
 };

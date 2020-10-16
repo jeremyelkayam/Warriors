@@ -14,6 +14,10 @@
 
     <!--size of one space on the color grid-->
     <constant value="5" id="IDS_DEFAULT_HEALTH"/>
+
+    <!--The amount by which healing is divided if the ring is active when the bomb explodes.-->
+    <constant value="2" id="IDS_BOMB_HEAL_NERF"/>
+
   </ints>
   <doubles>
     <!--view size constants-->

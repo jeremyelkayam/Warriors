@@ -22,9 +22,10 @@ public:
   //void set_active(bool active){this->active = active;}
 
   void unsheath(){this->active = true; }
+
   void sheath(){this->active = false; }
 
-  void draw(sf::RenderWindow &window, ColorGrid &grid) const{if(active) Entity::draw(window,grid);}
+  void draw(sf::RenderWindow &window, ColorGrid &grid) const override {if(active) Entity::draw(window,grid);}
 
   void update(float xcor, float ycor, float angle);
 

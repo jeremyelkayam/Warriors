@@ -127,7 +127,7 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIE
   sword.sheath();
 }
 
-void Player::hurt(int amount){
+void Player::hurt(unsigned int amount){
   //If the player has no invincibility frames left, they can get hurt.
   if(invis_frames <= 0){
     health -= amount;
@@ -137,7 +137,7 @@ void Player::hurt(int amount){
   }
 }
 
-void Player::heal(int amount) {
+void Player::heal(unsigned int amount) {
   health += amount;
   heal_sound.play();
 }

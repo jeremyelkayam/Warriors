@@ -4,8 +4,8 @@
 
 #include "special_item.hpp"
 
-SpecialItem::SpecialItem(float xcor, float ycor, sf::Texture &texture, sf::SoundBuffer &used_sound_buffer, float a_appear_time) :
-Entity(xcor,ycor,texture), appear_time(a_appear_time) {
+SpecialItem::SpecialItem(sf::Texture &texture, sf::SoundBuffer &used_sound_buffer, float a_appear_time) :
+Entity(0.f,0.f,texture), appear_time(a_appear_time) {
   consumed = false;
   active = false;
   age = 0;
@@ -29,4 +29,8 @@ void SpecialItem::spawn(float xcor, float ycor) {
 
   this->sprite.setPosition(xcor,ycor);
   active = true;
+}
+
+void SpecialItem::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {
+  if(active) Entity::draw(window, color_grid);
 }

@@ -20,7 +20,7 @@
 #include "end_screen.hpp"
 #include "resource_manager.hpp"
 #include "hud.hpp"
-#include "special_item.hpp"
+#include "bomb.hpp"
 
 using std::cout;
 using std::endl;
@@ -49,6 +49,8 @@ private:
   list<Potion> potions;
 
   SpecialItem ring;
+
+  Bomb bomb;
 
   const float base_speed;
 
@@ -91,14 +93,17 @@ private:
 
   float field_width,field_height;
 
-  uniform_real_distribution<float>width_dist,height_dist;
+  uniform_real_distribution<float>width_dist,height_dist,time_dist;
 
   void draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid);
 
 
   void keyboard_movement();
 
-  bool explode();
+  void explode();
+
+  void spawn_if_able(SpecialItem &item);
+
 
 public:
   /*

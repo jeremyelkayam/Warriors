@@ -34,9 +34,9 @@ public:
 
   void set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right);
 
-  void heal(int amount);
+  void heal(unsigned int amount);
 
-  void hurt(int amount);
+  void hurt(unsigned int amount);
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid) const override;
 
