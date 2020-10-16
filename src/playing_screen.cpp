@@ -15,7 +15,8 @@ base_speed(a_text_loader.get_float("IDS_MOVEMENT_SPEED")),
 base_dmg(1),
 base_heal(1),
 hud(a_text_loader,a_resource_manager),
-ring(10.f, 10.f, a_resource_manager.get_texture("IDS_PATH_RING_TEX"),50.f){
+ring(10.f, 10.f, a_resource_manager.get_texture("IDS_PATH_RING_TEX"),
+     resource_manager.get_sound_buffer("IDS_PATH_RING_SOUND"),10.f){
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -37,7 +38,6 @@ ring(10.f, 10.f, a_resource_manager.get_texture("IDS_PATH_RING_TEX"),50.f){
   }
 
   kill_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_KILL_SOUND"));
-  ring_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_RING_SOUND"));
 
   cout << "num players " << players.size() << endl;
 }
@@ -67,9 +67,8 @@ void PlayingScreen::update(float s_elapsed){
       }else{
         player_iter->update(s_elapsed);
 
-        if(player_iter->intersects(ring) && ring.is_active()){
+        if(player_iter->intersects(ring) && ring.item_active()){
           ring.consume();
-          ring_sound.play();
         }
 
         ++player_iter;
@@ -79,6 +78,7 @@ void PlayingScreen::update(float s_elapsed){
 
     time_since_last_enemy_spawn += s_elapsed;
     time_since_last_potion_spawn += s_elapsed;
+    ring.update(s_elapsed);
 
 
     if (can_spawn_enemy()) {
@@ -89,11 +89,14 @@ void PlayingScreen::update(float s_elapsed){
       cout << "spawning potion" << endl;
       spawn_potion();
     }
+    if(ring.ready_to_spawn()) {
+      sf::Vector2f ring_pos = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
+      ring.spawn(ring_pos.x,ring_pos.y);
+    }
 
     update_enemies(s_elapsed);
     update_potions(s_elapsed);
 
-    ring.update(s_elapsed);
   }
 }
 
@@ -117,7 +120,7 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
 
   window.draw(foreground);
 
-  if(ring.is_active()){
+  if(ring.item_active()){
     ring.draw(window,color_grid);
   }
 }
@@ -230,7 +233,7 @@ void PlayingScreen::update_enemies(float s_elapsed){
       if (player.slicing(*it)) {
         enemies.erase(it++);
 
-        if(ring_sound.getStatus() == sf::SoundSource::Status::Playing)
+        if(ring.effect_active())
           player.heal(base_heal);
 
         kill_sound.play();

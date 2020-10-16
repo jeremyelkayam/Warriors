@@ -36,7 +36,7 @@ private:
 
   sf::Sprite background, foreground;
 
-  sf::Sound kill_sound, ring_sound;
+  sf::Sound kill_sound;
 
   HUD hud;
 

@@ -10,7 +10,7 @@
 #########################################
 
 # Project name
-project(csci437)
+project(warriors)
 
 # Minimum Cmake Version
 cmake_minimum_required(VERSION 2.6)
@@ -64,7 +64,7 @@ endif()
 # C++ Options #
 ###############
 # Enable C++11
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 # determine build type
 # 1) use build type if specified by the user.
