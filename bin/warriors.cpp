@@ -13,6 +13,7 @@
 #include "logic.hpp"
 #include "text_loader.hpp"
 #include "resource_manager.hpp"
+#include "input_manager.hpp"
 
 using std::shared_ptr;
 using std::make_shared;
@@ -26,8 +27,9 @@ int main(int argc, char** argv)
 
   ResourceManager resource_manager(text_loader);
 
+  InputManager input_manager((unsigned)text_loader.get_integer("IDS_MAX_PLAYERS"));
 
-  //set up game components
+  //set up game componentss
 
   Logic logic(text_loader, resource_manager);
 

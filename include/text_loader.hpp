@@ -13,6 +13,7 @@
 #include <unordered_map>
 #include <cassert>
 #include <iostream>
+#include <stdexcept>
 #include "tinyxml2.h"
 
 using std::string;
@@ -21,6 +22,8 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 using std::pair;
+using std::invalid_argument;
+using std::logic_error;
 using tinyxml2::XMLDocument;
 using tinyxml2::XMLElement;
 

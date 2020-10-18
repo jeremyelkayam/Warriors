@@ -12,11 +12,18 @@
     <!--size of one space on the color grid-->
     <constant value="8" id="IDS_COLORGRID_SIZE"/>
 
-    <!--size of one space on the color grid-->
-    <constant value="5" id="IDS_DEFAULT_HEALTH"/>
+    <!--PlayingScreeen constants-->
 
     <!--The amount by which healing is divided if the ring is active when the bomb explodes.-->
     <constant value="2" id="IDS_BOMB_HEAL_NERF"/>
+
+
+    <!-- Player constants -->
+
+    <constant value="4" id="IDS_MAX_PLAYERS"/>
+
+    <!--starting level of health for a player-->
+    <constant value="5" id="IDS_DEFAULT_HEALTH"/>
 
   </ints>
   <doubles>

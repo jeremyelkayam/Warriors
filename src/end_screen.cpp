@@ -31,8 +31,6 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
             a_text_loader.get_float("IDS_VIEW_Y") * (i+1) / (dead_players_info.size() + 1) ,
             "Player "+std::to_string(i)+" lasted " + time_trunc + " seconds\nand killed "+
             std::to_string(dead_players_info.at(i).num_kills)+" enemies.", 1);
-
-
   }
 
   end_game_sound.setBuffer(a_resource_manager.get_sound_buffer("IDS_PATH_LOSE_MUSIC"));

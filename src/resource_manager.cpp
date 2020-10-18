@@ -6,13 +6,13 @@
 
 sf::Texture &ResourceManager::get_texture(string id) {
   //cout << "id: " << id << endl;
-  assert(textures.find(id) != textures.end());
+  if(textures.find(id) == textures.end()) throw invalid_argument("Texture with ID "+id+" does not exist.");
   return textures.at(id);
 }
 
 sf::SoundBuffer &ResourceManager::get_sound_buffer(string id) {
   //cout << "id: " << id << endl;
-  assert(sound_buffers.find(id) != sound_buffers.end());
+  if(sound_buffers.find(id) == sound_buffers.end()) throw invalid_argument("Sound with ID "+id+" does not exist.");
   return sound_buffers.at(id);
 }
 
@@ -23,7 +23,8 @@ ResourceManager::ResourceManager(TextLoader &text_loader) {
 
   font.loadFromFile(text_loader.get_string("IDS_PATH_FONT"));
 
-  //tHIS IS TERRIBLE! BUT I GUESS SFML DOESN'T HAVE A GOOD WAY TO SET THE SMOOTHING OFF ON THE TEXTURE.
+  // tHIS IS TERRIBLE! BUT I GUESS THE CURRENT VERSION OF SFML DOESN'T HAVE A GOOD WAY TO SET THE SMOOTHING OFF ON
+  // THE TEXTURE.
   auto& texture = const_cast<sf::Texture&>(font.getTexture((unsigned int)text_loader.get_integer("IDS_FONT_SIZE")));
   texture.setSmooth(false);
 

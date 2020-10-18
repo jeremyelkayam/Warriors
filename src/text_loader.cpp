@@ -83,25 +83,25 @@ void TextLoader::load_all_paths() {
       tex_paths.insert({s, node -> Attribute("value")});
     }else if(node->Attribute("type") == string("sound")){
       sound_paths.insert({s, node -> Attribute("value")});
-    }else assert(false);
+    }else throw logic_error("the paths section of strings.xml does not contain a valid path type.");
 
   }
 }
 
 
 std::string TextLoader::get_string(const std::string id){
-  assert(strings.find(id) != strings.end());
+  if(strings.find(id) == strings.end()) throw invalid_argument("String with ID "+id+" does not exist.");
   return strings.at(id);
 }
 
 int TextLoader::get_integer(const std::string id){
-  assert(ints.find(id) != ints.end());
+  if(ints.find(id) == ints.end()) throw invalid_argument("Integer with ID "+id+" does not exist.");
   return ints.at(id);
 }
 
 
 float TextLoader::get_float(const std::string id){
-  assert(floats.find(id) != floats.end());
+  if(floats.find(id) == floats.end()) throw invalid_argument("Floating-point number with ID "+id+" does not exist.");
   return floats.at(id);
 }
 
