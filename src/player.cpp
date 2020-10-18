@@ -58,8 +58,7 @@ void Player::set_sword(bool active){
 }
 
 void Player::update(float s_elapsed){
-  //if I'm dead, for the love of god stop updating me
-  assert(!is_dead());
+  if(is_dead()) throw logic_error("Dead players cannot use the method update(float s_elapsed).");
 
   move(s_elapsed);
 
@@ -69,6 +68,7 @@ void Player::update(float s_elapsed){
 
   update_sword(s_elapsed);
 
+  info.age += s_elapsed;
 }
 
 void Player::update_sword(float s_elapsed){
@@ -97,8 +97,10 @@ void Player::update_sword(float s_elapsed){
   }
 }
 
-Player::Player(TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color) :
-Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT")) / 2,
+Player::Player(unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color) :
+player_number(a_player_number),
+Warrior(text_loader.get_float("IDS_VIEW_X") / 2,
+        (text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT")) / 2,
         resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
         resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
         color),
@@ -116,6 +118,8 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2, (text_loader.get_float("IDS_VIE
   this->field_height = text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT");
   this->field_width = text_loader.get_float("IDS_VIEW_X");
   this->health = (unsigned int)text_loader.get_integer("IDS_DEFAULT_HEALTH");
+  this->info.num_kills = 0;
+  this->info.age = 0;
 
   this->invis_frames = 0;
   this->sword_time = max_sword_time;
@@ -155,3 +159,8 @@ void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {
   }
 }
 
+
+postmortem_info Player::postmortem() {
+  if(!is_dead()) throw logic_error("postmortem() can only be called on a player that is already dead.");
+  return info;
+}

@@ -31,7 +31,7 @@
     <string value="../assets/sounds/hit_3.ogg" id="IDS_PATH_HURT_SOUND" type="sound"/>
     <string value="../assets/sounds/pickup.ogg" id="IDS_PATH_HEAL_SOUND" type="sound"/>
     <string value="../assets/sounds/slash.ogg" id="IDS_PATH_SLASH_SOUND" type="sound"/>
-    <string value="../assets/sounds/slash.ogg" id="IDS_PATH_SHEATH_SOUND" type="sound"/>
+    <string value="../assets/sounds/sheath_sword.ogg" id="IDS_PATH_SHEATH_SOUND" type="sound"/>
     <string value="../assets/sounds/hit_2.ogg" id="IDS_PATH_KILL_SOUND" type="sound"/>
     <string value="../assets/sounds/poweruppything.ogg" id="IDS_PATH_RING_SOUND" type="sound"/>
     <string value="../assets/sounds/oggsplosion.ogg" id="IDS_PATH_BOMB_SOUND" type="sound"/>

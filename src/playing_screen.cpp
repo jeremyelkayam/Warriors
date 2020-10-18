@@ -7,7 +7,7 @@
 
 #include "playing_screen.hpp"
 
-PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, int num_players) :
+PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, unsigned int num_players) :
 Screen(a_text_loader, a_resource_manager),
         width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
@@ -23,7 +23,8 @@ ring(a_resource_manager.get_texture("IDS_PATH_RING_TEX"),
      a_resource_manager.get_sound_buffer("IDS_PATH_RING_SOUND"),120.f),
 bomb(a_resource_manager.get_texture("IDS_PATH_BOMB_TEX"),
      a_resource_manager.get_texture("IDS_PATH_FUSE_TEX"),
-     a_resource_manager.get_sound_buffer("IDS_PATH_BOMB_SOUND"),80.f) {//todo: maybe add randomness to the spawn time
+     a_resource_manager.get_sound_buffer("IDS_PATH_BOMB_SOUND"),80.f), //todo: maybe add randomness to the spawn time
+dead_players_info(num_players) {
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -40,8 +41,8 @@ bomb(a_resource_manager.get_texture("IDS_PATH_BOMB_TEX"),
   background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX0"));
   foreground.setTexture(a_resource_manager.get_texture("IDS_PATH_FOREGROUND_TEX"));
 
-  for(int i = 0; i < num_players ; ++i) {
-    players.emplace_back(Player(a_text_loader,a_resource_manager, sf::Color::Cyan));
+  for(unsigned int i = 0; i < num_players ; ++i) {
+    players.emplace_back(Player(i, a_text_loader,a_resource_manager, sf::Color::Cyan));
     hud.add_player(players.back());
   }
 
@@ -73,6 +74,7 @@ void PlayingScreen::update(float s_elapsed){
     auto player_iter = players.begin();
     while(player_iter != players.end()){
       if(player_iter->is_dead()){
+        dead_players_info.at(player_iter->get_player_number()) = player_iter->postmortem();
         players.erase(player_iter++);
       }else{
         player_iter->update(s_elapsed);
@@ -205,7 +207,7 @@ sf::Vector2f PlayingScreen::random_distant_location(float threshold){
 
 void PlayingScreen::spawn_enemies(){
 
-  for(int i = 0; i < ( total_time_elapsed * players.size() ) ; i+=15) {
+  for(int i = 0; i < ( total_time_elapsed * players.size() ) || i <= 5 ; i+=15) {
 
     sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
@@ -268,6 +270,7 @@ void PlayingScreen::update_enemies(float s_elapsed){
 
       if (player.slicing(*it)) {
         enemies.erase(it++);
+        player.add_kills(1);
 
         if(ring.effect_active())
           player.heal(base_heal);
@@ -352,17 +355,21 @@ void PlayingScreen::keyboard_movement(){
 }
 
 unique_ptr<Screen> PlayingScreen::next_screen() {
-  assert(go_to_next());
-  return unique_ptr<Screen>(new EndScreen(text_loader,resource_manager,total_time_elapsed));
+  if(!go_to_next()) throw logic_error("next_screen() can only be called in PlayingScreen if all players are dead.");
+
+  //We MUST pass dead_players_info by value here, sadly. We created it in this class, and the next class needs it.
+  //It COULD be stored at a Logic level, but I don't want Logic to have to worry about all that crap.
+  return unique_ptr<Screen>(new EndScreen(text_loader,resource_manager,dead_players_info));
 }
 
 void PlayingScreen::explode() {
-  assert(bomb.effect_active());
+  if(!bomb.effect_active()) throw logic_error("explode() can only be called immediately after the bomb is activated.");
   if(ring.effect_active()) {
     for (auto &player : players) {
       //The bomb is unique in that it heals all players equally. The amount of health healed per enemy
       //is dependent on the heal nerf. Health is then divided equally between all players.
       player.heal((unsigned int) (enemies.size() / (players.size() * text_loader.get_integer("IDS_BOMB_HEAL_NERF"))));
+      player.add_kills((unsigned int) (enemies.size() / players.size()));
     }
   }
   enemies.clear();

@@ -3,33 +3,47 @@
 //
 
 #include "end_screen.hpp"
-EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, float game_time) :
+EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, vector<postmortem_info> dead_players_info) :
         Screen(a_text_loader, a_resource_manager),
         min_screen_time(a_text_loader.get_float("IDS_MIN_SCREEN_TIME")){
 
   screen_over = false;
   time_so_far = 0;
 
+  sf::Text loss_text;
+
   setup_text(loss_text, a_text_loader.get_float("IDS_VIEW_X")/2, a_text_loader.get_float("IDS_VIEW_X")/4,
           a_text_loader.get_string("IDS_LOSS_TEXT"), 1);
 
-  //Let's get the number of digits BEFORE the decimal point
-  unsigned long whole_digits = std::to_string((int)game_time).length();
+  screen_texts.emplace_back(loss_text);
+  cout << "dead players:"  << dead_players_info.size() << endl;
 
-  string time_trunc = std::to_string(game_time);
+  for(unsigned long i = 0 ; i < dead_players_info.size() ; ++i){
+    screen_texts.emplace_back(sf::Text());
+    //Let's get the number of digits BEFORE the decimal point
+    unsigned long whole_digits = std::to_string((int)dead_players_info.at(i).age).length();
 
-  time_trunc.resize(whole_digits + 2);
+    string time_trunc = std::to_string(dead_players_info.at(i).age);
 
-  setup_text(lasted_text, a_text_loader.get_float("IDS_VIEW_X")/2, a_text_loader.get_float("IDS_VIEW_X")/2,
-             "You lasted " + time_trunc + " seconds.", 1);
+    time_trunc.resize(whole_digits + 2);
+
+    setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
+            a_text_loader.get_float("IDS_VIEW_Y") * (i+1) / (dead_players_info.size() + 1) ,
+            "Player "+std::to_string(i)+" lasted " + time_trunc + " seconds\nand killed "+
+            std::to_string(dead_players_info.at(i).num_kills)+" enemies.", 1);
+
+
+  }
+
   end_game_sound.setBuffer(a_resource_manager.get_sound_buffer("IDS_PATH_LOSE_MUSIC"));
   end_game_sound.play();
 
 }
 
 void EndScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
-  window.draw(loss_text);
-  window.draw(lasted_text);
+  for(const auto &text : screen_texts) {
+    window.draw(text);
+  }
 }
 
 bool EndScreen::go_to_next() {

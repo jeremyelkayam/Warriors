@@ -8,6 +8,7 @@
 #include "title_screen.hpp"
 
 using std::string;
+using std::list;
 
 class EndScreen : public Screen {
 
@@ -19,7 +20,7 @@ private:
 
   const float min_screen_time;
 
-  sf::Text loss_text, lasted_text;
+  list<sf::Text> screen_texts;
 
   void setup_text(sf::Text &text, float xcor, float ycor, string content, int size_multiplier);
 
@@ -27,7 +28,7 @@ private:
 
 
 public:
-  EndScreen(TextLoader &text_loader, ResourceManager &resource_manager, float game_time);
+  EndScreen(TextLoader &text_loader, ResourceManager &resource_manager, vector<postmortem_info> dead_players_info);
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 

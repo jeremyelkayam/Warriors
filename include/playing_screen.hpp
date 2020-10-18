@@ -13,6 +13,7 @@
 #include <random>
 #include <chrono>
 #include <algorithm>
+#include <stdexcept>
 #include "player.hpp"
 #include "enemy.hpp"
 #include "potion.hpp"
@@ -29,6 +30,7 @@ using std::shared_ptr;
 using std::mt19937;
 using std::uniform_real_distribution;
 using std::min;
+using std::logic_error;
 
 class PlayingScreen : public Screen
 {
@@ -37,6 +39,8 @@ private:
   const vector<sf::Color> explosion_colors
   { sf::Color::White, sf::Color::Yellow, sf::Color::White, sf::Color::Cyan, sf::Color::White, sf::Color::Red,
     sf::Color::White, sf::Color::Green };
+
+  vector<postmortem_info> dead_players_info;
 
   sf::Sprite background, foreground;
 
@@ -117,7 +121,7 @@ public:
     Constructor for the PlayingScreen class.
     Sets up the initial values for PlayingScreen.
    */
-  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, int num_players);
+  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, unsigned int num_players);
 
   void update(float s_elapsed) override;
 
