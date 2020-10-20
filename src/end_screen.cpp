@@ -29,7 +29,7 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
 
     setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
             a_text_loader.get_float("IDS_VIEW_Y") * (i+1) / (dead_players_info.size() + 1) ,
-            "Player "+std::to_string(i)+" lasted " + time_trunc + " seconds\nand killed "+
+            "Player "+std::to_string(i+1)+" lasted " + time_trunc + " seconds\nand killed "+
             std::to_string(dead_players_info.at(i).num_kills)+" enemies.", 1);
   }
 
