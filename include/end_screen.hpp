@@ -4,8 +4,10 @@
 
 #pragma once
 
+#include <list>
 #include "screen.hpp"
 #include "title_screen.hpp"
+#include "player.hpp"
 
 using std::string;
 using std::list;

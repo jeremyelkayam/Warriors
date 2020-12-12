@@ -6,3 +6,5 @@ cmake-build-debug/
 cmake/
 # Emacs buffer files
 *~
+.vscode/launch.json
+.vscode/tasks.json

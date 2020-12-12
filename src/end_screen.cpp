@@ -51,7 +51,7 @@ bool EndScreen::go_to_next() {
 unique_ptr<Screen> EndScreen::next_screen(){
   assert(go_to_next());
   end_game_sound.stop();
-  return unique_ptr<Screen>(new TitleScreen(text_loader, resource_manager));
+  return unique_ptr<Screen>(new MenuScreen(text_loader, resource_manager));
 }
 
 void EndScreen::handle_event(sf::Event &evt) {

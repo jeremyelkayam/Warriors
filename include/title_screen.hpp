@@ -5,7 +5,7 @@
 #pragma once
 
 #include "screen.hpp"
-#include "playing_screen.hpp"
+#include "menu_screen.hpp"
 
 class TitleScreen : public Screen {
 

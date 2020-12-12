@@ -28,7 +28,7 @@ bool TitleScreen::go_to_next() {
 unique_ptr<Screen> TitleScreen::next_screen(){
   assert(go_to_next());
   title_theme.stop();
-  return unique_ptr<PlayingScreen>(new PlayingScreen(text_loader, resource_manager, 1));
+  return unique_ptr<MenuScreen>(new MenuScreen(text_loader, resource_manager));
 }
 
 void TitleScreen::handle_event(sf::Event &evt) {
