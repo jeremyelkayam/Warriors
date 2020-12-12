@@ -12,7 +12,7 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
 
   sf::Text loss_text;
 
-  setup_text(loss_text, a_text_loader.get_float("IDS_VIEW_X")/2, a_text_loader.get_float("IDS_VIEW_X")/4,
+  setup_text(loss_text, a_text_loader.get_float("IDS_VIEW_X")/2, a_text_loader.get_float("IDS_VIEW_X")/10,
           a_text_loader.get_string("IDS_LOSS_TEXT"), 1);
 
   screen_texts.emplace_back(loss_text);
@@ -28,10 +28,16 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
     time_trunc.resize(whole_digits + 2);
 
     setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
-            a_text_loader.get_float("IDS_VIEW_Y") * (i+1) / (dead_players_info.size() + 1) ,
+            a_text_loader.get_float("IDS_VIEW_Y") * (i+1) / (dead_players_info.size() + 2) ,
             "Player "+std::to_string(i+1)+" lasted " + time_trunc + " seconds\nand killed "+
             std::to_string(dead_players_info.at(i).num_kills)+" enemies.", 1);
   }
+  
+  screen_texts.emplace_back(sf::Text());
+
+  setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
+            a_text_loader.get_float("IDS_VIEW_Y") * (dead_players_info.size()+1) / (dead_players_info.size() + 2) ,
+            "Press 1 to play again with\n same options.\n\nPress 2 to return to main menu.", 1);
 
   end_game_sound.setBuffer(a_resource_manager.get_sound_buffer("IDS_PATH_LOSE_MUSIC"));
   end_game_sound.play();
@@ -58,8 +64,7 @@ void EndScreen::handle_event(sf::Event &evt) {
 
   if(time_so_far > 2.f) {
     //if the mouse was clicked or a key was pressed, we can move on.
-    screen_over = (evt.type == sf::Event::EventType::MouseButtonPressed ||
-                   evt.type == sf::Event::EventType::KeyPressed);
+    screen_over = evt.key.code == sf::Keyboard::Num1;
   }
 }
 

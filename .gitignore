@@ -1,10 +1,12 @@
 # Build folders
 Release/
 Debug/
-.idea/
 cmake-build-debug/
 cmake/
 # Emacs buffer files
 *~
+
+#IDE/editor files
 .vscode/launch.json
 .vscode/tasks.json
+.idea/

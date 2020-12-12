@@ -36,6 +36,10 @@
     <constant value="256" id="IDS_VIEW_X"/>
     <constant value="192" id="IDS_VIEW_Y"/>
 
+    <!--Menu constants-->
+    <constant value="1" id="IDS_MENU_FLASH_INTERVAL"/>
+
+
     <!--PlayingScreen constants-->
     <constant value="1" id="IDS_MIN_SPAWN_INTERVAL"/>
     <constant value="10" id="IDS_BASE_SPAWN_INTERVAL"/>
