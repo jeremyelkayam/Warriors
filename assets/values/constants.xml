@@ -7,7 +7,12 @@
     <constant value="24" id="IDS_WINDOW_PDEPTH" />
 
 
-    <constant value="7" id="IDS_FONT_SIZE"/>
+    <constant value="7" id="IDS_FONT_SIZE_0"/>
+    <constant value="8" id="IDS_FONT_SIZE_1"/>
+    <!-- <constant value="15" id="IDS_FONT_SIZE_2"/> -->
+
+    <!--the number of fonts that are pixelated (excludes the readable font)-->
+    <constant value="2" id="IDS_NUM_PIXEL_FONTS"/>
 
     <!--size of one space on the color grid-->
     <constant value="8" id="IDS_COLORGRID_SIZE"/>

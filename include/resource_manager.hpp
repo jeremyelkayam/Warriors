@@ -22,10 +22,14 @@ using std::map;
 
 class ResourceManager {
 private:
+
+TextLoader &text_loader;
+
   unordered_map<string, sf::Texture> textures;
   unordered_map<string, sf::SoundBuffer> sound_buffers;
 
-  sf::Font font;
+  vector<sf::Font> fonts;
+  unsigned int font_index;
 
   //for later
   unordered_map<string, vector<sf::Texture>> animations;
@@ -41,6 +45,10 @@ public:
 
   sf::SoundBuffer &get_sound_buffer(string id);
 
-  sf::Font &get_font() {return font;}
+  sf::Font &get_font() {return fonts.at(font_index);}
+
+  void move_font(bool forward);
+
+  int get_font_size();
 
 };

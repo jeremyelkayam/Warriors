@@ -71,7 +71,7 @@ void EndScreen::update(float s_elapsed) {
 void EndScreen::setup_text(sf::Text &text, float xcor, float ycor, string content, int size_multiplier){
   text.setFont(resource_manager.get_font());
   text.setString(content);
-  text.setCharacterSize((unsigned int)text_loader.get_integer("IDS_FONT_SIZE") * size_multiplier);
+  text.setCharacterSize((unsigned int)resource_manager.get_font_size() * size_multiplier);
   sf::FloatRect textRect=text.getLocalBounds();
   text.setOrigin(textRect.left + textRect.width/2,
                  textRect.top + textRect.height/2);

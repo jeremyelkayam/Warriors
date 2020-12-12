@@ -6,7 +6,9 @@
   <string value="Well, you died." id="IDS_LOSS_TEXT"/>
 
   <!-- Font Paths -->
-  <string value="../assets/fonts/zx-spectrum.ttf" id="IDS_PATH_FONT"/>
+  <string value="../assets/fonts/zx-spectrum.ttf" id="IDS_PATH_FONT_0"/>
+  <string value="../assets/fonts/Wizard.ttf" id="IDS_PATH_FONT_1"/>
+  <string value="../assets/fonts/Helvetica.ttf" id="IDS_PATH_READABLE_FONT"/>
 
   <paths>
     <!--Texture Paths-->

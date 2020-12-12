@@ -16,18 +16,26 @@ sf::SoundBuffer &ResourceManager::get_sound_buffer(string id) {
   return sound_buffers.at(id);
 }
 
-ResourceManager::ResourceManager(TextLoader &text_loader) {
+ResourceManager::ResourceManager(TextLoader &a_text_loader) : text_loader(a_text_loader) {
 
   load_textures(text_loader.get_all_texture_paths());
   load_sounds(text_loader.get_all_sound_paths());
 
-  font.loadFromFile(text_loader.get_string("IDS_PATH_FONT"));
+  for(int z = 0; z < text_loader.get_integer("IDS_NUM_PIXEL_FONTS") ; z++){
+    sf::Font default_font;
+    default_font.loadFromFile(text_loader.get_string("IDS_PATH_FONT_" + std::to_string(z)));
 
-  // tHIS IS TERRIBLE! BUT I GUESS THE CURRENT VERSION OF SFML DOESN'T HAVE A GOOD WAY TO SET THE SMOOTHING OFF ON
-  // THE TEXTURE.
-  auto& texture = const_cast<sf::Texture&>(font.getTexture((unsigned int)text_loader.get_integer("IDS_FONT_SIZE")));
-  texture.setSmooth(false);
+    // tHIS IS TERRIBLE! BUT I GUESS THE CURRENT VERSION OF SFML DOESN'T HAVE A GOOD WAY TO SET THE SMOOTHING OFF ON
+    // THE TEXTURE.
+    auto& texture = const_cast<sf::Texture&>(default_font.getTexture((unsigned int)text_loader.get_integer("IDS_FONT_SIZE_" + std::to_string(z))));
+    texture.setSmooth(false);
+    fonts.emplace_back(default_font);
+  }
 
+  // sf::Font readable_font;
+  // readable_font.loadFromFile(text_loader.get_string("IDS_PATH_READABLE_FONT"));
+  // fonts.emplace_back(readable_font);
+  font_index = 1;
 }
 
 void ResourceManager::load_textures(unordered_map<string, string> &paths) {
@@ -52,4 +60,18 @@ void ResourceManager::load_sounds(unordered_map<string, string> &paths) {
     sound_buffers.insert({it.first, buf});
 
   }
+}
+
+void ResourceManager::move_font(bool forward){
+  if(forward){
+    font_index++;
+  }else{
+    font_index--;
+  }
+  //wrap around
+  font_index %= fonts.size();
+}
+
+int ResourceManager::get_font_size(){
+  return text_loader.get_integer("IDS_FONT_SIZE_" + std::to_string(font_index)); 
 }

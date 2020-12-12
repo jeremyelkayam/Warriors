@@ -17,7 +17,7 @@ sword_icon_tex(a_resource_manager.get_texture("IDS_PATH_SWORD_READY_TEX"))
   background.setPosition(0,top);
 
   time_text.setFont(a_resource_manager.get_font());
-  time_text.setCharacterSize((unsigned int)a_text_loader.get_integer("IDS_FONT_SIZE"));
+  time_text.setCharacterSize((unsigned int)a_resource_manager.get_font_size());
   time_text.setFillColor(sf::Color::White);
 
   //todo: parameterize.
