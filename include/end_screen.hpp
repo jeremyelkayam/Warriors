@@ -16,6 +16,8 @@ class EndScreen : public Screen {
 
 private:
 
+  const game_options opts;
+
   bool screen_over;
   bool play_again;
 
@@ -31,7 +33,7 @@ private:
 
 
 public:
-  EndScreen(TextLoader &text_loader, ResourceManager &resource_manager, vector<postmortem_info> dead_players_info);
+  EndScreen(TextLoader &text_loader, ResourceManager &resource_manager, vector<postmortem_info> dead_players_info, game_options game_opts);
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 

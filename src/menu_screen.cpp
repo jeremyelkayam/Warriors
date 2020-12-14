@@ -86,7 +86,14 @@ void MenuScreen::handle_event(sf::Event &evt){
 
 unique_ptr<Screen>MenuScreen:: next_screen(){
     if(!go_to_next()) throw logic_error("error: next_screen called before go_to_next");
-    return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager, 1));
+
+    game_options opts;
+    if(selected == 0){
+        opts.num_players = 1;
+    }else if(selected == 1){
+        opts.num_players = 2;
+    }
+    return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager, opts));
 }
 
 void MenuScreen::update(float s_elapsed){

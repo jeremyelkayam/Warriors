@@ -11,6 +11,10 @@
 
 using std::unique_ptr;
 
+struct game_options{
+  unsigned int num_players;
+};
+
 class Screen {
 
 protected:

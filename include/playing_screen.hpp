@@ -19,6 +19,7 @@
 #include "potion.hpp"
 #include "screen.hpp"
 #include "end_screen.hpp"
+#include "playing_screen.hpp"
 #include "resource_manager.hpp"
 #include "hud.hpp"
 #include "bomb.hpp"
@@ -35,6 +36,8 @@ using std::logic_error;
 class PlayingScreen : public Screen
 {
 private:
+
+  const game_options opts;
 
   const vector<sf::Color> explosion_colors
   { sf::Color::White, sf::Color::Yellow, sf::Color::White, sf::Color::Cyan, sf::Color::White, sf::Color::Red,
@@ -121,7 +124,7 @@ public:
     Constructor for the PlayingScreen class.
     Sets up the initial values for PlayingScreen.
    */
-  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, unsigned int num_players);
+  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, game_options game_opts);
 
   void update(float s_elapsed) override;
 

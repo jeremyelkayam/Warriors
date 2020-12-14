@@ -7,7 +7,7 @@
 
 #include "playing_screen.hpp"
 
-PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, unsigned int num_players) :
+PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, game_options game_opts) :
 Screen(a_text_loader, a_resource_manager),
         width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
@@ -24,7 +24,8 @@ ring(a_resource_manager.get_texture("IDS_PATH_RING_TEX"),
 bomb(a_resource_manager.get_texture("IDS_PATH_BOMB_TEX"),
      a_resource_manager.get_texture("IDS_PATH_FUSE_TEX"),
      a_resource_manager.get_sound_buffer("IDS_PATH_BOMB_SOUND"),80.f), //todo: maybe add randomness to the spawn time
-dead_players_info(num_players) {
+dead_players_info(game_opts.num_players),
+opts(game_opts){
   time_since_last_enemy_spawn = 0;
   time_since_last_potion_spawn = 0;
   total_time_elapsed = 0;
@@ -41,7 +42,7 @@ dead_players_info(num_players) {
   background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX0"));
   foreground.setTexture(a_resource_manager.get_texture("IDS_PATH_FOREGROUND_TEX"));
 
-  for(unsigned int i = 0; i < num_players ; ++i) {
+  for(unsigned int i = 0; i < opts.num_players ; ++i) {
     players.emplace_back(Player(i, a_text_loader,a_resource_manager, sf::Color::Cyan));
     hud.add_player(players.back());
   }
@@ -359,7 +360,7 @@ unique_ptr<Screen> PlayingScreen::next_screen() {
 
   //We MUST pass dead_players_info by value here, sadly. We created it in this class, and the next class needs it.
   //It COULD be stored at a Logic level, but I don't want Logic to have to worry about all that crap.
-  return unique_ptr<Screen>(new EndScreen(text_loader,resource_manager,dead_players_info));
+  return unique_ptr<Screen>(new EndScreen(text_loader,resource_manager,dead_players_info, opts));
 }
 
 void PlayingScreen::explode() {
