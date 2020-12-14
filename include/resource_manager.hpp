@@ -23,7 +23,7 @@ using std::map;
 class ResourceManager {
 private:
 
-TextLoader &text_loader;
+  TextLoader &text_loader;
 
   unordered_map<string, sf::Texture> textures;
   unordered_map<string, sf::SoundBuffer> sound_buffers;
@@ -50,5 +50,7 @@ public:
   void move_font(bool forward);
 
   int get_font_size();
+
+  void setup_text(sf::Text &text, float xcor, float ycor, string content, bool center_coords = false, int size_multiplier = 1);
 
 };

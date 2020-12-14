@@ -75,3 +75,16 @@ void ResourceManager::move_font(bool forward){
 int ResourceManager::get_font_size(){
   return text_loader.get_integer("IDS_FONT_SIZE_" + std::to_string(font_index)); 
 }
+
+void ResourceManager::setup_text(sf::Text &text, float xcor, float ycor, string content, bool center_coords, int size_multiplier){
+  text.setFont(get_font());
+  text.setString(content);
+  text.setCharacterSize((unsigned int)get_font_size() * size_multiplier);
+  sf::FloatRect textRect=text.getLocalBounds();
+  if(center_coords){
+    text.setOrigin(textRect.left + textRect.width/2,
+                   textRect.top + textRect.height/2);
+  }
+
+  text.setPosition(xcor,ycor);
+}

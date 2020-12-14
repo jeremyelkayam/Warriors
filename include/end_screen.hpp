@@ -17,6 +17,7 @@ class EndScreen : public Screen {
 private:
 
   bool screen_over;
+  bool play_again;
 
   float time_so_far;
 

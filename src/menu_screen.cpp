@@ -3,37 +3,31 @@
 MenuScreen::MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
 Screen(a_text_loader, a_resource_manager), flash_interval(text_loader.get_float("IDS_MENU_FLASH_INTERVAL")) {
 
-    header.setFont(resource_manager.get_font());
-    header.setString("WARRIORS GAME SELECTION");
-    header.setCharacterSize((unsigned int)resource_manager.get_font_size());
-    header.setPosition(10,10);
+    resource_manager.setup_text(header, 10, 10,"WARRIORS GAME SELECTION");
+
 
     //todo: fix this because it sucks
     vector<string> optstrs = {"1 QUICK 1P GAME", "2 GAME WITH OPTIONS", "3 KEY BINDINGS", "4 OTHER CRAP"};
 
     sf::Text quickstart;
-    quickstart.setFont(resource_manager.get_font());
-    quickstart.setString("1 QUICK 1P GAME");
-    quickstart.setCharacterSize((unsigned int)resource_manager.get_font_size());
-    quickstart.setPosition(60,50);
+
+    resource_manager.setup_text(quickstart, 60, 50,"1 QUICK 1P GAME");
+
     quickstart.setFillColor(sf::Color::Red);
 
     options.emplace_back(quickstart);
 
-    quickstart.setString("2 QUICK 2P GAME");
-    quickstart.setPosition(60,80);
+    resource_manager.setup_text(quickstart, 60, 80,"2 QUICK 2P GAME");
     quickstart.setFillColor(sf::Color::Magenta);
 
     options.emplace_back(quickstart);
 
+
+
+
     copyright.setTexture(resource_manager.get_texture("IDS_PATH_COPYRIGHT_TEX"));
     copyright.setPosition(8,180);
-
-    footer.setFont(resource_manager.get_font());
-    footer.setString("1987 J.N.E. ALL RIGHTS RESERVED");
-    footer.setCharacterSize((unsigned int)resource_manager.get_font_size());
-    footer.setPosition(18,180);
-
+    resource_manager.setup_text(footer, 18, 180,"1987 J.N.E. ALL RIGHTS RESERVED");
 
     selected = 0;
     reset_selector();

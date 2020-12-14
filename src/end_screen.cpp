@@ -7,13 +7,15 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
         Screen(a_text_loader, a_resource_manager),
         min_screen_time(a_text_loader.get_float("IDS_MIN_SCREEN_TIME")){
 
+
   screen_over = false;
+  play_again = false;
   time_so_far = 0;
 
   sf::Text loss_text;
 
-  setup_text(loss_text, a_text_loader.get_float("IDS_VIEW_X")/2, a_text_loader.get_float("IDS_VIEW_X")/10,
-          a_text_loader.get_string("IDS_LOSS_TEXT"), 1);
+  resource_manager.setup_text(loss_text, a_text_loader.get_float("IDS_VIEW_X")/2, a_text_loader.get_float("IDS_VIEW_X")/10,
+          a_text_loader.get_string("IDS_LOSS_TEXT"), true);
 
   screen_texts.emplace_back(loss_text);
   cout << "dead players:"  << dead_players_info.size() << endl;
@@ -27,17 +29,17 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
 
     time_trunc.resize(whole_digits + 2);
 
-    setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
+    resource_manager.setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
             a_text_loader.get_float("IDS_VIEW_Y") * (i+1) / (dead_players_info.size() + 2) ,
             "Player "+std::to_string(i+1)+" lasted " + time_trunc + " seconds\nand killed "+
-            std::to_string(dead_players_info.at(i).num_kills)+" enemies.", 1);
+            std::to_string(dead_players_info.at(i).num_kills)+" enemies.", true);
   }
   
   screen_texts.emplace_back(sf::Text());
 
-  setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
+  resource_manager.setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
             a_text_loader.get_float("IDS_VIEW_Y") * (dead_players_info.size()+1) / (dead_players_info.size() + 2) ,
-            "Press 1 to play again with\n same options.\n\nPress 2 to return to main menu.", 1);
+            "Press 1 to play again with\n same options.\n\nPress 2 to return to main menu.", true);
 
   end_game_sound.setBuffer(a_resource_manager.get_sound_buffer("IDS_PATH_LOSE_MUSIC"));
   end_game_sound.play();
@@ -57,6 +59,10 @@ bool EndScreen::go_to_next() {
 unique_ptr<Screen> EndScreen::next_screen(){
   assert(go_to_next());
   end_game_sound.stop();
+  
+  if(play_again)
+    return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager, screen_texts.size() - 2));
+
   return unique_ptr<Screen>(new MenuScreen(text_loader, resource_manager));
 }
 
@@ -64,22 +70,12 @@ void EndScreen::handle_event(sf::Event &evt) {
 
   if(time_so_far > 2.f) {
     //if the mouse was clicked or a key was pressed, we can move on.
-    screen_over = evt.key.code == sf::Keyboard::Num1;
+    play_again = evt.key.code == sf::Keyboard::Num1;
+
+    screen_over = (evt.key.code == sf::Keyboard::Num1 || evt.key.code == sf::Keyboard::Num2);
   }
 }
 
 void EndScreen::update(float s_elapsed) {
   time_so_far += s_elapsed;
-}
-
-
-void EndScreen::setup_text(sf::Text &text, float xcor, float ycor, string content, int size_multiplier){
-  text.setFont(resource_manager.get_font());
-  text.setString(content);
-  text.setCharacterSize((unsigned int)resource_manager.get_font_size() * size_multiplier);
-  sf::FloatRect textRect=text.getLocalBounds();
-  text.setOrigin(textRect.left + textRect.width/2,
-                 textRect.top + textRect.height/2);
-
-  text.setPosition(xcor,ycor);
 }
