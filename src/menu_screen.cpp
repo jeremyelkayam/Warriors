@@ -20,14 +20,25 @@ Screen(a_text_loader, a_resource_manager), flash_interval(text_loader.get_float(
 
     options.emplace_back(quickstart);
 
-    quickstart.setString("2 PLACEHOLDER");
+    quickstart.setString("2 QUICK 2P GAME");
     quickstart.setPosition(60,80);
     quickstart.setFillColor(sf::Color::Magenta);
 
     options.emplace_back(quickstart);
 
+    copyright.setTexture(resource_manager.get_texture("IDS_PATH_COPYRIGHT_TEX"));
+    copyright.setPosition(8,180);
+
+    footer.setFont(resource_manager.get_font());
+    footer.setString("1987 J.N.E. ALL RIGHTS RESERVED");
+    footer.setCharacterSize((unsigned int)resource_manager.get_font_size());
+    footer.setPosition(18,180);
+
+
     selected = 0;
     reset_selector();
+
+    screen_over = false;
 }
 
 void MenuScreen::reset_selector(){
@@ -45,6 +56,8 @@ void MenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){
         window.draw(option);
     }
     window.draw(header);
+    window.draw(footer);
+    window.draw(copyright);
 }
 
 bool MenuScreen::go_to_next(){

@@ -26,6 +26,7 @@
     <string value="../assets/sprites/swordreadyicon.png" id="IDS_PATH_SWORD_READY_TEX" type="texture"/>
     <string value="../assets/sprites/shortsword.png" id="IDS_PATH_SHORTSWORD_TEX" type="texture"/>
     <string value="../assets/sprites/title.png" id="IDS_PATH_TITLE_TEX" type="texture"/>
+    <string value="../assets/sprites/copyright.png" id="IDS_PATH_COPYRIGHT_TEX" type="texture"/>
 
     <!--Sound Paths-->
     <string value="../assets/sounds/supertest-lose.ogg" id="IDS_PATH_LOSE_MUSIC" type="sound"/>

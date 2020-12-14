@@ -7,7 +7,8 @@ using std::string;
 
 class MenuScreen : public Screen {
     protected:
-        sf::Text header;
+        sf::Sprite copyright;
+        sf::Text header,footer;
         vector<sf::Text> options;
         sf::RectangleShape selector;
 
