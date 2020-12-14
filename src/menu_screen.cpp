@@ -3,20 +3,25 @@
 MenuScreen::MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
 Screen(a_text_loader, a_resource_manager), flash_interval(text_loader.get_float("IDS_MENU_FLASH_INTERVAL")) {
 
+    header.setFont(resource_manager.get_font());
+    header.setString("WARRIORS GAME SELECTION");
+    header.setCharacterSize((unsigned int)resource_manager.get_font_size());
+    header.setPosition(10,10);
 
+    //todo: fix this because it sucks
     vector<string> optstrs = {"1 QUICK 1P GAME", "2 GAME WITH OPTIONS", "3 KEY BINDINGS", "4 OTHER CRAP"};
 
     sf::Text quickstart;
     quickstart.setFont(resource_manager.get_font());
     quickstart.setString("1 QUICK 1P GAME");
     quickstart.setCharacterSize((unsigned int)resource_manager.get_font_size());
-    quickstart.setPosition(10,40);
+    quickstart.setPosition(60,50);
     quickstart.setFillColor(sf::Color::Red);
 
     options.emplace_back(quickstart);
 
     quickstart.setString("2 PLACEHOLDER");
-    quickstart.setPosition(10,80);
+    quickstart.setPosition(60,80);
     quickstart.setFillColor(sf::Color::Magenta);
 
     options.emplace_back(quickstart);
@@ -39,8 +44,7 @@ void MenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){
     for(auto &option : options){
         window.draw(option);
     }
-    
-    
+    window.draw(header);
 }
 
 bool MenuScreen::go_to_next(){
@@ -67,7 +71,6 @@ void MenuScreen::handle_event(sf::Event &evt){
             selected--;
         }
         selected %= options.size();
-
 
         reset_selector();
     }
