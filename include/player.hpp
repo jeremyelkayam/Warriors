@@ -44,6 +44,8 @@ private:
 
   sf::Sound hurt_sound, heal_sound, slash_sound, sheath_sound;
 
+  sf::Text label;
+
   postmortem_info info;
 
 public:

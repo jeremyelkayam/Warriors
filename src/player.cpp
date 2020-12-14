@@ -18,7 +18,8 @@ void Player::move(float s_elapsed){
 
   sprite.setPosition(new_xcor,new_ycor);
 
-  //cout << "position: " << new_xcor << "," << new_ycor << endl;
+  label.setPosition(new_xcor, new_ycor - (sprite.getGlobalBounds().height * 0.75 ));
+
 }
 
 void Player::set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
@@ -124,6 +125,10 @@ Warrior(text_loader.get_float("IDS_VIEW_X") / 2,
   this->invis_frames = 0;
   this->sword_time = max_sword_time;
 
+  resource_manager.setup_text(label, get_xcor(), get_ycor(), "P" + std::to_string(player_number + 1), true);
+  label.setFillColor(sf::Color::White);
+  label.setOutlineColor(sf::Color::Black);
+  label.setOutlineThickness(1);
 
   hurt_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_HURT_SOUND"));
   heal_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_HEAL_SOUND"));
@@ -156,6 +161,8 @@ void Player::draw(sf::RenderWindow &window, ColorGrid &color_grid) const {
   //If they do have invincibility frames, their sprite can flash on and off.
   if(invis_frames <= 0 || current_invis_frame % 2){
     Warrior::draw(window, color_grid);
+    window.draw(label);
+    color_grid.update(label.getGlobalBounds(), this->color);
   }
 }
 
