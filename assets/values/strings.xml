@@ -12,7 +12,8 @@
 
   <paths>
     <!--Texture Paths-->
-    <string value="../assets/sprites/dummy.png" id="IDS_PATH_WARRIOR_TEX" type="texture"/>
+    <string value="../assets/sprites/dummy.png" id="IDS_PATH_PLAYER_TEX" type="texture"/>
+    <string value="../assets/sprites/angry.png" id="IDS_PATH_ENEMY_TEX" type="texture"/>
     <string value="../assets/sprites/playbackground0.png" id="IDS_PATH_BACKGROUND_TEX0" type="texture"/>
     <string value="../assets/sprites/playbackground1.png" id="IDS_PATH_BACKGROUND_TEX1" type="texture"/>
     <string value="../assets/sprites/playforeground.png" id="IDS_PATH_FOREGROUND_TEX" type="texture"/>

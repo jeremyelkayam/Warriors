@@ -101,7 +101,7 @@ Player::Player(unsigned int &a_player_number, TextLoader &text_loader, ResourceM
 player_number(a_player_number),
 Warrior(text_loader.get_float("IDS_VIEW_X") / 2,
         (text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT")) / 2,
-        resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
+        resource_manager.get_texture("IDS_PATH_PLAYER_TEX"),
         resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
         color),
         max_sword_time(text_loader.get_float("IDS_SWORD_TIME")),

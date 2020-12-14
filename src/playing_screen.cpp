@@ -212,7 +212,7 @@ void PlayingScreen::spawn_enemies(){
     sf::Vector2f location = random_distant_location(text_loader.get_float("IDS_DISTANCE_THRESHOLD"));
 
     enemies.emplace_back(Enemy(location.x, location.y,
-                               resource_manager.get_texture("IDS_PATH_WARRIOR_TEX"),
+                               resource_manager.get_texture("IDS_PATH_ENEMY_TEX"),
                                resource_manager.get_texture("IDS_PATH_SHORTSWORD_TEX")));
   }
 
