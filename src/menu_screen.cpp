@@ -22,9 +22,6 @@ Screen(a_text_loader, a_resource_manager), flash_interval(text_loader.get_float(
 
     options.emplace_back(quickstart);
 
-
-
-
     copyright.setTexture(resource_manager.get_texture("IDS_PATH_COPYRIGHT_TEX"));
     copyright.setPosition(8,180);
     resource_manager.setup_text(footer, 18, 180,"1987 J.N.E. ALL RIGHTS RESERVED");

@@ -18,8 +18,16 @@ void Player::move(float s_elapsed){
 
   sprite.setPosition(new_xcor,new_ycor);
 
-  label.setPosition(new_xcor, new_ycor - (sprite.getGlobalBounds().height * 0.75 ));
+  float label_offset = sprite.getGlobalBounds().height * 0.75 ;
 
+  //if you're too close to the top of the screen, you can't see your player number
+  //also, we don't want the sword and the player number to both be above the player
+  //so in either case, just mirror its position relative to the player
+  if(new_ycor - label_offset <= (label.getLocalBounds().height / 2) ||
+      (sword.get_angle() == 270 && sword.is_active()))
+    label_offset *= -1;
+    
+  label.setPosition(new_xcor, new_ycor - label_offset);
 }
 
 void Player::set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
