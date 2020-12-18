@@ -43,6 +43,10 @@ private:
   { sf::Color::White, sf::Color::Yellow, sf::Color::White, sf::Color::Cyan, sf::Color::White, sf::Color::Red,
     sf::Color::White, sf::Color::Green };
 
+  const vector<sf::Color> player_colors { 
+    sf::Color::Cyan, sf::Color::Magenta, sf::Color::Yellow, sf::Color::Green
+  };
+
   vector<postmortem_info> dead_players_info;
 
   sf::Sprite background, foreground;

@@ -25,7 +25,7 @@
 
     <!-- Player constants -->
 
-    <constant value="4" id="IDS_MAX_PLAYERS"/>
+    <constant value="8" id="IDS_MAX_PLAYERS"/>
 
     <!--starting level of health for a player-->
     <constant value="5" id="IDS_DEFAULT_HEALTH"/>
@@ -41,6 +41,8 @@
 
 
     <!--PlayingScreen constants-->
+    <constant value="10" id="IDS_SPAWN_RADIUS"/>
+
     <constant value="1" id="IDS_MIN_SPAWN_INTERVAL"/>
     <constant value="10" id="IDS_BASE_SPAWN_INTERVAL"/>
 

@@ -42,8 +42,30 @@ opts(game_opts){
   background.setTexture(a_resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX0"));
   foreground.setTexture(a_resource_manager.get_texture("IDS_PATH_FOREGROUND_TEX"));
 
+
+  float x_center = text_loader.get_float("IDS_VIEW_X") / 2;
+  float y_center = (text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT")) / 2;
+
   for(unsigned int i = 0; i < opts.num_players ; ++i) {
-    players.emplace_back(Player(i, a_text_loader,a_resource_manager, sf::Color::Cyan));
+    /**
+     * It looks nicer if we spawn the players in a formation. For a simple formation,
+     * let's place them in equidistant positions on the perimeter of a circle.
+     * 
+     * It's very easy to do this in polar coordinates. Just scale the radius based
+     * on the number of players, and put the players at equal angle intervals, which 
+     * you can calculate by dividing 2pi by the number of players.
+     */
+    float r = text_loader.get_float("IDS_SPAWN_RADIUS") * (opts.num_players - 1);
+    float theta = i * ( 2 * M_PI / opts.num_players);
+    
+    // Convert to cartesian and translate to the center of the board.
+    float x = r * cos(theta) + x_center;
+    float y = r * sin(theta) + y_center;
+
+    players.emplace_back(Player(i,
+        a_text_loader,a_resource_manager, player_colors.at(i),
+        x, y));
+    
     hud.add_player(players.back());
   }
 
@@ -53,6 +75,7 @@ opts(game_opts){
 
   cout << "num players " << players.size() << endl;
 }
+
 
 
 void PlayingScreen::update(float s_elapsed){

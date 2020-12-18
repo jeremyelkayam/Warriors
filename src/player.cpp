@@ -98,10 +98,9 @@ void Player::update_sword(float s_elapsed){
   }
 }
 
-Player::Player(unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color) :
+Player::Player(const unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, const sf::Color color, const float &xcor, const float &ycor) :
 player_number(a_player_number),
-Warrior(text_loader.get_float("IDS_VIEW_X") / 2,
-        (text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT")) / 2,
+Warrior(xcor, ycor,
         resource_manager.get_texture("IDS_PATH_PLAYER_TEX"),
         resource_manager.get_texture("IDS_PATH_SWORD_TEX"),
         color),

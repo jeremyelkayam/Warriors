@@ -38,18 +38,18 @@ private:
 
   unsigned int health;
 
-  void move(float s_elapsed);
-
-  void update_sword(float s_elapsed);
-
   sf::Sound hurt_sound, heal_sound, slash_sound, sheath_sound;
 
   sf::Text label;
 
   postmortem_info info;
 
+  void move(float s_elapsed);
+
+  void update_sword(float s_elapsed);
+
 public:
-  Player(unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, sf::Color color);
+  Player(const unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, const sf::Color color, const float &xcor, const float &ycor);
 
   void update(float s_elapsed);
 
