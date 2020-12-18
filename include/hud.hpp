@@ -16,7 +16,8 @@ class HUD {
 private:
   sf::Sprite background;
 
-  const float top, health_bar_width, health_bar_height, sword_bar_max_width, sword_bar_height;
+  const float top, health_bar_width, health_bar_height, sword_bar_max_width,
+      sword_bar_height, right_boundary, top_padding, left_padding;
 
   const sf::Texture &sword_icon_tex;
 
@@ -27,6 +28,7 @@ private:
     list<sf::RectangleShape>health_bars;
     sf::RectangleShape sword_bar;
     sf::Sprite sword_icon;
+    sf::Text text;
   };
 
   list<hud_section>sections;
@@ -39,6 +41,6 @@ public:
 
   void update(float &total_time_elapsed);
 
-  void add_player(const Player &player);
+  void add_player(const Player &player, sf::Font &font, const unsigned int &size);
 
 };

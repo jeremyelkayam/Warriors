@@ -44,20 +44,21 @@ opts(game_opts){
 
 
   float x_center = text_loader.get_float("IDS_VIEW_X") / 2;
-  float y_center = (text_loader.get_float("IDS_VIEW_Y") - text_loader.get_float("IDS_HUD_HEIGHT")) / 2;
+  float y_center = (text_loader.get_float("IDS_VIEW_Y") - 
+      text_loader.get_float("IDS_HUD_HEIGHT")) / 2;
 
   for(unsigned int i = 0; i < opts.num_players ; ++i) {
     /**
      * It looks nicer if we spawn the players in a formation. For a simple formation,
      * let's place them in equidistant positions on the perimeter of a circle.
      * 
-     * It's very easy to do this in polar coordinates. Just scale the radius based
+     * This is a problem for polar coordinates. Just scale the radius based
      * on the number of players, and put the players at equal angle intervals, which 
      * you can calculate by dividing 2pi by the number of players.
      */
     float r = text_loader.get_float("IDS_SPAWN_RADIUS") * (opts.num_players - 1);
     float theta = i * ( 2 * M_PI / opts.num_players);
-    
+   
     // Convert to cartesian and translate to the center of the board.
     float x = r * cos(theta) + x_center;
     float y = r * sin(theta) + y_center;
@@ -66,7 +67,7 @@ opts(game_opts){
         a_text_loader,a_resource_manager, player_colors.at(i),
         x, y));
     
-    hud.add_player(players.back());
+    hud.add_player(players.back(), resource_manager.get_font(), resource_manager.get_font_size());
   }
 
   kill_sound.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_KILL_SOUND"));

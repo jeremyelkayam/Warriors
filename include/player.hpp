@@ -73,7 +73,7 @@ public:
 
   void add_kills(unsigned int num_kills) {this->info.num_kills += num_kills; }
 
-  unsigned int get_player_number() { return player_number; }
+  unsigned int get_player_number() const { return player_number; } 
 
   /*
    * Only callable when the player is dead. Provides information on what the player did during its lifetime.
