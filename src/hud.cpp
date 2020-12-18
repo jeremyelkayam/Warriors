@@ -47,9 +47,9 @@ void HUD::update(float &total_time_elapsed){
   //cout << "sections: " << sections.size() << endl;
 
   auto section_iterator = sections.begin();
-
-  // float ypadding = 8.0f;
-  // float xpadding = 8.0f;
+  
+  float xorigin = left_padding; //+ (right_boundary - left_padding) / num 
+  float yorigin = top_padding + top;
 
   while(section_iterator != sections.end()) {
     if (section_iterator->player.is_dead()) {
@@ -57,9 +57,6 @@ void HUD::update(float &total_time_elapsed){
       sections.erase(section_iterator++);
 
     } else {
-
-      float xorigin = left_padding; //+ (right_boundary - left_padding) / num 
-      float yorigin = top_padding + top;
 
       //If they're not dead, we do everything normally.
 
@@ -105,6 +102,7 @@ void HUD::update(float &total_time_elapsed){
 
       //Advance the loop.
       ++section_iterator;
+
     }
   }
 
