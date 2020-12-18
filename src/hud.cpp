@@ -13,6 +13,7 @@ sword_bar_height( a_text_loader.get_float("IDS_SWORDBAR_H") ),
 right_boundary(a_text_loader.get_float("IDS_HUD_RBOUND")),
 top_padding(a_text_loader.get_float("IDS_HUD_TOP_PADDING")),
 left_padding(a_text_loader.get_float("IDS_HUD_LEFT_PADDING")),
+player_padding(a_text_loader.get_float("IDS_HUD_PLAYER_PADDING")),
 sword_icon_tex(a_resource_manager.get_texture("IDS_PATH_SWORD_READY_TEX"))
 {
 
@@ -35,8 +36,6 @@ sword_icon_tex(a_resource_manager.get_texture("IDS_PATH_SWORD_READY_TEX"))
 //
 
 void HUD::update(float &total_time_elapsed){
-
-
   //Let's get the number of digits BEFORE the decimal point
   unsigned long whole_digits = std::to_string((int)total_time_elapsed).length();
 
@@ -76,17 +75,19 @@ void HUD::update(float &total_time_elapsed){
       //Why mix 'while' and 'for'? Well, I need indexing to determine the positions of the health bars. Sorry.
       for (int i = section_iterator->health_bars.size(); i < player_health; ++i) {
 
+        //This is a check to make sure we're not spilling over into the next player's space.
+        if(section_iterator->health_bars.back().getGlobalBounds().left
+              >= (xorigin + player_padding - (health_bar_width + 1 )))
+          break;
+
         sf::RectangleShape next_bar(sf::Vector2f(health_bar_width, health_bar_height));
-        //todo: maybe parameterize more
-        //todo: this will only work for player one
+        
         next_bar.setPosition(xorigin + i * (health_bar_width + 1), yorigin);
         next_bar.setFillColor(sf::Color::White);
         section_iterator->health_bars.emplace_back(next_bar);
       }
 
-      //At this point, the health bars should equal the player's health.
-      //Just to be safe, let's assert.
-      assert(section_iterator->health_bars.size() == player_health);
+
 
       //todo: Maybe the sword bar needs something to show where the maximum is.
       //Maybe a sprite that appears next to the bar when the sword is ready?
@@ -102,6 +103,13 @@ void HUD::update(float &total_time_elapsed){
 
       //Advance the loop.
       ++section_iterator;
+
+      xorigin += player_padding;
+
+      if(xorigin + player_padding >= right_boundary){
+        xorigin = left_padding;
+        yorigin += top_padding;
+      }
 
     }
   }
