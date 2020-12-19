@@ -8,6 +8,7 @@
 #include <SFML/Audio.hpp>
 #include "color_grid.hpp"
 #include "resource_manager.hpp"
+#include "input_manager.hpp"
 
 using std::unique_ptr;
 
@@ -21,13 +22,15 @@ protected:
 
   TextLoader &text_loader;
   ResourceManager &resource_manager;
+  InputManager &input_manager;
 
 public:
 /**
  * Constructor for the Screen class. Sets up references to the text loader and
  * resource manager.
  */
-  Screen(TextLoader &a_text_loader, ResourceManager &a_resource_manager);
+  Screen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, 
+      InputManager& an_input_manager);
 
 /**
  * Destructor for the Screen class. Frees up any resources that might've been used.

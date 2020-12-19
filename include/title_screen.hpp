@@ -19,7 +19,8 @@ private:
 
 
 public:
-  TitleScreen(TextLoader &text_loader, ResourceManager &resource_manager);
+  TitleScreen(TextLoader &text_loader, ResourceManager &resource_manager,
+      InputManager &an_input_manager);
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 

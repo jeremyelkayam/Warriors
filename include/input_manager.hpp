@@ -4,9 +4,15 @@
 
 #pragma once
 
-#include <vector>
+#include <unordered_map>
+#include <string>
+#include <SFML/Window/Keyboard.hpp>
+#include <iostream>
 
-using std::vector;
+using std::unordered_map;
+using std::string;
+using std::cout;
+using std::endl;
 
 struct player_input {
 
@@ -20,20 +26,24 @@ struct player_input {
 };
 
 
+
+
 class InputManager {
 
 private:
 
-  vector<player_input> my_player_input;
+  //more extensible so that we can have menu keys, etc etc
+  unordered_map<string, sf::Keyboard::Key> key_bindings;
 
 public:
 
   explicit InputManager(unsigned int max_players);
 
-  player_input get_player_input(unsigned long player_number){ return my_player_input.at(player_number);}
+  player_input get_player_input(unsigned long player_number);
 
   //void set_player_input(player_input a_player_input){my_player_input = a_player_input;}
 
-  void update();
-
+  //todo: implement saving to file
+  void load_inputs();
+  void save_inputs();
 };

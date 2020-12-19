@@ -4,8 +4,9 @@
 
 #include "title_screen.hpp"
 
-TitleScreen::TitleScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
-Screen(a_text_loader, a_resource_manager) {
+TitleScreen::TitleScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
+    InputManager &an_input_manager) :
+Screen(a_text_loader, a_resource_manager, an_input_manager) {
 
   title_background.setTexture(resource_manager.get_texture("IDS_PATH_TITLE_TEX"));
 
@@ -32,7 +33,8 @@ bool TitleScreen::go_to_next() {
 unique_ptr<Screen> TitleScreen::next_screen(){
   assert(go_to_next());
   title_theme.stop();
-  return unique_ptr<MenuScreen>(new MenuScreen(text_loader, resource_manager));
+  return unique_ptr<MenuScreen>(new MenuScreen(text_loader, resource_manager, 
+      input_manager));
 }
 
 void TitleScreen::handle_event(sf::Event &evt) {

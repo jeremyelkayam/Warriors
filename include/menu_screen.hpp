@@ -20,7 +20,8 @@ class MenuScreen : public Screen {
         void reset_selector();
 
     public:
-        MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager);
+        MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
+                InputManager &an_input_manager);
         
         void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 

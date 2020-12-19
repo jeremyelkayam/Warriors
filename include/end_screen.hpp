@@ -33,7 +33,9 @@ private:
 
 
 public:
-  EndScreen(TextLoader &text_loader, ResourceManager &resource_manager, vector<postmortem_info> dead_players_info, game_options game_opts);
+  EndScreen(TextLoader &text_loader, ResourceManager &resource_manager, 
+      InputManager &an_input_manager, vector<postmortem_info> dead_players_info, 
+      game_options game_opts);
 
   void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 

@@ -3,8 +3,10 @@
 //
 
 #include "end_screen.hpp"
-EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, vector<postmortem_info> dead_players_info, game_options game_opts) :
-        Screen(a_text_loader, a_resource_manager),
+EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
+    InputManager &an_input_manager, vector<postmortem_info> dead_players_info, 
+    game_options game_opts) :
+        Screen(a_text_loader, a_resource_manager, an_input_manager),
         min_screen_time(a_text_loader.get_float("IDS_MIN_SCREEN_TIME")),
         opts(game_opts){
 
@@ -61,9 +63,10 @@ unique_ptr<Screen> EndScreen::next_screen(){
   end_game_sound.stop();
   
   if(play_again)
-    return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager, opts));
+    return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager, 
+        input_manager, opts));
 
-  return unique_ptr<Screen>(new MenuScreen(text_loader, resource_manager));
+  return unique_ptr<Screen>(new MenuScreen(text_loader, resource_manager, input_manager));
 }
 
 void EndScreen::handle_event(sf::Event &evt) {

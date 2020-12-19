@@ -1,7 +1,9 @@
 #include "menu_screen.hpp"
 
-MenuScreen::MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager) :
-Screen(a_text_loader, a_resource_manager), flash_interval(text_loader.get_float("IDS_MENU_FLASH_INTERVAL")) {
+MenuScreen::MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
+        InputManager &an_input_manager) :
+Screen(a_text_loader, a_resource_manager, an_input_manager),
+flash_interval(text_loader.get_float("IDS_MENU_FLASH_INTERVAL")) {
 
     resource_manager.setup_text(header, 10, 10,"WARRIORS GAME SELECTION");
 
@@ -88,9 +90,10 @@ unique_ptr<Screen>MenuScreen:: next_screen(){
     if(selected == 0){
         opts.num_players = 1;
     }else if(selected == 1){
-        opts.num_players = 8;
+        opts.num_players = 2;
     }
-    return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager, opts));
+    return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager,
+            input_manager, opts));
 }
 
 void MenuScreen::update(float s_elapsed){

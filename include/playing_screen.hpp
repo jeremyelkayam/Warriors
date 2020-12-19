@@ -118,9 +118,6 @@ private:
 
   void draw_gameplay(sf::RenderWindow &window, ColorGrid &color_grid);
 
-
-  void keyboard_movement();
-
   void explode();
 
   void spawn_if_able(SpecialItem &item);
@@ -131,13 +128,10 @@ public:
     Constructor for the PlayingScreen class.
     Sets up the initial values for PlayingScreen.
    */
-  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, game_options game_opts);
+  PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, 
+      InputManager &an_input_manager, game_options game_opts);
 
   void update(float s_elapsed) override;
-
-  //TODO: These player functions only work for a one-player game. They should really just be moved into each player.
-  void set_player_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
-    players.front().set_movement(moving_up,moving_down,moving_left,moving_right);}
 
   void set_player_sword(bool active){players.front().set_sword(active);}
 

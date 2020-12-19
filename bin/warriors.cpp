@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 
   //set up game componentss
 
-  Logic logic(text_loader, resource_manager);
+  Logic logic(text_loader, resource_manager, input_manager);
 
   // create main window
   sf::RenderWindow window(

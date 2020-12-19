@@ -22,10 +22,13 @@ private:
 
   ResourceManager &resource_manager;
 
+  InputManager &input_manager;
+
   unique_ptr<Screen> current_screen;
 
 public:
-  Logic(TextLoader &a_text_loader, ResourceManager &a_resource_manager);
+  Logic(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
+      InputManager &an_input_manager);
 
   void update(float s_elapsed);
 

@@ -7,6 +7,7 @@
 #pragma once
 #include "warrior.hpp"
 #include "resource_manager.hpp"
+#include "input_manager.hpp"
 #include <iostream>
 #include <stdexcept>
 #include <SFML/Audio.hpp>
@@ -48,12 +49,14 @@ private:
 
   void update_sword(float s_elapsed);
 
+  InputManager &input_manager;
+
 public:
-  Player(const unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, const sf::Color color, const float &xcor, const float &ycor);
+  Player(const unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, InputManager &an_input_manager, const sf::Color color, const float &xcor, const float &ycor);
 
   void update(float s_elapsed);
 
-  void set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right);
+  void set_movement(player_input input);
 
   void heal(unsigned int amount);
 

@@ -30,20 +30,20 @@ void Player::move(float s_elapsed){
   label.setPosition(new_xcor, new_ycor - label_offset);
 }
 
-void Player::set_movement(bool moving_up, bool moving_down, bool moving_left, bool moving_right){
+void Player::set_movement(player_input input){
   speed_scale_x=0.f;
   speed_scale_y=0.f;
 
-  if(moving_left){
+  if(input.move_left){
     speed_scale_x-=1.f;
   }
-  if(moving_right){
+  if(input.move_right){
     speed_scale_x+=1.f;
   }
-  if(moving_up){
+  if(input.move_up){
     speed_scale_y-=1.f;
   }
-  if(moving_down){
+  if(input.move_down){
     speed_scale_y+=1.f;
   }
 
@@ -68,6 +68,11 @@ void Player::set_sword(bool active){
 
 void Player::update(float s_elapsed){
   if(is_dead()) throw logic_error("Dead players cannot use the method update(float s_elapsed).");
+
+  player_input input = input_manager.get_player_input(player_number);
+
+  set_movement(input);
+  set_sword(input.sword);
 
   move(s_elapsed);
 
@@ -106,8 +111,9 @@ void Player::update_sword(float s_elapsed){
   }
 }
 
-Player::Player(const unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, const sf::Color color, const float &xcor, const float &ycor) :
+Player::Player(const unsigned int &a_player_number, TextLoader &text_loader, ResourceManager &resource_manager, InputManager &an_input_manager, const sf::Color color, const float &xcor, const float &ycor) :
 player_number(a_player_number),
+input_manager(an_input_manager),
 Warrior(xcor, ycor,
         resource_manager.get_texture("IDS_PATH_PLAYER_TEX"),
         resource_manager.get_texture("IDS_PATH_SWORD_TEX"),

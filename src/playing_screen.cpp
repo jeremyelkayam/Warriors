@@ -7,8 +7,8 @@
 
 #include "playing_screen.hpp"
 
-PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, game_options game_opts) :
-Screen(a_text_loader, a_resource_manager),
+PlayingScreen::PlayingScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, InputManager &an_input_manager, game_options game_opts) :
+Screen(a_text_loader, a_resource_manager, an_input_manager),
         width_dist(0.f,a_text_loader.get_float("IDS_VIEW_X")),
 height_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
 time_dist(0.f,a_text_loader.get_float("IDS_VIEW_Y") - a_text_loader.get_float("IDS_HUD_HEIGHT")),
@@ -23,7 +23,8 @@ ring(a_resource_manager.get_texture("IDS_PATH_RING_TEX"),
      a_resource_manager.get_sound_buffer("IDS_PATH_RING_SOUND"),120.f),
 bomb(a_resource_manager.get_texture("IDS_PATH_BOMB_TEX"),
      a_resource_manager.get_texture("IDS_PATH_FUSE_TEX"),
-     a_resource_manager.get_sound_buffer("IDS_PATH_BOMB_SOUND"),80.f), //todo: maybe add randomness to the spawn time
+     a_resource_manager.get_sound_buffer("IDS_PATH_BOMB_SOUND"),80.f), 
+     //todo: maybe add randomness to the spawn time
 dead_players_info(game_opts.num_players),
 opts(game_opts){
   time_since_last_enemy_spawn = 0;
@@ -63,9 +64,8 @@ opts(game_opts){
     float x = r * cos(theta) + x_center;
     float y = r * sin(theta) + y_center;
 
-    players.emplace_back(Player(i,
-        a_text_loader,a_resource_manager, player_colors.at(i),
-        x, y));
+    players.emplace_back(Player(i, a_text_loader,a_resource_manager, an_input_manager,
+        player_colors.at(i), x, y));
     
     hud.add_player(players.back(), resource_manager.get_font(), resource_manager.get_font_size());
   }
@@ -84,10 +84,6 @@ void PlayingScreen::update(float s_elapsed){
   if(!go_to_next()) {
 
     total_time_elapsed += s_elapsed;
-
-    //todo: CHANGE THIS
-    keyboard_movement();
-
 
     background.setTexture(resource_manager.get_texture("IDS_PATH_BACKGROUND_TEX"
     + std::to_string( (int)(total_time_elapsed * 2) % 2 )));
@@ -363,28 +359,13 @@ void PlayingScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid) {
   hud.draw(window, color_grid);
 }
 
-
-
-//todo: This will get more complicated. Eventually move this to the InputManager.
-//todo: Also, this should be updated by HumanView, not Logic.
-void PlayingScreen::keyboard_movement(){
-
-    players.front().set_movement(
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Up),
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Down),
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Left),
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
-
-    players.front().set_sword(sf::Keyboard::isKeyPressed(sf::Keyboard::Space));
-
-}
-
 unique_ptr<Screen> PlayingScreen::next_screen() {
   if(!go_to_next()) throw logic_error("next_screen() can only be called in PlayingScreen if all players are dead.");
 
   //We MUST pass dead_players_info by value here, sadly. We created it in this class, and the next class needs it.
   //It COULD be stored at a Logic level, but I don't want Logic to have to worry about all that crap.
-  return unique_ptr<Screen>(new EndScreen(text_loader,resource_manager,dead_players_info, opts));
+  return unique_ptr<Screen>(new EndScreen(text_loader, resource_manager, 
+      input_manager, dead_players_info, opts));
 }
 
 void PlayingScreen::explode() {
