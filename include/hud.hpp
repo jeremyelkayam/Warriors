@@ -19,7 +19,7 @@ private:
   const float top, health_bar_width, health_bar_height, sword_bar_max_width,
       sword_bar_height, right_boundary, top_padding, left_padding, player_padding;
 
-  const sf::Texture &sword_icon_tex;
+  const sf::Texture &sword_icon_tex, &dead_icon_tex;
 
   sf::Text time_text;
 
@@ -28,6 +28,7 @@ private:
     list<sf::RectangleShape>health_bars;
     sf::RectangleShape sword_bar;
     sf::Sprite sword_icon;
+    sf::Sprite dead_icon;
     sf::Text text;
   };
 

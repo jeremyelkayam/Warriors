@@ -59,7 +59,7 @@
 
     <constant value="8" id="IDS_HUD_TOP_PADDING"/>
     <constant value="8" id="IDS_HUD_LEFT_PADDING"/>
-    <constant value="30" id="IDS_HUD_PLAYER_PADDING"/>
+    <constant value="40" id="IDS_HUD_PLAYER_PADDING"/>
 
 
     <constant value="1" id="IDS_HEALTHBAR_W"/>
@@ -73,7 +73,8 @@
     <constant value="150" id="IDS_MATURE_GAME"/>
 
     <!-- The amount of distance from the player that is considered "close".
-         Anything higher than this is far away.-->
+         Anything higher than this is far away.
+         Mainly used when spawning characters a certain distance away.-->
     <constant value="40" id="IDS_DISTANCE_THRESHOLD"/>
 
     <!-- For screens from which you cannot move on until a certain amount of time has elapsed,

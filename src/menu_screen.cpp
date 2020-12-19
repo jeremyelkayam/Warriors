@@ -88,7 +88,7 @@ unique_ptr<Screen>MenuScreen:: next_screen(){
     if(selected == 0){
         opts.num_players = 1;
     }else if(selected == 1){
-        opts.num_players = 2;
+        opts.num_players = 8;
     }
     return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager, opts));
 }

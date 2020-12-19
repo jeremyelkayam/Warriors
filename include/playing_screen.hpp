@@ -40,11 +40,14 @@ private:
   const game_options opts;
 
   const vector<sf::Color> explosion_colors
-  { sf::Color::White, sf::Color::Yellow, sf::Color::White, sf::Color::Cyan, sf::Color::White, sf::Color::Red,
-    sf::Color::White, sf::Color::Green };
+  { sf::Color::White, sf::Color::Yellow, sf::Color::White, sf::Color::Cyan, 
+    sf::Color::White, sf::Color::Red, sf::Color::White, sf::Color::Green };
 
+  //that's all the speccy colors. so if we want to do more, we'll have to 
+  //repeat colors. Dim colors can help.
   const vector<sf::Color> player_colors { 
-    sf::Color::Cyan, sf::Color::Magenta, sf::Color::Yellow, sf::Color::Green
+    sf::Color::Cyan, sf::Color::Magenta, sf::Color::Yellow, sf::Color::Green,
+    sf::Color::Blue, sf::Color::White, sf::Color::Red, sf::Color::Cyan
   };
 
   vector<postmortem_info> dead_players_info;
