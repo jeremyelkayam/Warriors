@@ -37,6 +37,7 @@ class PlayingScreen : public Screen
 {
 private:
 
+  
   const game_options opts;
 
   const vector<sf::Color> explosion_colors

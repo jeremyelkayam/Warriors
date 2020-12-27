@@ -9,20 +9,22 @@ flash_interval(text_loader.get_float("IDS_MENU_FLASH_INTERVAL")) {
 
 
     //todo: fix this because it sucks
-    vector<string> optstrs = {"1 QUICK 1P GAME", "2 GAME WITH OPTIONS", "3 KEY BINDINGS", "4 OTHER CRAP"};
+    vector<pair<string,sf::Color>> optstrs = {
+        { "1 QUICK 1P GAME", sf::Color::Red},
+        { "2 GAME WITH OPTIONS", sf::Color::Magenta},
+        { "3 KEY BINDINGS", sf::Color::Green},
+        { "4 OTHER CRAP" , sf::Color::Cyan} };
 
     sf::Text quickstart;
 
-    resource_manager.setup_text(quickstart, 60, 50,"1 QUICK 1P GAME");
+    float ycor = 50;
 
-    quickstart.setFillColor(sf::Color::Red);
+    for(int i = 0 ; i < optstrs.size(); i++){
+        resource_manager.setup_text(quickstart, 60, 50 + (30*i),optstrs[i].first);
+            quickstart.setFillColor(optstrs[i].second);
 
-    options.emplace_back(quickstart);
-
-    resource_manager.setup_text(quickstart, 60, 80,"2 QUICK 2P GAME");
-    quickstart.setFillColor(sf::Color::Magenta);
-
-    options.emplace_back(quickstart);
+        options.emplace_back(quickstart);
+    }
 
     copyright.setTexture(resource_manager.get_texture("IDS_PATH_COPYRIGHT_TEX"));
     copyright.setPosition(8,180);
@@ -80,7 +82,6 @@ void MenuScreen::handle_event(sf::Event &evt){
 
         reset_selector();
     }
-
 }
 
 unique_ptr<Screen>MenuScreen:: next_screen(){
@@ -89,11 +90,13 @@ unique_ptr<Screen>MenuScreen:: next_screen(){
     game_options opts;
     if(selected == 0){
         opts.num_players = 1;
-    }else if(selected == 1){
-        opts.num_players = 2;
-    }
-    return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager,
+        opts.epilepsy = true;
+        return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager,
             input_manager, opts));
+    }else if(selected == 2){
+        return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager,
+            input_manager, opts));
+    }
 }
 
 void MenuScreen::update(float s_elapsed){

@@ -14,6 +14,7 @@ using std::unique_ptr;
 
 struct game_options{
   unsigned int num_players;
+  bool epilepsy;
 };
 
 class Screen {

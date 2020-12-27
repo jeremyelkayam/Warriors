@@ -1,7 +1,6 @@
 /*
   player.hpp
   Purpose: Represent the player's character. 
-  Potential Improvement: add more than one player.
 */
 
 #pragma once

@@ -161,10 +161,13 @@ void PlayingScreen::draw_gameplay(sf::RenderWindow &window, ColorGrid &color_gri
 
   //draw the explosion flashes! Boom boom!
   if(bomb.effect_active()){
-    field_fill.setFillColor(explosion_colors.at(color_change_index));
-    window.draw(field_fill, sf::BlendAdd);
+    //DO NOT WANT TO OSCILLATE COLORS IF A PLAYER IS EPILEPTIC
+    if(!opts.epilepsy){
+      field_fill.setFillColor(explosion_colors.at(color_change_index));
+      window.draw(field_fill, sf::BlendAdd);
+    }
 
-    //Clear the color grid. This is a hacky workaround, but I want the color grid to be disabled while the explosion
+    //Clear the color grid. This is a hacky workaround, but I want the color grid to be disabled while the explosion goes.
     //As implemented, my color grid doesn't support background colors other than black. That's good for most situations,
     //but for this specific case, I want the background colored in. Since it's only for a few seconds, we can sacrifice
     //colored-in characters.
