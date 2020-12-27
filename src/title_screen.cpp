@@ -33,7 +33,7 @@ bool TitleScreen::go_to_next() {
 unique_ptr<Screen> TitleScreen::next_screen(){
   assert(go_to_next());
   title_theme.stop();
-  return unique_ptr<MenuScreen>(new MenuScreen(text_loader, resource_manager, 
+  return unique_ptr<MenuScreen>(new MainMenuScreen(text_loader, resource_manager, 
       input_manager));
 }
 

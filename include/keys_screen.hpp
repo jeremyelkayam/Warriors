@@ -16,4 +16,4 @@ class KeysScreen : public MenuScreen {
     public: 
         KeysScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager);
-}
+};

@@ -66,7 +66,7 @@ unique_ptr<Screen> EndScreen::next_screen(){
     return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager, 
         input_manager, opts));
 
-  return unique_ptr<Screen>(new MenuScreen(text_loader, resource_manager, input_manager));
+  return unique_ptr<Screen>(new MainMenuScreen(text_loader, resource_manager, input_manager));
 }
 
 void EndScreen::handle_event(sf::Event &evt) {

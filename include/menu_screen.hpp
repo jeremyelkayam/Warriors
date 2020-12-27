@@ -1,14 +1,11 @@
 #pragma once
 
 #include "screen.hpp"
-#include "playing_screen.hpp"
 
 using std::string;
 
 class MenuScreen : public Screen {
     protected:
-        sf::Sprite copyright;
-        sf::Text header,footer;
         vector<sf::Text> options;
         sf::RectangleShape selector;
 
@@ -23,13 +20,13 @@ class MenuScreen : public Screen {
         MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager);
         
-        void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
+        virtual void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 
-        bool go_to_next() override;
+        virtual bool go_to_next() override;
 
-        void handle_event(sf::Event &evt) override;
+        virtual void handle_event(sf::Event &evt) override;
 
-        unique_ptr<Screen> next_screen() override;
+        virtual unique_ptr<Screen> next_screen() = 0;
         
         void update(float s_elapsed) override;
 };
