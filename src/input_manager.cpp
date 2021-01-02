@@ -39,5 +39,5 @@ void InputManager::change_binding(string binding_id, sf::Keyboard::Key new_key){
     if(key_bindings.find(binding_id) == key_bindings.end())
         throw invalid_argument("Key binding with ID "+binding_id+" does not exist.");
 
-    key_bindings.emplace(binding_id,new_key);
+    key_bindings.at(binding_id) = new_key;
 }

@@ -7,12 +7,17 @@ MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
         sf::Text opt,key;
         opt.setFillColor(sf::Color::White);
         key.setFillColor(sf::Color::White);
-        a_resource_manager.setup_text(opt, 20, 0, it.first);
+        resource_manager.setup_text(opt, 20, 0, it.first);
         
-        a_resource_manager.setup_text(key, 230, 0, to_upper(thor::toString(it.second)), TOP_RIGHT);
+        resource_manager.setup_text(key, 230, 0, to_upper(thor::toString(it.second)), TOP_RIGHT);
         options.emplace_back(opt);
         keys.emplace_back(key);
     }
+    sf::Text menu_end;
+    menu_end.setFillColor(sf::Color::White);
+    resource_manager.setup_text(menu_end, 20, 0, "BACK");
+    options.emplace_back(menu_end);
+
     scroll_position = 0;
     selecting_key = false;
     selector.setFillColor(sf::Color::Black);
@@ -34,7 +39,9 @@ void KeysMenuScreen::handle_event(sf::Event &evt){
     if(selecting_key) {
         if(evt.type == sf::Event::KeyPressed){
             string id = options.at(selected).getString();
+            
             input_manager.change_binding(id, evt.key.code);
+
             clear_old_selection(keys.at(selected));
             selecting_key = false;
             reset_selector(options.at(selected));
@@ -56,9 +63,13 @@ void KeysMenuScreen::handle_event(sf::Event &evt){
             reset_selector(options.at(selected));
 
             if(evt.key.code == sf::Keyboard::Enter){
-                clear_old_selection(options.at(selected));
-                selecting_key = true;
-                reset_selector(keys.at(selected));
+                if(options.at(selected).getString() == "BACK"){
+                    screen_over = true;
+                }else{
+                    clear_old_selection(options.at(selected));
+                    selecting_key = true;
+                    reset_selector(keys.at(selected));
+                }
             }
         }
     }
@@ -87,8 +98,11 @@ void KeysMenuScreen::update_scroll(){
         options.at(i).setPosition(options.at(i).getPosition().x,
             min_y + (i - scroll_position) * interval);
 
+        //There will be more options than keys, e.g. back button
+        if(i < keys.size()){
         keys.at(i).setPosition(keys.at(i).getPosition().x,
             min_y + (i - scroll_position) * interval);  
+        }
     }
 }
 
@@ -96,7 +110,10 @@ void KeysMenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){
     window.draw(selector);
     for(int i = scroll_position; i < scroll_position + opts_per_screen ; i++){
         window.draw(options.at(i));
-        window.draw(keys.at(i));
+        //There will be more options than keys, e.g. back button
+        if(i < keys.size()){
+            window.draw(keys.at(i));
+        }
     }
 
     if(scroll_position > 0 ) {
