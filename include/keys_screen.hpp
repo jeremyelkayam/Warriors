@@ -10,7 +10,13 @@ class KeysMenuScreen : public MenuScreen {
         
         void update_scroll();
 
-        void reset_selector() override;
+        void reset_selector(sf::Text &seltext) override;
+
+        vector<sf::Text> keys;
+
+        bool selecting_key;
+
+        string to_upper(string s);
 
     public: 
         KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
@@ -22,5 +28,6 @@ class KeysMenuScreen : public MenuScreen {
 
         void handle_event(sf::Event &evt) override;
 
+        void update(float s_elapsed) override;
 
 };

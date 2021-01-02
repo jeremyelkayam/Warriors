@@ -9,17 +9,28 @@ flash_interval(text_loader.get_float("IDS_MENU_FLASH_INTERVAL")) {
     screen_over = false;
 
 
-    up_arrow.setPosition(100,10);
+    up_arrow.setPosition(text_loader.get_float("IDS_VIEW_X") - 20,10);
     up_arrow.setTexture(resource_manager.get_texture("IDS_PATH_UP_TEX"));
 
-    down_arrow.setPosition(100,100);
+    down_arrow.setPosition(text_loader.get_float("IDS_VIEW_X") - 20,
+        text_loader.get_float("IDS_VIEW_Y") - 15);
     down_arrow.setTexture(resource_manager.get_texture("IDS_PATH_DOWN_TEX"));
 }
 
-void MenuScreen::reset_selector(){
-    sf::Text &seltext = options.at(selected);
+void MenuScreen::clear_old_selection(sf::Text &seltext){
+    cout << "clear my boy" << endl;
+    if(selector.getFillColor() != sf::Color::Black){
+        seltext.setFillColor(selector.getFillColor());
+        selector.setFillColor(sf::Color::Black);
+        //mark the selector as ready
+    }
+}
 
-    selector.setFillColor(sf::Color::Black);
+void MenuScreen::reset_selector(sf::Text &seltext){
+    assert(selector.getFillColor() == sf::Color::Black);
+    selector.setFillColor(seltext.getFillColor());
+    seltext.setFillColor(sf::Color::Black);
+
     selector.setSize(sf::Vector2f(seltext.getLocalBounds().width,
                                   seltext.getLocalBounds().height - 1));
     selector.setPosition(seltext.getPosition().x, seltext.getPosition().y - 1);
@@ -39,12 +50,10 @@ bool MenuScreen::go_to_next(){
 void MenuScreen::handle_event(sf::Event &evt){
     assert(selected < options.size());
     if(evt.type == sf::Event::KeyPressed){    
-        //swap the colors of the rect and the shape
-        if(flash_time > flash_interval / 2){
-            options.at(selected).setFillColor(selector.getFillColor());
-            selector.setFillColor(sf::Color::Black);
-            flash_time = 0;
-        }
+        
+        clear_old_selection(options.at(selected));
+        flash_time = 0;
+
 
         //move our menu position forward or backward depending
         if(evt.key.code == sf::Keyboard::Down){
@@ -57,29 +66,27 @@ void MenuScreen::handle_event(sf::Event &evt){
 
         selected %= options.size();
         
-        reset_selector();
+        reset_selector(options.at(selected));
     }
 }
 
 void MenuScreen::update(float s_elapsed){
     flash_time += s_elapsed;
 
-
     // reset the timer if we went over
     if(flash_time > flash_interval){
         flash_time = 0;
-        //swap the colors of the rect and the shape
-        options.at(selected).setFillColor(selector.getFillColor());
-        selector.setFillColor(sf::Color::Black);
+        swap_colors(options.at(selected));
     }
+}
 
-    //halfway through the interval, we swap the colors  
-    if(flash_time > flash_interval / 2){
-        //make sure we haven't swapped yet
-        if(selector.getFillColor() == sf::Color::Black){
-            //swap the colors
-            selector.setFillColor(options.at(selected).getFillColor());
-            options.at(selected).setFillColor(sf::Color::Black);
-        }
+void MenuScreen::swap_colors (sf::Text &seltext){
+    if(selector.getFillColor() == sf::Color::Black){
+        selector.setFillColor(seltext.getFillColor());
+        seltext.setFillColor(sf::Color::Black);
+    }else{
+        assert(seltext.getFillColor() == sf::Color::Black);
+        seltext.setFillColor(selector.getFillColor());
+        selector.setFillColor(sf::Color::Black);
     }
 }

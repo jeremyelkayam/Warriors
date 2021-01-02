@@ -20,7 +20,6 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
           a_text_loader.get_string("IDS_LOSS_TEXT"), true);
 
   screen_texts.emplace_back(loss_text);
-  cout << "dead players:"  << dead_players_info.size() << endl;
 
   for(unsigned long i = 0 ; i < dead_players_info.size() ; ++i){
     screen_texts.emplace_back(sf::Text());

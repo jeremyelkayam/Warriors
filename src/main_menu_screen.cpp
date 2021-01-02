@@ -23,11 +23,12 @@ MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
 
     for(int i = 0 ; i < optstrs.size(); i++){
         resource_manager.setup_text(quickstart, 60, 50 + (30*i),optstrs[i].first);
-            quickstart.setFillColor(optstrs[i].second);
+            quickstart.setFillColor(optstrs.at(i).second);
 
         options.emplace_back(quickstart);
     }
-    reset_selector();
+    selector.setFillColor(sf::Color::Black);
+    reset_selector(options.at(selected));
 }
 
 void MainMenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){

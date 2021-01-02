@@ -28,6 +28,5 @@ void Logic::update(float s_elapsed) {
   if(current_screen->go_to_next()){
 
     current_screen = current_screen->next_screen();
-    cout << "make new screen" << endl;
   }
 }

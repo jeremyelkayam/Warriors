@@ -18,7 +18,10 @@ class MenuScreen : public Screen {
         bool screen_over;
         float flash_time;
         const float flash_interval;
-        virtual void reset_selector();
+        virtual void reset_selector(sf::Text &seltext);
+        void swap_colors(sf::Text &seltext);
+
+        void clear_old_selection(sf::Text &seltext);
 
     public:
         MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
@@ -34,5 +37,5 @@ class MenuScreen : public Screen {
 
         virtual unique_ptr<Screen> next_screen() = 0;
         
-        void update(float s_elapsed) override;
+        virtual void update(float s_elapsed) override;
 };

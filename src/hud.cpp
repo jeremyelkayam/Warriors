@@ -44,7 +44,6 @@ void HUD::update(float &total_time_elapsed){
   time_trunc.resize(whole_digits + 3);
 
   time_text.setString("time " + time_trunc);
-  //cout << "sections: " << sections.size() << endl;
 
   for(hud_section &section : sections) {
     if (section.player.is_dead()) {
@@ -56,7 +55,6 @@ void HUD::update(float &total_time_elapsed){
 
       //If they're not dead, we do everything normally.
 
-      //cout << "time to update the sections" << endl;
       const int player_health = section.player.get_health();
 
       //in this case, the player has less health than they have health bars. That's a problem.
@@ -146,7 +144,6 @@ void HUD::draw ( sf::RenderWindow &window, ColorGrid &color_grid ) const {
 }
 
 void HUD::add_player(const Player &player, sf::Font &font, const unsigned int &size) {
-  cout << "time to make the structs. how many players? " << endl;
   struct hud_section section {
     player,
     {sf::RectangleShape(sf::Vector2f(health_bar_width, health_bar_height))},

@@ -8,11 +8,13 @@
 #include <string>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
+#include <stdexcept>
 
 using std::map;
 using std::string;
 using std::cout;
 using std::endl;
+using std::invalid_argument;
 
 struct player_input {
 
@@ -42,6 +44,8 @@ public:
   player_input get_player_input(unsigned long player_number);
 
   map<string, sf::Keyboard::Key> get_bindings() {return key_bindings;}
+
+  void change_binding(string binding_id, sf::Keyboard::Key new_key);
 
   //void set_player_input(player_input a_player_input){my_player_input = a_player_input;}
 

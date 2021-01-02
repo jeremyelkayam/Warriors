@@ -13,11 +13,7 @@ Screen(a_text_loader, a_resource_manager, an_input_manager) {
   title_theme.setBuffer(resource_manager.get_sound_buffer("IDS_PATH_TITLE_MUSIC"));
   title_theme.play();
 
-  cout << "lol" << endl;
-
   screen_over = false;
-
-  cout << "wut" << endl;
 
 }
 

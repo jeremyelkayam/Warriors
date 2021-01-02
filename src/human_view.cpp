@@ -42,7 +42,6 @@ void HumanView::update(sf::RenderWindow &window){
   //keyboard_movement();
   color_grid.reset();
   window.clear(d_white);
-  //std::cout<<"drawing"<<std::endl;
 
   handle_size(window, 0.f);
   window.setView(view);
@@ -71,9 +70,6 @@ void HumanView::handle_size(sf::RenderWindow &window, float top_padding){
   //if not, SCALE THE VIEWPORT
   float current_aspect = (float)window.getSize().x / (float)window.getSize().y ;
   float target_aspect = view.getSize().x / view.getSize().y;
-
-  //std::cout<<"current aspect:"<<current_aspect<<std::endl;
-  //std::cout<<"target aspect:"<<target_aspect<<std::endl;
 
   if(current_aspect > target_aspect){
     //it's too wide. let's set the viewport to match the height

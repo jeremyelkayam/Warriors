@@ -18,7 +18,6 @@ Warrior(xcor,ycor,texture, sword_tex, sf::Color::Red) {
   set_origin_to_center();
   sword.unsheath();
 
-  //cout << " i am born " << endl;
 }
 void Enemy::move(float s_elapsed,float speed){
   float new_xcor = get_xcor() + (speed*(float)cos(angle)*s_elapsed);

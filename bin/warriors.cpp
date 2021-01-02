@@ -53,7 +53,6 @@ int main(int argc, char** argv)
     {
       //Reset clock and track elapsed time since last loop.
       float s_elapsed=clock.restart().asSeconds();
-      //cout << s_elapsed << endl;
       if(window.hasFocus())
 	      {
           sf::Event event;
@@ -62,7 +61,6 @@ int main(int argc, char** argv)
               human_view.handle_event(window, event);
             }
           //update renderer and logic
-                //cout<<"loop"<<endl;
           logic.update(s_elapsed);
           human_view.update(window);
           }
