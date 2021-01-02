@@ -9,7 +9,7 @@ MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
         key.setFillColor(sf::Color::White);
         a_resource_manager.setup_text(opt, 20, 0, it.first);
         
-        a_resource_manager.setup_text(key, 200, 0, to_upper(thor::toString(it.second)));
+        a_resource_manager.setup_text(key, 230, 0, to_upper(thor::toString(it.second)), TOP_RIGHT);
         options.emplace_back(opt);
         keys.emplace_back(key);
     }
@@ -28,10 +28,6 @@ string KeysMenuScreen::to_upper(string s){
 
 void KeysMenuScreen::reset_selector(sf::Text &seltext){
     MenuScreen::reset_selector(seltext);
-
-    //fix to a weird off-by-one error
-    selector.setSize(sf::Vector2f(seltext.getLocalBounds().width,
-                                  seltext.getLocalBounds().height));
 }
 
 void KeysMenuScreen::handle_event(sf::Event &evt){
@@ -42,8 +38,10 @@ void KeysMenuScreen::handle_event(sf::Event &evt){
             clear_old_selection(keys.at(selected));
             selecting_key = false;
             reset_selector(options.at(selected));
-            
-            keys.at(selected).setString(to_upper(thor::toString(evt.key.code)));
+            resource_manager.setup_text(keys.at(selected),
+                keys.at(selected).getPosition().x, keys.at(selected).getPosition().y,
+                to_upper(thor::toString(evt.key.code)), TOP_RIGHT);
+        
         }
     }else{
         MenuScreen::handle_event(evt);

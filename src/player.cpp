@@ -138,7 +138,7 @@ Warrior(xcor, ycor,
   this->invis_frames = 0;
   this->sword_time = max_sword_time;
 
-  resource_manager.setup_text(label, get_xcor(), get_ycor(), "P" + std::to_string(player_number + 1), true);
+  resource_manager.setup_text(label, get_xcor(), get_ycor(), "P" + std::to_string(player_number + 1), CENTER);
   label.setFillColor(sf::Color::White);
   label.setOutlineColor(sf::Color::Black);
   label.setOutlineThickness(1);

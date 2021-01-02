@@ -17,7 +17,7 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
   sf::Text loss_text;
 
   resource_manager.setup_text(loss_text, a_text_loader.get_float("IDS_VIEW_X")/2, a_text_loader.get_float("IDS_VIEW_X")/10,
-          a_text_loader.get_string("IDS_LOSS_TEXT"), true);
+          a_text_loader.get_string("IDS_LOSS_TEXT"), CENTER);
 
   screen_texts.emplace_back(loss_text);
 
@@ -33,14 +33,14 @@ EndScreen::EndScreen(TextLoader &a_text_loader, ResourceManager &a_resource_mana
     resource_manager.setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
             a_text_loader.get_float("IDS_VIEW_Y") * (i+1) / (dead_players_info.size() + 2) ,
             "Player "+std::to_string(i+1)+" lasted " + time_trunc + " seconds\nand killed "+
-            std::to_string(dead_players_info.at(i).num_kills)+" enemies.", true);
+            std::to_string(dead_players_info.at(i).num_kills)+" enemies.", CENTER);
   }
   
   screen_texts.emplace_back(sf::Text());
 
   resource_manager.setup_text(screen_texts.back(), a_text_loader.get_float("IDS_VIEW_X")/2,
             a_text_loader.get_float("IDS_VIEW_Y") * (dead_players_info.size()+1) / (dead_players_info.size() + 2) ,
-            "Press 1 to play again with\n same options.\n\nPress 2 to return to main menu.", true);
+            "Press 1 to play again with\n same options.\n\nPress 2 to return to main menu.", CENTER);
 
   end_game_sound.setBuffer(a_resource_manager.get_sound_buffer("IDS_PATH_LOSE_MUSIC"));
   end_game_sound.play();

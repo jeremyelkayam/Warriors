@@ -20,6 +20,8 @@ using std::vector;
 using std::pair;
 using std::map;
 
+enum origin_pos {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER};
+
 class ResourceManager {
 private:
 
@@ -51,6 +53,6 @@ public:
 
   int get_font_size();
 
-  void setup_text(sf::Text &text, float xcor, float ycor, string content, bool center_coords = false, int size_multiplier = 1);
+  void setup_text(sf::Text &text, float xcor, float ycor, string content, origin_pos op = TOP_LEFT, int size_multiplier = 1);
 
 };

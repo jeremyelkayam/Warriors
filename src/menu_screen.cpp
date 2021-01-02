@@ -31,9 +31,9 @@ void MenuScreen::reset_selector(sf::Text &seltext){
     selector.setFillColor(seltext.getFillColor());
     seltext.setFillColor(sf::Color::Black);
 
-    selector.setSize(sf::Vector2f(seltext.getLocalBounds().width,
-                                  seltext.getLocalBounds().height - 1));
-    selector.setPosition(seltext.getPosition().x, seltext.getPosition().y - 1);
+    selector.setSize(sf::Vector2f(seltext.getGlobalBounds().width,
+                                  seltext.getGlobalBounds().height - 1));
+    selector.setPosition(seltext.getGlobalBounds().left, seltext.getGlobalBounds().top);
 }
 
 void MenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){
