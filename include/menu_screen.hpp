@@ -13,12 +13,12 @@ class MenuScreen : public Screen {
 
         const int opts_per_screen = 6;
 
-        unsigned int selected;
+        int selected;
         
         bool screen_over;
         float flash_time;
         const float flash_interval;
-        void reset_selector();
+        virtual void reset_selector();
 
     public:
         MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,

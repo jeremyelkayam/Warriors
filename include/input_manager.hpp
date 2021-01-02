@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include <unordered_map>
+#include <map>
 #include <string>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 
-using std::unordered_map;
+using std::map;
 using std::string;
 using std::cout;
 using std::endl;
@@ -33,7 +33,7 @@ class InputManager {
 private:
 
   //more extensible so that we can have menu keys, etc etc
-  unordered_map<string, sf::Keyboard::Key> key_bindings;
+  map<string, sf::Keyboard::Key> key_bindings;
 
 public:
 
@@ -41,7 +41,7 @@ public:
 
   player_input get_player_input(unsigned long player_number);
 
-  unordered_map<string, sf::Keyboard::Key> get_bindings() {return key_bindings;}
+  map<string, sf::Keyboard::Key> get_bindings() {return key_bindings;}
 
   //void set_player_input(player_input a_player_input){my_player_input = a_player_input;}
 

@@ -7,18 +7,34 @@ MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
         sf::Text opt;
         opt.setFillColor(sf::Color::White);
         a_resource_manager.setup_text(opt, 0, 0, it.first);
-        cout << thor::toString(it.second) << endl;
         options.emplace_back(opt);
     }
     update_scroll();
 }
 
+void KeysMenuScreen::reset_selector(){
+    MenuScreen::reset_selector();
+    sf::Text &seltext = options.at(selected);
+
+    selector.setSize(sf::Vector2f(seltext.getLocalBounds().width,
+                                  seltext.getLocalBounds().height));
+}
+
 void KeysMenuScreen::handle_event(sf::Event &evt){
     MenuScreen::handle_event(evt);
-    if(selected < scroll_position){
-        scroll_position = selected;
-    }else if(selected >= scroll_position + opts_per_screen) {
-        scroll_position = selected - opts_per_screen;
+    if(evt.type == sf::Event::KeyPressed){
+        if(selected < scroll_position){
+            scroll_position = selected;
+        }else if(selected >= scroll_position + opts_per_screen) {
+            scroll_position = selected - opts_per_screen + 1;
+            //scroll_position++;
+            cout << "trigger" << endl;
+        }
+        update_scroll();
+        cout << " scroll pos + opts per screen = " << scroll_position + opts_per_screen << endl;
+
+        cout << "selected" << selected << endl;
+        cout << "scroll pos " << scroll_position << endl;
     }
 }
 
@@ -28,8 +44,12 @@ void KeysMenuScreen::update_scroll(){
 
     float interval = (max_y - min_y) / opts_per_screen;
     for(int i = scroll_position; i < scroll_position + opts_per_screen ; i++){
-        options.at(i).setPosition(options.at(i).getPosition().x, min_y + i * interval);
+
+        string lol = options.at(i).getString();
+        options.at(i).setPosition(options.at(i).getPosition().x,
+            min_y + (i - scroll_position) * interval);
     }
+    reset_selector();
 }
 
 void KeysMenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){
@@ -38,8 +58,12 @@ void KeysMenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){
         window.draw(options[i]);
     }
 
-    if(scroll_position != 0 ) {
-        
+    if(scroll_position > 0 ) {
+        window.draw(up_arrow);
+    }
+
+    if(scroll_position < options.size() - opts_per_screen){
+        window.draw(down_arrow);
     }
 }
 

@@ -6,7 +6,11 @@ class KeysMenuScreen : public MenuScreen {
 
     private:
     
-    unsigned int scroll_position;
+        unsigned int scroll_position;
+        
+        void update_scroll();
+
+        void reset_selector() override;
 
     public: 
         KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
@@ -18,5 +22,5 @@ class KeysMenuScreen : public MenuScreen {
 
         void handle_event(sf::Event &evt) override;
 
-        void update_scroll();
+
 };

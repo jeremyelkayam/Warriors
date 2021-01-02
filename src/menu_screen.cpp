@@ -7,6 +7,13 @@ flash_interval(text_loader.get_float("IDS_MENU_FLASH_INTERVAL")) {
 
     selected = 0;
     screen_over = false;
+
+
+    up_arrow.setPosition(100,10);
+    up_arrow.setTexture(resource_manager.get_texture("IDS_PATH_UP_TEX"));
+
+    down_arrow.setPosition(100,100);
+    down_arrow.setTexture(resource_manager.get_texture("IDS_PATH_DOWN_TEX"));
 }
 
 void MenuScreen::reset_selector(){
@@ -44,9 +51,12 @@ void MenuScreen::handle_event(sf::Event &evt){
             selected++;
         }else if(evt.key.code == sf::Keyboard::Up){
             selected--;
+            //i don't know why but we have to add this extra line
+            if(selected < 0) selected += options.size();
         }
-        selected %= options.size();
 
+        selected %= options.size();
+        
         reset_selector();
     }
 }
