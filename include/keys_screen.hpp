@@ -1,19 +1,22 @@
-
 #pragma once
-#include "menu_screen.hpp"
+#include "main_menu_screen.hpp"
+#include <Thor/Input.hpp>
 
-class KeysScreen : public MenuScreen { 
+class KeysMenuScreen : public MenuScreen { 
 
     private:
-        sf::Sprite up_arrow, down_arrow;
-        vector<pair<sf::Text,sf::Text>> key_opts;
-
-        int scroll_position, cursor_position;
-
-        const int opts_per_screen;
-
+    
+    unsigned int scroll_position;
 
     public: 
-        KeysScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
+        KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager);
+
+        void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
+
+        unique_ptr<Screen> next_screen() override;
+
+        void handle_event(sf::Event &evt) override;
+
+        void update_scroll();
 };

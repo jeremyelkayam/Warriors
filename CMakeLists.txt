@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 2.6)
 # Setup Environment #
 #####################
 # set to include custom modules
-set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH} ${csci437_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH $ENV{CMAKE_MODULE_PATH} ${warriors_SOURCE_DIR}/cmake)
 
 # set build type if specified by environment
 if((NOT CMAKE_BUILD_TYPE) AND (NOT $ENV{CMAKE_BUILD_TYPE} STREQUAL ""))
@@ -27,7 +27,7 @@ if((NOT CMAKE_BUILD_TYPE) AND (NOT $ENV{CMAKE_BUILD_TYPE} STREQUAL ""))
 endif()
 
 # Set include directories
-include_directories(${csci437_SOURCE_DIR}/include)
+include_directories(${warriors_SOURCE_DIR}/include)
 
 # Get CPP files
 file(GLOB SRC src/*cpp)
@@ -46,6 +46,13 @@ file(GLOB EXECLIST bin/*cpp)
 #  link_libraries(${Boost_LIBRARIES})           #
 #################################################
 
+
+########
+# Thor #
+########
+find_package(Thor 2 REQUIRED)
+include_directories(${THOR_INCLUDE_DIR})
+link_libraries(${THOR_LIBRARY})
 
 
 #############
@@ -75,11 +82,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 if(CMAKE_BUILD_TYPE)
   string(TOUPPER "${CMAKE_BUILD_TYPE}" TYPE)
   message("-- Using user specified build type: ${TYPE}")
-elseif(${csci437_SOURCE_DIR} STREQUAL ${csci437_BINARY_DIR})
+elseif(${warriors_SOURCE_DIR} STREQUAL ${warriors_BINARY_DIR})
   set(CMAKE_BUILD_TYPE Debug)
   message("-- In-source building. Build type set to: Debug")
 else()
-  get_filename_component(TYPE ${csci437_BINARY_DIR} NAME)
+  get_filename_component(TYPE ${warriors_BINARY_DIR} NAME)
   string(TOUPPER "${TYPE}" TYPE)
   if(${TYPE} STREQUAL "RELEASE")
     set(CMAKE_BUILD_TYPE Release)
@@ -103,7 +110,7 @@ endif()
 #######################
 # src library (all CPP files in 'src' dir)
 if(NOT SRC STREQUAL "")
-  get_filename_component(LIBNAME ${csci437_SOURCE_DIR} NAME)
+  get_filename_component(LIBNAME ${warriors_SOURCE_DIR} NAME)
   set(LIBNAME "${LIBNAME}_core")
   add_library(${LIBNAME} ${SRC})
 endif()

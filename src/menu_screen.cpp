@@ -31,10 +31,7 @@ bool MenuScreen::go_to_next(){
 
 void MenuScreen::handle_event(sf::Event &evt){
     assert(selected < options.size());
-    if(evt.type == sf::Event::KeyPressed){
-
-        screen_over = (evt.key.code == sf::Keyboard::Return);
-    
+    if(evt.type == sf::Event::KeyPressed){    
         //swap the colors of the rect and the shape
         if(flash_time > flash_interval / 2){
             options.at(selected).setFillColor(selector.getFillColor());

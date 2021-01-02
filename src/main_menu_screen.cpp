@@ -47,8 +47,8 @@ unique_ptr<Screen> MainMenuScreen::next_screen(){
         return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager,
             input_manager, opts));
     }else if(selected == 2){
-        return unique_ptr<Screen>(new PlayingScreen(text_loader, resource_manager,
-            input_manager, opts));
+        return unique_ptr<Screen>(new KeysMenuScreen(text_loader, resource_manager,
+            input_manager));
     }
 }
 

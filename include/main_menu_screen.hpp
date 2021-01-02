@@ -1,6 +1,7 @@
 #pragma once
 #include "menu_screen.hpp"
 #include "playing_screen.hpp"
+#include "keys_screen.hpp"
 
 class MainMenuScreen : public MenuScreen { 
     private:

@@ -9,6 +9,10 @@ class MenuScreen : public Screen {
         vector<sf::Text> options;
         sf::RectangleShape selector;
 
+        sf::Sprite up_arrow, down_arrow;
+
+        const int opts_per_screen = 6;
+
         unsigned int selected;
         
         bool screen_over;
@@ -19,6 +23,8 @@ class MenuScreen : public Screen {
     public:
         MenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager);
+
+        void setup_from_vec(vector<string>options);
         
         virtual void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 

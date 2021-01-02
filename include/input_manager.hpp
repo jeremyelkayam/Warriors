@@ -41,6 +41,8 @@ public:
 
   player_input get_player_input(unsigned long player_number);
 
+  unordered_map<string, sf::Keyboard::Key> get_bindings() {return key_bindings;}
+
   //void set_player_input(player_input a_player_input){my_player_input = a_player_input;}
 
   //todo: implement saving to file
