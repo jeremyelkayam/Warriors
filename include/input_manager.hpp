@@ -50,6 +50,6 @@ public:
   //void set_player_input(player_input a_player_input){my_player_input = a_player_input;}
 
   //todo: implement saving to file
-  void load_inputs();
-  void save_inputs();
+  void load_from_file();
+  void save_to_file();
 };

@@ -41,3 +41,7 @@ void InputManager::change_binding(string binding_id, sf::Keyboard::Key new_key){
 
     key_bindings.at(binding_id) = new_key;
 }
+
+void InputManager::load_from_file(){
+    
+}

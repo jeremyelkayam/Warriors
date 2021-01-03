@@ -28,8 +28,7 @@
     <string value="../assets/sprites/title.png" id="IDS_PATH_TITLE_TEX" type="texture"/>
     <string value="../assets/sprites/copyright.png" id="IDS_PATH_COPYRIGHT_TEX" type="texture"/>
     <string value="../assets/sprites/skull.png" id="IDS_PATH_SKULL_TEX" type="texture"/>
-    <string value="../assets/sprites/down.png" id="IDS_PATH_DOWN_TEX" type="texture"/>
-    <string value="../assets/sprites/up.png" id="IDS_PATH_UP_TEX" type="texture"/>
+    <string value="../assets/sprites/arr.png" id="IDS_PATH_ARROW_TEX" type="texture"/>
 
     <!--Sound Paths-->
     <string value="../assets/sounds/supertest-lose.ogg" id="IDS_PATH_LOSE_MUSIC" type="sound"/>

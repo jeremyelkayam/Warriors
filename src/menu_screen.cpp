@@ -9,12 +9,16 @@ flash_interval(text_loader.get_float("IDS_MENU_FLASH_INTERVAL")) {
     screen_over = false;
 
 
-    up_arrow.setPosition(text_loader.get_float("IDS_VIEW_X") - 20,10);
-    up_arrow.setTexture(resource_manager.get_texture("IDS_PATH_UP_TEX"));
 
+    up_arrow.setTexture(resource_manager.get_texture("IDS_PATH_ARROW_TEX"));
+    up_arrow.setOrigin(up_arrow.getGlobalBounds().left + up_arrow.getGlobalBounds().width,
+        up_arrow.getGlobalBounds().top + up_arrow.getGlobalBounds().height);
+    up_arrow.setRotation(180);
+    up_arrow.setPosition(text_loader.get_float("IDS_VIEW_X") - 20,10);
+
+    down_arrow.setTexture(resource_manager.get_texture("IDS_PATH_ARROW_TEX"));
     down_arrow.setPosition(text_loader.get_float("IDS_VIEW_X") - 20,
         text_loader.get_float("IDS_VIEW_Y") - 15);
-    down_arrow.setTexture(resource_manager.get_texture("IDS_PATH_DOWN_TEX"));
 }
 
 void MenuScreen::clear_old_selection(sf::Text &seltext){
