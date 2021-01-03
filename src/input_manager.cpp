@@ -6,19 +6,7 @@
 
 InputManager::InputManager(unsigned int max_players) {
 
-    //todo: change from hardcoded to file loaded
-    key_bindings.insert({"P0 UP", sf::Keyboard::Up});
-    key_bindings.insert({"P0 DOWN", sf::Keyboard::Down});
-    key_bindings.insert({"P0 LEFT", sf::Keyboard::Left});
-    key_bindings.insert({"P0 RIGHT", sf::Keyboard::Right});
-    key_bindings.insert({"P0 WEAPON", sf::Keyboard::RControl});
-
-
-    key_bindings.insert({"P1 UP", sf::Keyboard::W});
-    key_bindings.insert({"P1 DOWN", sf::Keyboard::S});
-    key_bindings.insert({"P1 LEFT", sf::Keyboard::A});
-    key_bindings.insert({"P1 RIGHT", sf::Keyboard::D});
-    key_bindings.insert({"P1 WEAPON", sf::Keyboard::LShift});
+    load_from_file();
 }
 
 player_input InputManager::get_player_input(unsigned long player_number){
@@ -43,5 +31,37 @@ void InputManager::change_binding(string binding_id, sf::Keyboard::Key new_key){
 }
 
 void InputManager::load_from_file(){
-    
+    XMLDocument doc;
+
+    if(doc.LoadFile( "../userdata/controls.xml" )) throw std::runtime_error("Controls file not found");
+
+    XMLElement * root =  doc.FirstChildElement("controls");
+
+    for(tinyxml2::XMLElement* node = root->FirstChildElement("binding");
+            node != nullptr; node= node->NextSiblingElement("binding")) {
+        string cmd = node->Attribute("cmd");
+        sf::Keyboard::Key key = thor::toKeyboardKey(node->Attribute("key"));
+        key_bindings.emplace(cmd,key);
+    }
+}
+
+void InputManager::save_to_file(){
+    XMLDocument doc;
+
+    if(doc.LoadFile( "../userdata/controls.xml" )) throw std::runtime_error("Controls file not found");
+
+    XMLElement * root =  doc.FirstChildElement("controls");
+
+    XMLElement* node = root->FirstChildElement("binding");
+    for(auto binding : key_bindings){
+        if (node == nullptr) throw std::logic_error("you fucked up the file");
+
+        node->SetAttribute("cmd", binding.first.c_str());
+        node->SetAttribute("key", thor::toString(binding.second).c_str());
+
+        node= node->NextSiblingElement("binding");
+    }
+
+    doc.SaveFile("../userdata/controls.xml" );
+
 }

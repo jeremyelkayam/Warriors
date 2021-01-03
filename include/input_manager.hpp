@@ -9,12 +9,16 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 #include <stdexcept>
+#include <Thor/Input.hpp>
+#include "tinyxml2.h"
 
 using std::map;
 using std::string;
 using std::cout;
 using std::endl;
 using std::invalid_argument;
+using tinyxml2::XMLDocument;
+using tinyxml2::XMLElement;
 
 struct player_input {
 

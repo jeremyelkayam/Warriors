@@ -74,7 +74,6 @@ void TextLoader::load_all_paths() {
   tinyxml2::XMLElement * root =  doc.FirstChildElement("strings")->FirstChildElement("paths");
 
   for(tinyxml2::XMLElement* node = root->FirstChildElement("string"); node != nullptr; node= node->NextSiblingElement("string")) {
-
     string s(node->Attribute("id"));
 
 

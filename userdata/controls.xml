@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<controls>
+    <binding cmd="P0 DOWN" key="Down"/>
+    <binding cmd="P0 LEFT" key="Left"/>
+    <binding cmd="P0 RIGHT" key="Right"/>
+    <binding cmd="P0 UP" key="Up"/>
+    <binding cmd="P0 WEAPON" key="RControl"/>
+
+    <binding cmd="P1 DOWN" key="A"/>
+    <binding cmd="P1 LEFT" key="S"/>
+    <binding cmd="P1 RIGHT" key="D"/>
+    <binding cmd="P1 UP" key="W"/>
+    <binding cmd="P1 WEAPON" key="LShift"/>
+
+    <binding cmd="P2 DOWN" key="G"/>
+    <binding cmd="P2 LEFT" key="F"/>
+    <binding cmd="P2 RIGHT" key="H"/>
+    <binding cmd="P2 UP" key="T"/>
+    <binding cmd="P2 WEAPON" key="Space"/>
+    
+    <binding cmd="P3 DOWN" key="K"/>
+    <binding cmd="P3 LEFT" key="J"/>
+    <binding cmd="P3 RIGHT" key="L"/>
+    <binding cmd="P3 UP" key="I"/>
+    <binding cmd="P3 WEAPON" key="LAlt"/>
+</controls>
