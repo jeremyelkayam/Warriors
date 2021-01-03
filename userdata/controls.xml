@@ -17,10 +17,11 @@
     <binding cmd="P2 RIGHT" key="H"/>
     <binding cmd="P2 UP" key="T"/>
     <binding cmd="P2 WEAPON" key="Space"/>
-    
+
     <binding cmd="P3 DOWN" key="K"/>
     <binding cmd="P3 LEFT" key="J"/>
     <binding cmd="P3 RIGHT" key="L"/>
     <binding cmd="P3 UP" key="I"/>
     <binding cmd="P3 WEAPON" key="LAlt"/>
+
 </controls>

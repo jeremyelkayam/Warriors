@@ -5,6 +5,8 @@
 class KeysMenuScreen : public MenuScreen { 
 
     private:
+
+        sf::Text instruc;
     
         unsigned int scroll_position;
         

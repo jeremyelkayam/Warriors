@@ -3,6 +3,10 @@
 KeysMenuScreen::KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager) :
 MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
+
+    instruc.setFillColor(sf::Color::White);
+    resource_manager.setup_text(instruc, 10, 10, "SELECT A KEY & PRESS ENTER");
+
     for(auto it : an_input_manager.get_bindings()){
         sf::Text opt,key;
         opt.setFillColor(sf::Color::White);
@@ -15,7 +19,10 @@ MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
     }
     sf::Text menu_end;
     menu_end.setFillColor(sf::Color::White);
-    resource_manager.setup_text(menu_end, 20, 0, "BACK");
+    resource_manager.setup_text(menu_end, 20, 0, "CANCEL");
+    options.emplace_back(menu_end);
+
+    resource_manager.setup_text(menu_end, 20, 0, "SAVE & EXIT");
     options.emplace_back(menu_end);
 
     scroll_position = 0;
@@ -36,6 +43,7 @@ void KeysMenuScreen::reset_selector(sf::Text &seltext){
 }
 
 void KeysMenuScreen::handle_event(sf::Event &evt){
+
     if(selecting_key) {
         if(evt.type == sf::Event::KeyPressed){
             string id = options.at(selected).getString();
@@ -63,7 +71,11 @@ void KeysMenuScreen::handle_event(sf::Event &evt){
             reset_selector(options.at(selected));
 
             if(evt.key.code == sf::Keyboard::Enter){
-                if(options.at(selected).getString() == "BACK"){
+                if(options.at(selected).getString() == "CANCEL"){
+                    input_manager.load_from_file();
+                    screen_over = true;
+                }else if(options.at(selected).getString() == "SAVE & EXIT"){
+                    input_manager.save_to_file();
                     screen_over = true;
                 }else{
                     clear_old_selection(options.at(selected));
@@ -90,7 +102,7 @@ void KeysMenuScreen::update(float s_elapsed){
 }
 
 void KeysMenuScreen::update_scroll(){
-    float min_y = 20;
+    float min_y = 30;
     float max_y = 180;
 
     float interval = (max_y - min_y) / opts_per_screen;
@@ -123,6 +135,8 @@ void KeysMenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){
     if(scroll_position < options.size() - opts_per_screen){
         window.draw(down_arrow);
     }
+
+    window.draw(instruc);
 }
 
 unique_ptr<Screen> KeysMenuScreen::next_screen(){
