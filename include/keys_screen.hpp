@@ -9,6 +9,8 @@ class KeysMenuScreen : public MenuScreen {
         sf::Text instruc;
     
         unsigned int scroll_position;
+
+        const float menu_leftpos = 20;
         
         void update_scroll();
 
@@ -19,6 +21,8 @@ class KeysMenuScreen : public MenuScreen {
         bool selecting_key;
 
         string to_upper(string s);
+
+        void add_opt(float xcor, string s, sf::Color color=sf::Color::White);
 
     public: 
         KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,

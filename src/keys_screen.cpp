@@ -8,28 +8,33 @@ MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
     resource_manager.setup_text(instruc, 10, 10, "SELECT A KEY & PRESS ENTER");
 
     for(auto it : an_input_manager.get_bindings()){
-        sf::Text opt,key;
-        opt.setFillColor(sf::Color::White);
+        string s = it.first;
+        //We're dealing with chars here. Char 0 is character 48 and they
+        //count up from there, which is why this works.
+        //This WILL NOT work if there are more than 10 players.
+        s.replace(1, 1, std::to_string(s.at(1) - 47));
+
+        add_opt(menu_leftpos, s);
+
+        sf::Text key;
         key.setFillColor(sf::Color::White);
-        resource_manager.setup_text(opt, 20, 0, it.first);
-        
         resource_manager.setup_text(key, 230, 0, to_upper(thor::toString(it.second)), TOP_RIGHT);
-        options.emplace_back(opt);
         keys.emplace_back(key);
     }
-    sf::Text menu_end;
-    menu_end.setFillColor(sf::Color::White);
-    resource_manager.setup_text(menu_end, 20, 0, "CANCEL");
-    options.emplace_back(menu_end);
-
-    resource_manager.setup_text(menu_end, 20, 0, "SAVE & EXIT");
-    options.emplace_back(menu_end);
+    add_opt(menu_leftpos, "CANCEL");
+    add_opt(menu_leftpos, "SAVE & EXIT");
 
     scroll_position = 0;
     selecting_key = false;
     selector.setFillColor(sf::Color::Black);
     update_scroll();
     reset_selector(options.at(selected));
+}
+void KeysMenuScreen::add_opt(float xcor, string s, sf::Color color){
+    sf::Text opt;
+    opt.setFillColor(color);
+    resource_manager.setup_text(opt, xcor, 0, s);
+    options.emplace_back(opt);
 }
 
 //yes, this has to be pass-by-value because I'll be passing const strings into this
