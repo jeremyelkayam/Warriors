@@ -51,6 +51,7 @@ unique_ptr<Screen> MainMenuScreen::next_screen(){
         return unique_ptr<Screen>(new KeysMenuScreen(text_loader, resource_manager,
             input_manager));
     }
+    throw logic_error("invalid option");
 }
 
 void MainMenuScreen::handle_event(sf::Event &evt){

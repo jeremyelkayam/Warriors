@@ -2,10 +2,10 @@
 
 KeysMenuScreen::KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager) :
-MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
+ScrollingMenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
 
-    instruc.setFillColor(sf::Color::White);
-    resource_manager.setup_text(instruc, 10, 10, "SELECT A KEY & PRESS ENTER");
+    instruc.setString("SELECT A KEY & PRESS ENTER");
+    cout << "hi" << endl;
 
     for(auto it : an_input_manager.get_bindings()){
         string s = it.first;
@@ -19,16 +19,18 @@ MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
         sf::Text key;
         key.setFillColor(sf::Color::White);
         resource_manager.setup_text(key, 230, 0, to_upper(thor::toString(it.second)), TOP_RIGHT);
-        keys.emplace_back(key);
+        second_column.emplace_back(key);
     }
     add_opt(menu_leftpos, "CANCEL");
     add_opt(menu_leftpos, "SAVE & EXIT");
 
-    scroll_position = 0;
     selecting_key = false;
+
+    scroll_position = 0;
     selector.setFillColor(sf::Color::Black);
     update_scroll();
     reset_selector(options.at(selected));
+
 }
 void KeysMenuScreen::add_opt(float xcor, string s, sf::Color color){
     sf::Text opt;
@@ -43,50 +45,43 @@ string KeysMenuScreen::to_upper(string s){
     return s;
 }
 
+//todo: maybe delete this
 void KeysMenuScreen::reset_selector(sf::Text &seltext){
     MenuScreen::reset_selector(seltext);
 }
 
 void KeysMenuScreen::handle_event(sf::Event &evt){
-
     if(selecting_key) {
         if(evt.type == sf::Event::KeyPressed){
             string id = options.at(selected).getString();
+            id.replace(1, 1, std::to_string(id.at(1) - 49));
             
             input_manager.change_binding(id, evt.key.code);
 
-            clear_old_selection(keys.at(selected));
+            clear_old_selection(second_column.at(selected));
             selecting_key = false;
+            //reset our text to match the new key pick
             reset_selector(options.at(selected));
-            resource_manager.setup_text(keys.at(selected),
-                keys.at(selected).getPosition().x, keys.at(selected).getPosition().y,
+            resource_manager.setup_text(second_column.at(selected),
+                second_column.at(selected).getPosition().x, second_column.at(selected).getPosition().y,
                 to_upper(thor::toString(evt.key.code)), TOP_RIGHT);
         
         }
     }else{
-        MenuScreen::handle_event(evt);
-        if(evt.type == sf::Event::KeyPressed){
-            if(selected < scroll_position){
-                scroll_position = selected;
-            }else if(selected >= scroll_position + opts_per_screen) {
-                scroll_position = selected - opts_per_screen + 1;
-            }
-            clear_old_selection(options.at(selected));
-            update_scroll();
-            reset_selector(options.at(selected));
+        ScrollingMenuScreen::handle_event(evt);
 
-            if(evt.key.code == sf::Keyboard::Enter){
-                if(options.at(selected).getString() == "CANCEL"){
-                    input_manager.load_from_file();
-                    screen_over = true;
-                }else if(options.at(selected).getString() == "SAVE & EXIT"){
-                    input_manager.save_to_file();
-                    screen_over = true;
-                }else{
-                    clear_old_selection(options.at(selected));
-                    selecting_key = true;
-                    reset_selector(keys.at(selected));
-                }
+        if(evt.key.code == sf::Keyboard::Enter){
+            cout << "ayy" << endl;
+            if(options.at(selected).getString() == "CANCEL"){
+                input_manager.load_from_file();
+                screen_over = true;
+            }else if(options.at(selected).getString() == "SAVE & EXIT"){
+                input_manager.save_to_file();
+                screen_over = true;
+            }else{
+                clear_old_selection(options.at(selected));
+                selecting_key = true;
+                reset_selector(second_column.at(selected));
             }
         }
     }
@@ -99,50 +94,13 @@ void KeysMenuScreen::update(float s_elapsed){
     if(flash_time > flash_interval){
         flash_time = 0;
         if(selecting_key){
-            swap_colors(keys.at(selected));
+            swap_colors(second_column.at(selected));
         }else{
             swap_colors(options.at(selected));
         }
     }
 }
 
-void KeysMenuScreen::update_scroll(){
-    float min_y = 30;
-    float max_y = 180;
-
-    float interval = (max_y - min_y) / opts_per_screen;
-    for(int i = scroll_position; i < scroll_position + opts_per_screen ; i++){
-        options.at(i).setPosition(options.at(i).getPosition().x,
-            min_y + (i - scroll_position) * interval);
-
-        //There will be more options than keys, e.g. back button
-        if(i < keys.size()){
-        keys.at(i).setPosition(keys.at(i).getPosition().x,
-            min_y + (i - scroll_position) * interval);  
-        }
-    }
-}
-
-void KeysMenuScreen::draw(sf::RenderWindow &window, ColorGrid &color_grid){
-    window.draw(selector);
-    for(int i = scroll_position; i < scroll_position + opts_per_screen ; i++){
-        window.draw(options.at(i));
-        //There will be more options than keys, e.g. back button
-        if(i < keys.size()){
-            window.draw(keys.at(i));
-        }
-    }
-
-    if(scroll_position > 0 ) {
-        window.draw(up_arrow);
-    }
-
-    if(scroll_position < options.size() - opts_per_screen){
-        window.draw(down_arrow);
-    }
-
-    window.draw(instruc);
-}
 
 unique_ptr<Screen> KeysMenuScreen::next_screen(){
   assert(go_to_next());
