@@ -7,6 +7,12 @@ MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
     resource_manager.setup_text(instruc, 10, 10, "DUMMY");
 }
 
+void ScrollingMenuScreen::add_opt(float xcor, string s, sf::Color color){
+    sf::Text opt;
+    opt.setFillColor(color);
+    resource_manager.setup_text(opt, xcor, 0, s);
+    options.emplace_back(opt);
+}
 
 void ScrollingMenuScreen::update_scroll(){
     float min_y = 30;

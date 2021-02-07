@@ -5,7 +5,6 @@ KeysMenuScreen::KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_res
 ScrollingMenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
 
     instruc.setString("SELECT A KEY & PRESS ENTER");
-    cout << "hi" << endl;
 
     for(auto it : an_input_manager.get_bindings()){
         string s = it.first;
@@ -14,15 +13,15 @@ ScrollingMenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
         //This WILL NOT work if there are more than 10 players.
         s.replace(1, 1, std::to_string(s.at(1) - 47));
 
-        add_opt(menu_leftpos, s);
+        ScrollingMenuScreen::add_opt(menu_leftpos, s);
 
         sf::Text key;
         key.setFillColor(sf::Color::White);
         resource_manager.setup_text(key, 230, 0, to_upper(thor::toString(it.second)), TOP_RIGHT);
         second_column.emplace_back(key);
     }
-    add_opt(menu_leftpos, "CANCEL");
-    add_opt(menu_leftpos, "SAVE & EXIT");
+    ScrollingMenuScreen::add_opt(menu_leftpos, "CANCEL");
+    ScrollingMenuScreen::add_opt(menu_leftpos, "SAVE & EXIT");
 
     selecting_key = false;
 
@@ -32,12 +31,6 @@ ScrollingMenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
     reset_selector(options.at(selected));
 
 }
-void KeysMenuScreen::add_opt(float xcor, string s, sf::Color color){
-    sf::Text opt;
-    opt.setFillColor(color);
-    resource_manager.setup_text(opt, xcor, 0, s);
-    options.emplace_back(opt);
-}
 
 //yes, this has to be pass-by-value because I'll be passing const strings into this
 string KeysMenuScreen::to_upper(string s){
@@ -45,16 +38,11 @@ string KeysMenuScreen::to_upper(string s){
     return s;
 }
 
-//todo: maybe delete this
-void KeysMenuScreen::reset_selector(sf::Text &seltext){
-    MenuScreen::reset_selector(seltext);
-}
-
 void KeysMenuScreen::handle_event(sf::Event &evt){
     if(selecting_key) {
         if(evt.type == sf::Event::KeyPressed){
             string id = options.at(selected).getString();
-            id.replace(1, 1, std::to_string(id.at(1) - 49));
+           id.replace(1, 1, std::to_string(id.at(1) - 49));
             
             input_manager.change_binding(id, evt.key.code);
 

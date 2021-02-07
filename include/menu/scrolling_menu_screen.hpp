@@ -16,6 +16,9 @@ protected:
     ScrollingMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager, 
         InputManager &an_input_manager);
 
+
+    void add_opt(float xcor, string s, sf::Color color=sf::Color::White);
+
 public:
 
     virtual void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;

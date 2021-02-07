@@ -7,8 +7,6 @@ class KeysMenuScreen : public ScrollingMenuScreen {
 
     private:
 
-        void reset_selector(sf::Text &seltext) override;
-
         bool selecting_key;
 
         string to_upper(string s);
@@ -18,8 +16,6 @@ class KeysMenuScreen : public ScrollingMenuScreen {
     public: 
         KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager);
-
-        // void draw(sf::RenderWindow &window, ColorGrid &color_grid) override;
 
         unique_ptr<Screen> next_screen() override;
 
