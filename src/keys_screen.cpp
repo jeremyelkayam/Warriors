@@ -70,8 +70,8 @@ void KeysMenuScreen::handle_event(sf::Event &evt){
     }else{
         ScrollingMenuScreen::handle_event(evt);
 
-        if(evt.key.code == sf::Keyboard::Enter){
-            cout << "ayy" << endl;
+        //need this to avoid handling KeyReleased events
+        if(evt.type == sf::Event::KeyPressed && evt.key.code == sf::Keyboard::Enter){
             if(options.at(selected).getString() == "CANCEL"){
                 input_manager.load_from_file();
                 screen_over = true;
