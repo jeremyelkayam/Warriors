@@ -1,4 +1,4 @@
-#include "main_menu_screen.hpp"
+#include "menu/main_menu_screen.hpp"
 
 MainMenuScreen::MainMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
         InputManager &an_input_manager) :

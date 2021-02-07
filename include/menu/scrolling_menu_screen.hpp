@@ -1,5 +1,5 @@
 #pragma once
-#include "menu_screen.hpp"
+#include "menu/menu_screen.hpp"
 
 class ScrollingMenuScreen : public MenuScreen { 
 protected:

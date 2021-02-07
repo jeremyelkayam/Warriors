@@ -30,7 +30,7 @@ endif()
 include_directories(${warriors_SOURCE_DIR}/include)
 
 # Get CPP files
-file(GLOB SRC src/*cpp)
+file(GLOB_RECURSE SRC src/*cpp)
 
 # Get executable files
 file(GLOB EXECLIST bin/*cpp)

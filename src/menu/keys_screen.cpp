@@ -1,4 +1,4 @@
-#include "keys_screen.hpp"
+#include "menu/keys_screen.hpp"
 
 KeysMenuScreen::KeysMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager) :

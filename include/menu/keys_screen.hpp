@@ -1,6 +1,6 @@
 #pragma once
-#include "scrolling_menu_screen.hpp"
-#include "main_menu_screen.hpp"
+#include "menu/scrolling_menu_screen.hpp"
+#include "menu/main_menu_screen.hpp"
 #include <Thor/Input.hpp>
 
 class KeysMenuScreen : public ScrollingMenuScreen { 

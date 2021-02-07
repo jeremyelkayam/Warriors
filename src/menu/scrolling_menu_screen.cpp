@@ -1,4 +1,4 @@
-#include "scrolling_menu_screen.hpp"
+#include "menu/scrolling_menu_screen.hpp"
 ScrollingMenuScreen::ScrollingMenuScreen(TextLoader &a_text_loader, ResourceManager &a_resource_manager,
                 InputManager &an_input_manager) :
 MenuScreen(a_text_loader, a_resource_manager, an_input_manager) {
