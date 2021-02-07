@@ -3,10 +3,10 @@ Release/
 Debug/
 cmake-build-debug/
 cmake/
+build/
 # Emacs buffer files
 *~
 
 #IDE/editor files
-.vscode/launch.json
-.vscode/tasks.json
+.vscode/
 .idea/
